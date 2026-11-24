@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crea tu fiesta — FiestaLista Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7EE; --cream-2:#FFEFE0; --ink:#2E2A26; --ink-soft:#6E655C;
+    --coral:#FF6B8A; --coral-deep:#F04E72; --pink-soft:#FFD9E2;
+    --yellow:#FFC94D; --green:#6BCB77; --blue:#5B8DEF; --lilac:#B983FF;
+    --wa:#25D366; --radius:24px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink);padding-bottom:96px}
+  h1,h2,h3,.serif{font-family:'Fraunces',serif}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,247,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(46,42,38,.06)}
+  .header-in{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
+  .logo .balloon{width:28px;height:36px}
+  .back-link{margin-left:auto;font-weight:800;font-size:.9rem;color:var(--ink-soft);text-decoration:none}
+  .back-link:hover{color:var(--ink)}
+  .btn-wa{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:#fff;font-weight:800;font-size:.9rem;padding:10px 16px;border-radius:999px;text-decoration:none;box-shadow:0 6px 16px rgba(37,211,102,.3)}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:40px 24px 60px;display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start}
+
+  .page-head{margin-bottom:32px}
+  .page-head h1{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.02em}
+  .page-head h1 em{color:var(--coral);font-weight:600}
+  .page-head p{margin-top:10px;color:var(--ink-soft);font-size:1.05rem;line-height:1.6;max-width:56ch}
+
+  .step{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:28px;margin-bottom:22px;scroll-margin-top:96px}
+  .step-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .step-num{width:38px;height:38px;flex:none;border-radius:14px;background:var(--pink-soft);color:var(--coral-deep);font-family:'Fraunces',serif;font-weight:900;font-size:1.15rem;display:grid;place-items:center}
+  .step-head h2{font-size:1.3rem;font-weight:700}
+  .step-head .hint{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--ink-soft);text-align:right}
+
+  .opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .opt{position:relative;border:2px solid rgba(46,42,38,.1);border-radius:18px;padding:16px;cursor:pointer;transition:.15s;background:#fff}
+  .opt:hover{border-color:rgba(46,42,38,.3)}
+  .opt.selected{border-color:var(--coral);background:#FFF5F7;box-shadow:0 6px 18px rgba(255,107,138,.15)}
+  .opt .opt-name{font-weight:800;font-size:.98rem}
+  .opt .opt-desc{font-size:.83rem;color:var(--ink-soft);margin-top:4px;line-height:1.45}
+  .opt .opt-price{font-weight:800;color:var(--coral-deep);font-size:.9rem;margin-top:8px}
+  .opt .swatch{height:44px;border-radius:12px;margin-bottom:10px}
+
+  .row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}
+  .row-label{font-weight:800;font-size:.92rem;min-width:120px}
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{border:2px solid rgba(46,42,38,.12);background:#fff;border-radius:999px;padding:10px 20px;font:800 .92rem 'Nunito';color:var(--ink-soft);cursor:pointer;transition:.15s}
+  .pill.selected{border-color:var(--coral);color:var(--coral-deep);background:#FFF5F7}
+  .pill small{display:block;font-weight:700;font-size:.72rem;opacity:.7}
+
+  .stepper{display:inline-flex;align-items:center;gap:0;border:2px solid rgba(46,42,38,.12);border-radius:999px;overflow:hidden;background:#fff}
+  .stepper button{width:40px;height:40px;border:0;background:transparent;font-size:1.25rem;font-weight:800;color:var(--coral-deep);cursor:pointer}
+  .stepper button:hover{background:var(--pink-soft)}
+  .stepper .val{min-width:44px;text-align:center;font-weight:800;font-size:1rem}
+  .stepper .val small{display:block;font-size:.68rem;font-weight:700;color:var(--ink-soft)}
+
+  .calc-note{margin-top:14px;background:var(--cream);border-radius:14px;padding:14px 16px;font-size:.9rem;color:var(--ink-soft);line-height:1.6}
+  .calc-note b{color:var(--ink)}
+
+  .check-row{display:flex;align-items:center;gap:12px;margin-top:16px;cursor:pointer;user-select:none}
+  .check-row input{display:none}
+  .check-box{width:26px;height:26px;flex:none;border-radius:9px;border:2px solid rgba(46,42,38,.2);display:grid;place-items:center;transition:.15s;background:#fff}
+  .check-box svg{width:14px;height:14px;opacity:0;transition:.15s}
+  .check-row input:checked + .check-box{background:var(--coral);border-color:var(--coral)}
+  .check-row input:checked + .check-box svg{opacity:1}
+  .check-label{font-weight:800;font-size:.95rem}
+  .check-label small{display:block;font-weight:600;font-size:.8rem;color:var(--ink-soft)}
+
+  .text-input,.select-input{width:100%;border:2px solid rgba(46,42,38,.12);border-radius:14px;padding:13px 16px;font:700 .95rem 'Nunito';color:var(--ink);background:#fff;outline:none;transition:border-color .15s}
+  .text-input:focus,.select-input:focus{border-color:var(--coral)}
+  .games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .game-chip{border:2px solid rgba(46,42,38,.1);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;background:#fff}
+  .game-chip .g-ico{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center}
+  .game-chip .g-name{font-weight:800;font-size:.85rem;line-height:1.25}
+  .game-chip .g-price{font-size:.75rem;color:var(--ink-soft);font-weight:700}
+  .game-chip .stepper{margin-left:auto;transform:scale(.85)}
+  .game-chip .stepper button{width:32px;height:32px}
+
+  /* summary */
+  .summary{position:sticky;top:96px;background:var(--ink);color:var(--cream);border-radius:var(--radius);padding:28px}
+  .summary h3{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;margin-bottom:18px}
+  .sum-lines{display:flex;flex-direction:column;gap:10px;max-height:300px;overflow:auto;padding-right:4px}
+  .sum-line{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;color:rgba(255,247,238,.8)}
+  .sum-line .l-qty{color:rgba(255,247,238,.5);margin-right:6px}
+  .sum-line.empty{color:rgba(255,247,238,.4);font-style:italic}
+  .sum-total{border-top:1px solid rgba(255,247,238,.15);margin-top:16px;padding-top:16px}
+  .sum-row{display:flex;justify-content:space-between;font-size:.92rem;color:rgba(255,247,238,.75);margin-bottom:8px}
+  .sum-row.grand{font-size:1.35rem;font-weight:900;color:#fff;font-family:'Fraunces',serif;margin-top:10px}
+  .sum-row.deposit span:last-child{color:var(--yellow);font-weight:800}
+  .btn-reserve{display:block;text-align:center;background:var(--coral);color:#fff;font-weight:800;font-size:1.05rem;padding:17px;border-radius:999px;text-decoration:none;margin-top:18px;box-shadow:0 10px 24px rgba(255,107,138,.4);transition:transform .15s;border:0;width:100%;cursor:pointer}
+  .btn-reserve:hover{transform:translateY(-2px)}
+  .sum-note{font-size:.76rem;color:rgba(255,247,238,.5);text-align:center;margin-top:12px;line-height:1.5}
+
+  .mobile-bar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;display:none;align-items:center;gap:14px;padding:14px 18px;box-shadow:0 -8px 30px rgba(46,42,38,.25)}
+  .mobile-bar .mb-total{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:900}
+  .mobile-bar .mb-dep{font-size:.72rem;color:rgba(255,247,238,.6)}
+  .mobile-bar .btn-reserve{margin:0;padding:13px 22px;font-size:.95rem;width:auto;margin-left:auto}
+
+  @media (max-width:960px){
+    .wrap{grid-template-columns:1fr;padding:28px 16px 40px}
+    .summary{position:static;display:none}
+    .mobile-bar{display:flex}
+    .opt-grid{grid-template-columns:1fr}
+    .games-grid{grid-template-columns:1fr 1fr}
+    .step-head .hint{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html">
+      <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
+      FiestaLista
+    </a>
+    <a class="back-link" href="index.html">← Volver al inicio</a>
+    <a class="btn-wa" href="#">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <main>
+    <div class="page-head">
+      <h1>Crea <em>tu</em> fiesta</h1>
+      <p>Elige cada pieza y mira el precio al momento. Cuando lo tengas claro, reserva la fecha: nosotros nos encargamos del resto.</p>
+    </div>
+
+    <!-- 1. MESA -->
+    <section class="step" id="s-mesa">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2>La mesa</h2>
+        <span class="hint">Elige modelo, cantidad y duración</span>
+      </div>
+      <div class="opt-grid" id="tableModels"></div>
+      <div class="row">
+        <span class="row-label">Cantidad</span>
+        <div class="stepper">
+          <button type="button" onclick="bump('tables',-1)">−</button>
+          <span class="val" id="v-tables">1<small>mesa</small></span>
+          <button type="button" onclick="bump('tables',1)">+</button>
+        </div>
+        <span class="row-label" style="margin-left:14px">Duración</span>
+        <div class="pills" id="durPills"></div>
+      </div>
+    </section>
+
+    <!-- 2. MANTELERÍA -->
+    <section class="step" id="s-mantel">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2>Mantelería</h2>
+        <span class="hint">Una mantelería por mesa</span>
+      </div>
+      <div class="opt-grid" id="clothModels"></div>
+    </section>
+
+    <!-- 3. VAJILLA -->
+    <section class="step" id="s-vajilla">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2>Vajilla y cubertería</h2>
+        <span class="hint">Calculamos lo necesario por invitado</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Invitados</span>
+        <div class="stepper">
+          <button type="button" onclick="bump('guests',-1)">−</button>
+          <span class="val" id="v-guests">10<small>niños</small></span>
+          <button type="button" onclick="bump('guests',1)">+</button>
+        </div>
+      </div>
+      <div class="calc-note" id="dishNote"></div>
+      <div class="row">
+        <label class="check-row">
+          <input type="checkbox" id="cakeStand" onchange="toggle('cakeStand', this.checked)">
+          <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check-label">Soporte para la tarta <small>La tarta queda en alto y a la vista</small></span>
+        </label>
+      </div>
+      <div class="row">
+        <span class="row-label">Platos grandes</span>
+        <div class="stepper">
+          <button type="button" onclick="bump('bigPlates',-1)">−</button>
+          <span class="val" id="v-bigPlates">0</span>
+          <button type="button" onclick="bump('bigPlates',1)">+</button>
+        </div>
+        <span class="row-label">Platos de aperitivo</span>
+        <div class="stepper">
+          <button type="button" onclick="bump('snackPlates',-1)">−</button>
+          <span class="val" id="v-snackPlates">0</span>
+          <button type="button" onclick="bump('snackPlates',1)">+</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. GLOBOS -->
+    <section class="step" id="s-globos">
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2>Globos</h2>
+        <span class="hint">Todos con helio</span>
+      </div>
+      <div class="row">
+        <label class="check-row" style="margin-top:0">
+          <input type="checkbox" id="numBalloon" onchange="toggle('numBalloon', this.checked)">
+          <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check-label">Globo de número <small>El número de la edad, gigante</small></span>
+        </label>
+        <div class="pills" id="digitPills" style="display:none"></div>
+      </div>
+      <div class="row">
+        <span class="row-label">Globos 30 cm</span>
+        <div class="stepper">
+          <button type="button" onclick="bump('balloons30',-1)">−</button>
+          <span class="val" id="v-balloons30">0</span>
+          <button type="button" onclick="bump('balloons30',1)">+</button>
+        </div>
+        <span style="font-size:.85rem;color:var(--ink-soft);font-weight:700">se quedan contigo después de la fiesta</span>
+      </div>
+    </section>
+
+    <!-- 5. ARCO -->
+    <section class="step" id="s-arco">
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2>Arco decorativo</h2>
+        <span class="hint">Sobre la mesa del cumpleañero</span>
+      </div>
+      <label class="check-row" style="margin-top:0">
+        <input type="checkbox" id="arch" onchange="toggle('arch', this.checked)">
+        <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="check-label">Arco «¡Feliz cumpleaños!» <small>+45 € · montado sobre la mesa</small></span>
+      </label>
+      <div id="archNameRow" style="display:none;margin-top:16px">
+        <label class="check-row">
+          <input type="checkbox" id="archName" onchange="toggle('archName', this.checked)">
+          <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check-label">Añadir el nombre del cumpleañero <small>+15 € · la decoración con nombre se queda contigo</small></span>
+        </label>
+        <div class="row" id="archNameInput" style="display:none">
+          <input class="text-input" style="max-width:320px" id="nameInput" placeholder="Ej. Martina" oninput="state.archNameText=this.value;render()">
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. JUEGOS -->
+    <section class="step" id="s-juegos">
+      <div class="step-head">
+        <span class="step-num">6</span>
+        <h2>Juegos</h2>
+        <span class="hint">10 € por juego · elige los que quieras</span>
+      </div>
+      <div class="games-grid" id="gamesGrid"></div>
+    </section>
+
+    <!-- 7. ENTREGA -->
+    <section class="step" id="s-entrega">
+      <div class="step-head">
+        <span class="step-num">7</span>
+        <h2>Entrega y recogida</h2>
+        <span class="hint">Incluye montaje y desmontaje</span>
+      </div>
+      <div class="opt-grid" id="zones"></div>
+      <div class="row">
+        <input class="text-input" id="addressInput" placeholder="Dirección del evento (calle, número, ciudad)" oninput="state.address=this.value;render()">
+      </div>
+      <div class="calc-note">Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.</div>
+    </section>
+  </main>
+
+  <!-- SUMMARY -->
+  <aside>
+    <div class="summary">
+      <h3>Tu fiesta</h3>
+      <div class="sum-lines" id="sumLines"></div>
+      <div class="sum-total">
+        <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">0 €</span></div>
+        <div class="sum-row"><span>Entrega</span><span id="sumDelivery">0 €</span></div>
+        <div class="sum-row grand"><span>Total</span><span id="sumTotal">0 €</span></div>
+        <div class="sum-row deposit"><span>Reserva hoy (50%)</span><span id="sumDeposit">0 €</span></div>
+      </div>
+      <button class="btn-reserve" onclick="reserve()">Reservar esta fecha</button>
+      <p class="sum-note">El resto se paga el día de la entrega. Cancelación flexible hasta 72 h antes.</p>
+    </div>
+  </aside>
+</div>
+
+<!-- mobile bottom bar -->
+<div class="mobile-bar">
+  <div>
+    <div class="mb-total" id="mbTotal">0 €</div>
+    <div class="mb-dep" id="mbDep">reserva hoy: 0 €</div>
+  </div>
+  <button class="btn-reserve" onclick="reserve()">Reservar</button>
+</div>
+
+<script>
+  // ===== Precios (placeholders — en el sistema real los cambia el admin) =====
+  const PRICES = {
+    tables: { blanca:{name:'Mesa Blanca',desc:'Clásica, combina con todo',price:25,color:'#FFF3E4'},
+              candy:{name:'Mesa Candy',desc:'Patas rosas, estilo dulce',price:30,color:'#FFD9E2'},
+              madera:{name:'Mesa Madera',desc:'Natural y cálida',price:35,color:'#EAD9C2'} },
+    durationFactor: { '4':1, '6':1.4, '8':1.8 },
+    cloth: { lisa:{name:'Mantel liso',desc:'Blanco o crudo',price:0,color:'#FFFDF8'},
+             rosa:{name:'Mantel rosa',desc:'Rosa empolvado',price:5,color:'#FFD1DC'},
+             fiesta:{name:'Mantel fiesta',desc:'Estampado de confeti',price:8,color:'#FFE9B8'} },
+    dishSetPerGuest: 2.5,
+    cakeStand: 6, bigPlate: 1.5, snackPlate: 1,
+    numBalloon: 12, balloon30: 2.5,
+    arch: 45, archName: 15,
+    game: 10,
+    games: [ {id:'castillo',name:'Castillo hinchable',color:'#FFE1E8',ico:'M4 20 V10 a8 6 0 0 1 16 0 V20 M2 20 h20'},
+             {id:'teatro',name:'Teatro de marionetas',color:'#FFF0D0',ico:'M4 18 V6 h16 V18 M4 14 h16'},
+             {id:'tiro',name:'Tiro con blaster',color:'#DCE9FF',ico:'M3 12 h10 M13 8 v8 M17 10 v4'},
+             {id:'minidisco',name:'Mini discoteca',color:'#E8DEFB',ico:'M9 18 a3 3 0 1 0 0-6 a3 3 0 0 0 0 6 M9 3 v5 M4 5 l3 3 M14 5 l-3 3'},
+             {id:'taller',name:'Taller de slime',color:'#DFF6E4',ico:'M8 3 h8 l-2 8 a4 5 0 1 1 -4 0 Z M10 20 h4'},
+             {id:'circuito',name:'Circuito de coches',color:'#FFE9D6',ico:'M3 17 c4-6 8 2 12-4 l3 2 M5 17 a2 2 0 1 0 4 0 a2 2 0 0 0 -4 0'} ],
+    zones: { bcn:{name:'Dentro de Barcelona',desc:'Gratis',price:0},
+             near:{name:'Alrededores',desc:'Hospitalet, Badalona, Cornellà…',price:20} },
+    depositPct: 0.5
+  };
+
+  const state = {
+    tableModel:'blanca', tables:1, duration:'4',
+    cloth:'lisa',
+    guests:10, cakeStand:false, bigPlates:0, snackPlates:0,
+    numBalloon:false, digit:null, balloons30:0,
+    arch:false, archName:false, archNameText:'',
+    games:{},
+    zone:'bcn', address:''
+  };
+
+  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+
+  // ---------- init option grids ----------
+  function modelCards(containerId, obj, selectedKey, onSelect, withSwatch){
+    const c = document.getElementById(containerId);
+    c.innerHTML = Object.entries(obj).map(([k,v])=>`
+      <div class="opt ${k===selectedKey?'selected':''}" onclick="${onSelect}('${k}')">
+        ${withSwatch?`<div class="swatch" style="background:${v.color}"></div>`:''}
+        <div class="opt-name">${v.name}</div>
+        <div class="opt-desc">${v.desc}</div>
+        <div class="opt-price">${v.price===0?'Incluido':'+'+eur(v.price)}</div>
+      </div>`).join('');
+  }
+
+  function renderPills(containerId, values, selected, onSelect, fmt){
+    const c = document.getElementById(containerId);
+    c.innerHTML = values.map(v=>`
+      <button type="button" class="pill ${String(v)===String(selected)?'selected':''}" onclick="${onSelect}('${v}')">${fmt(v)}</button>`).join('');
+  }
+
+  function renderGames(){
+    const c = document.getElementById('gamesGrid');
+    c.innerHTML = PRICES.games.map(g=>{
+      const q = state.games[g.id]||0;
+      return `<div class="game-chip">
+        <span class="g-ico" style="background:${g.color}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2E2A26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${g.ico}"/></svg></span>
+        <span><span class="g-name">${g.name}</span><br><span class="g-price">${eur(PRICES.game)} / fiesta</span></span>
+        <span class="stepper">
+          <button type="button" onclick="bumpGame('${g.id}',-1)">−</button>
+          <span class="val">${q}</span>
+          <button type="button" onclick="bumpGame('${g.id}',1)">+</button>
+        </span>
+      </div>`;
+    }).join('');
+  }
+
+  // ---------- state mutations ----------
+  window.bump = (key,d)=>{ state[key]=Math.max(key==='tables'?1:0,Math.min(99,state[key]+d)); render(); };
+  window.bumpGame = (id,d)=>{ state.games[id]=Math.max(0,Math.min(9,(state.games[id]||0)+d)); render(); };
+  window.toggle = (key,val)=>{ state[key]=val; render(); };
+  window.selectTable = k=>{ state.tableModel=k; render(); };
+  window.selectCloth = k=>{ state.cloth=k; render(); };
+  window.selectZone  = k=>{ state.zone=k; render(); };
+  window.selectDuration = v=>{ state.duration=v; render(); };
+  window.selectDigit = v=>{ state.digit=v; render(); };
+
+  // ---------- calculations ----------
+  function calc(){
+    const L=[];
+    const t=PRICES.tables[state.tableModel];
+    const f=PRICES.durationFactor[state.duration];
+    const tableUnit=t.price*f;
+    L.push({label:`${t.name} × ${state.tables} · ${state.duration} h`, qty:'', price:tableUnit*state.tables});
+    const cl=PRICES.cloth[state.cloth];
+    if(cl.price>0) L.push({label:`${cl.name} × ${state.tables}`, qty:'', price:cl.price*state.tables});
+    if(state.guests>0) L.push({label:`Vajilla completa · ${state.guests} invitados`, qty:'', price:state.guests*PRICES.dishSetPerGuest});
+    if(state.cakeStand) L.push({label:'Soporte para la tarta', qty:'', price:PRICES.cakeStand});
+    if(state.bigPlates>0) L.push({label:'Platos grandes', qty:state.bigPlates, price:state.bigPlates*PRICES.bigPlate});
+    if(state.snackPlates>0) L.push({label:'Platos de aperitivo', qty:state.snackPlates, price:state.snackPlates*PRICES.snackPlate});
+    if(state.numBalloon) L.push({label:`Globo número ${state.digit??''} (helio)`, qty:'', price:PRICES.numBalloon});
+    if(state.balloons30>0) L.push({label:'Globos 30 cm con helio', qty:state.balloons30, price:state.balloons30*PRICES.balloon30});
+    if(state.arch){
+      L.push({label:'Arco «¡Feliz cumpleaños!»', qty:'', price:PRICES.arch});
+      if(state.archName) L.push({label:`Nombre en el arco${state.archNameText?` «${state.archNameText}»`:''} · se queda contigo`, qty:'', price:PRICES.archName});
+    }
+    Object.entries(state.games).forEach(([id,q])=>{ if(q>0){ const g=PRICES.games.find(x=>x.id===id); L.push({label:g.name, qty:q, price:q*PRICES.game}); }});
+    const subtotal=L.reduce((s,x)=>s+x.price,0);
+    const delivery=PRICES.zones[state.zone].price;
+    const total=subtotal+delivery;
+    return {L,subtotal,delivery,total,deposit:Math.round(total*PRICES.depositPct)};
+  }
+
+  // ---------- render ----------
+  function render(){
+    modelCards('tableModels',PRICES.tables,state.tableModel,'selectTable',true);
+    modelCards('clothModels',PRICES.cloth,state.cloth,'selectCloth',true);
+    modelCards('zones',PRICES.zones,state.zone,'selectZone',false);
+    renderPills('durPills',[4,6,8],state.duration,'selectDuration',v=>`${v} h`);
+    renderPills('digitPills',[0,1,2,3,4,5,6,7,8,9],state.digit,'selectDigit',v=>v);
+    document.getElementById('digitPills').style.display = state.numBalloon?'flex':'none';
+    document.getElementById('archNameRow').style.display = state.arch?'block':'none';
+    document.getElementById('archNameInput').style.display = state.arch&&state.archName?'flex':'none';
+    renderGames();
+
+    document.getElementById('v-tables').innerHTML = `${state.tables}<small>mesa${state.tables>1?'s':''}</small>`;
+    document.getElementById('v-guests').innerHTML = `${state.guests}<small>niños</small>`;
+    document.getElementById('v-bigPlates').textContent = state.bigPlates;
+    document.getElementById('v-snackPlates').textContent = state.snackPlates;
+    document.getElementById('v-balloons30').textContent = state.balloons30;
+
+    const auto = `Por <b>${state.guests} invitados</b> incluimos automáticamente: <b>${state.guests} vasos · ${state.guests} platos · ${state.guests} cubiertos</b>. Puedes añadir platos extra abajo.`;
+    document.getElementById('dishNote').innerHTML = auto;
+
+    const {L,subtotal,delivery,total,deposit} = calc();
+    const lines = document.getElementById('sumLines');
+    lines.innerHTML = L.length ? L.map(x=>`<div class="sum-line"><span>${x.qty?`<span class="l-qty">×${x.qty}</span>`:''}${x.label}</span><span>${eur(x.price)}</span></div>`).join('')
+                               : `<div class="sum-line empty">Aún no has elegido nada…</div>`;
+    document.getElementById('sumSubtotal').textContent = eur(subtotal);
+    document.getElementById('sumDelivery').textContent = delivery===0?'Gratis':eur(delivery);
+    document.getElementById('sumTotal').textContent = eur(total);
+    document.getElementById('sumDeposit').textContent = eur(deposit);
+    document.getElementById('mbTotal').textContent = eur(total);
+    document.getElementById('mbDep').textContent = `reserva hoy: ${eur(deposit)}`;
+  }
+
+  window.reserve = ()=>{
+    const {total,deposit} = calc();
+    if(total===0){ alert('Elige al menos la mesa para poder reservar 🙂'); return; }
+    alert(`Demo del prototipo 🎉\n\nTotal de la fiesta: ${eur(total)}\nReserva (50%): ${eur(deposit)}\n\nAquí irá la pantalla de elección de fecha y pago de la señal.`);
+  };
+
+  render();
+</script>
+</body>
+</html>
