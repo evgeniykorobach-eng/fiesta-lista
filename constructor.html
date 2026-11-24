@@ -449,9 +449,10 @@
   }
 
   window.reserve = ()=>{
-    const {total,deposit} = calc();
+    const {L,total,deposit} = calc();
     if(total===0){ alert('Elige al menos la mesa para poder reservar 🙂'); return; }
-    alert(`Demo del prototipo 🎉\n\nTotal de la fiesta: ${eur(total)}\nReserva (50%): ${eur(deposit)}\n\nAquí irá la pantalla de elección de fecha y pago de la señal.`);
+    localStorage.setItem('fl_order', JSON.stringify({items:L, total, deposit, duration:state.duration}));
+    location.href = 'reserva.html';
   };
 
   render();

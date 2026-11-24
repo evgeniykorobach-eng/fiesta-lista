@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FiestaLista — Cumpleaños infantiles en casa, todo montado | Barcelona</title>
+<title>FiestaLista — Cumpleaños infantiles al aire libre, todo montado | Barcelona</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -261,9 +261,9 @@
 
 <section class="hero">
   <div>
-    <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">Cumpleaños infantiles en Barcelona</span></span>
+    <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">Cumpleaños al aire libre en Barcelona</span></span>
     <h1 data-i18n-html="h1">Tu fiesta, <span class="accent">lista</span><br>para celebrar</h1>
-    <p class="hero-sub" data-i18n="sub">Mesa, decoración, globos y juegos: lo montamos en tu casa y lo recogemos al terminar. Tú solo tienes que disfrutar.</p>
+    <p class="hero-sub" data-i18n="sub">Mesa, decoración, globos y juegos: lo montamos en el parque o jardín que elijas y lo recogemos al terminar. Tú solo tienes que disfrutar.</p>
     <div class="hero-ctas">
       <a href="#packs" class="btn-primary" data-i18n="cta_packs">Ver packs</a>
       <a href="constructor.html" class="btn-secondary" data-i18n="cta_builder">Crear mi fiesta</a>
@@ -289,25 +289,44 @@
       <!-- illustration: balloon arch + festive table -->
       <svg viewBox="0 0 600 690" preserveAspectRatio="xMidYMid slice">
         <defs>
-          <radialGradient id="glow" cx="50%" cy="42%" r="60%">
-            <stop offset="0%" stop-color="#FFF6E8"/>
-            <stop offset="100%" stop-color="#FFE3EE" stop-opacity="0"/>
+          <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFD98A" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#FFD98A" stop-opacity="0"/>
           </radialGradient>
         </defs>
-        <rect width="600" height="690" fill="url(#glow)"/>
-        <!-- ground -->
-        <ellipse cx="300" cy="560" rx="260" ry="46" fill="#F7E3D2"/>
-        <!-- bunting -->
-        <path d="M40 96 Q300 176 560 96" stroke="#E8B4A0" stroke-width="3" fill="none"/>
-        <g>
-          <path d="M96 118 l16 30 l16 -24 Z" fill="#FF6B8A"/>
-          <path d="M158 132 l16 30 l16 -22 Z" fill="#FFC94D"/>
-          <path d="M222 141 l16 30 l16 -20 Z" fill="#6BCB77"/>
-          <path d="M286 144 l16 30 l16 -19 Z" fill="#5B8DEF"/>
-          <path d="M350 141 l16 30 l16 -20 Z" fill="#B983FF"/>
-          <path d="M414 131 l16 30 l16 -22 Z" fill="#FF9F6B"/>
-          <path d="M476 116 l16 30 l16 -24 Z" fill="#FF6B8A"/>
+        <!-- park: sky, sun, clouds -->
+        <rect width="600" height="690" fill="#DFF2FF"/>
+        <circle cx="505" cy="95" r="95" fill="url(#sunGlow)"/>
+        <circle cx="505" cy="95" r="44" fill="#FFD98A"/>
+        <g fill="#fff">
+          <ellipse cx="115" cy="105" rx="42" ry="18"/>
+          <ellipse cx="150" cy="94" rx="34" ry="16"/>
+          <ellipse cx="335" cy="68" rx="36" ry="14" opacity=".85"/>
         </g>
+        <!-- bunting between the trees -->
+        <path d="M84 210 Q300 272 516 210" stroke="#E8B4A0" stroke-width="3.5" fill="none"/>
+        <g>
+          <path d="M142 226 l16 30 l16 -24 Z" fill="#FF6B8A"/>
+          <path d="M206 240 l16 30 l16 -22 Z" fill="#FFC94D"/>
+          <path d="M270 248 l16 30 l16 -20 Z" fill="#6BCB77"/>
+          <path d="M334 250 l16 30 l16 -19 Z" fill="#5B8DEF"/>
+          <path d="M398 246 l16 30 l16 -20 Z" fill="#B983FF"/>
+          <path d="M458 234 l16 30 l16 -22 Z" fill="#FF9F6B"/>
+        </g>
+        <!-- trees -->
+        <g>
+          <rect x="66" y="300" width="22" height="130" rx="10" fill="#B9885E"/>
+          <circle cx="77" cy="258" r="66" fill="#8FD0A0"/>
+          <circle cx="44" cy="290" r="40" fill="#7FBF8E"/>
+          <circle cx="112" cy="288" r="42" fill="#7FBF8E"/>
+          <rect x="512" y="318" width="20" height="115" rx="10" fill="#B9885E"/>
+          <circle cx="522" cy="282" r="58" fill="#8FD0A0"/>
+          <circle cx="494" cy="306" r="34" fill="#7FBF8E"/>
+          <circle cx="552" cy="304" r="36" fill="#7FBF8E"/>
+        </g>
+        <!-- grass -->
+        <path d="M0 400 Q150 372 300 396 T600 388 V690 H0 Z" fill="#A5D9A8"/>
+        <path d="M0 470 Q200 448 400 466 T600 458 V690 H0 Z" fill="#8FCE93"/>
         <!-- balloon arch (garland) -->
         <g id="arch">
           <circle cx="118" cy="470" r="34" fill="#FF9FB8"/><circle cx="132" cy="420" r="30" fill="#FFC94D"/>
@@ -327,6 +346,10 @@
           <circle cx="254" cy="92"  r="8" fill="#fff" opacity=".35"/><circle cx="372" cy="142" r="9" fill="#fff" opacity=".35"/>
           <circle cx="458" cy="288" r="10" fill="#fff" opacity=".35"/>
         </g>
+        <!-- picnic blanket on the grass -->
+        <ellipse cx="330" cy="585" rx="240" ry="42" fill="#FFF6E8"/>
+        <ellipse cx="330" cy="585" rx="185" ry="30" fill="none" stroke="#FFDFC0" stroke-width="10" stroke-dasharray="24 18"/>
+        <ellipse cx="330" cy="585" rx="120" ry="19" fill="none" stroke="#FFDFC0" stroke-width="8" stroke-dasharray="18 14"/>
         <!-- table -->
         <g>
           <rect x="188" y="452" width="224" height="16" rx="8" fill="#fff"/>
@@ -358,12 +381,24 @@
           <rect x="440" y="524" width="58" height="50" rx="8" fill="#B983FF"/>
           <rect x="464" y="524" width="10" height="50" fill="#fff" opacity=".7"/>
         </g>
-        <!-- floating balloons -->
-        <g opacity=".9">
-          <ellipse cx="66" cy="210" rx="20" ry="25" fill="#FF6B8A"/>
-          <path d="M66 235 q-4 8 0 14" stroke="#F04E72" stroke-width="2" fill="none"/>
-          <ellipse cx="540" cy="190" rx="17" ry="22" fill="#6BCB77"/>
-          <path d="M540 212 q-4 8 0 14" stroke="#4CAF6E" stroke-width="2" fill="none"/>
+        <!-- floating balloons in the sky -->
+        <g opacity=".95">
+          <ellipse cx="215" cy="185" rx="20" ry="25" fill="#FF6B8A"/>
+          <path d="M215 210 q-4 8 0 14" stroke="#F04E72" stroke-width="2" fill="none"/>
+          <ellipse cx="420" cy="150" rx="17" ry="22" fill="#6BCB77"/>
+          <path d="M420 172 q-4 8 0 14" stroke="#4CAF6E" stroke-width="2" fill="none"/>
+        </g>
+        <!-- bushes & flowers -->
+        <g>
+          <circle cx="40" cy="640" r="26" fill="#7FBF8E"/>
+          <circle cx="70" cy="654" r="20" fill="#8FCE93"/>
+          <circle cx="582" cy="646" r="20" fill="#7FBF8E"/>
+          <g stroke="#5FA96F" stroke-width="3" stroke-linecap="round">
+            <path d="M150 690 v-26 M168 690 v-22 M186 690 v-26"/>
+          </g>
+          <circle cx="150" cy="660" r="8" fill="#FF6B8A"/>
+          <circle cx="168" cy="664" r="7" fill="#FFC94D"/>
+          <circle cx="186" cy="660" r="8" fill="#B983FF"/>
         </g>
         <!-- number balloon -->
         <g transform="translate(500,600)">
@@ -402,7 +437,7 @@
       <span class="step-num">02</span>
       <div>
         <h3 data-i18n="s2t">Recibes todo montado</h3>
-        <p data-i18n="s2p">Llegamos antes de la fiesta: mesa, decoración, globos y juegos, listos para celebrar.</p>
+        <p data-i18n="s2p">Llegamos al parque antes de la fiesta: mesa, decoración, globos y juegos, listos para celebrar.</p>
       </div>
     </div>
     <div class="step">
@@ -496,14 +531,14 @@
   const I18N = {
     es: {
       nav_packs:"Packs", nav_builder:"Crea tu fiesta", nav_how:"Cómo funciona",
-      eyebrow:"Cumpleaños infantiles en Barcelona",
+      eyebrow:"Cumpleaños al aire libre en Barcelona",
       h1:'Tu fiesta, <span class="accent">lista</span><br>para celebrar',
-      sub:"Mesa, decoración, globos y juegos: lo montamos en tu casa y lo recogemos al terminar. Tú solo tienes que disfrutar.",
+      sub:"Mesa, decoración, globos y juegos: lo montamos en el parque o jardín que elijas y lo recogemos al terminar. Tú solo tienes que disfrutar.",
       cta_packs:"Ver packs", cta_builder:"Crear mi fiesta",
       trust1:"Montaje y recogida incluidos", trust2:"Envío gratis en Barcelona", trust3:"Precio cerrado por escrito antes de pagar",
       chip1:"Montaje incluido<br>en todos los packs", chip2:"Barcelona<br>envío gratis",
       s1t:"Elige fecha y pack", s1p:"Reserva online en dos minutos o escríbenos por WhatsApp. Confirmamos disponibilidad al momento.",
-      s2t:"Recibes todo montado", s2p:"Llegamos antes de la fiesta: mesa, decoración, globos y juegos, listos para celebrar.",
+      s2t:"Recibes todo montado", s2p:"Llegamos al parque antes de la fiesta: mesa, decoración, globos y juegos, listos para celebrar.",
       s3t:"Nosotros recogemos", s3p:"Cuando termina la fiesta desmontamos y nos llevamos todo. Tú no mueves un dedo.",
       packs_h2:'Packs <em>listos</em> para celebrar',
       packs_sub:"Tres opciones pensadas para no tener que pensar en nada. ¿Quieres otra combinación? Crea tu fiesta a medida.",
@@ -517,14 +552,14 @@
     },
     ca: {
       nav_packs:"Packs", nav_builder:"Crea la teva festa", nav_how:"Com funciona",
-      eyebrow:"Aniversaris infantils a Barcelona",
+      eyebrow:"Aniversaris a l'aire lliure a Barcelona",
       h1:'La teva festa, <span class="accent">llista</span><br>per celebrar',
-      sub:"Taula, decoració, globus i jocs: ho muntem a casa teva i ho recollim quan acaba. Tu només has de gaudir.",
+      sub:"Taula, decoració, globus i jocs: ho muntem al parc o jardí que triïs i ho recollim quan acaba. Tu només has de gaudir.",
       cta_packs:"Veure packs", cta_builder:"Crear la meva festa",
       trust1:"Muntatge i recollida inclosos", trust2:"Enviament gratis a Barcelona", trust3:"Preu tancat per escrit abans de pagar",
       chip1:"Muntatge inclòs<br>a tots els packs", chip2:"Barcelona<br>enviament gratis",
       s1t:"Tria data i pack", s1p:"Reserva online en dos minuts o escriu-nos per WhatsApp. Confirmem disponibilitat al moment.",
-      s2t:"Rebs tot muntat", s2p:"Arribem abans de la festa: taula, decoració, globus i jocs, a punt per celebrar.",
+      s2t:"Rebs tot muntat", s2p:"Arribem al parc abans de la festa: taula, decoració, globus i jocs, a punt per celebrar.",
       s3t:"Nosaltres recollim", s3p:"Quan acaba la festa desmuntem i ens ho enduem. Tu no mous un dit.",
       packs_h2:'Packs <em>llistos</em> per celebrar',
       packs_sub:"Tres opcions pensades per no haver de pensar en res. Vols una altra combinació? Crea la teva festa a mida.",
@@ -538,14 +573,14 @@
     },
     en: {
       nav_packs:"Packages", nav_builder:"Build your party", nav_how:"How it works",
-      eyebrow:"Kids' birthdays in Barcelona",
+      eyebrow:"Outdoor kids' birthdays in Barcelona",
       h1:'Your party, <span class="accent">ready</span><br>to celebrate',
-      sub:"Table, decor, balloons and games: we set everything up at your home and pick it up when it's over. You just enjoy.",
+      sub:"Table, decor, balloons and games: we set everything up at the park or garden of your choice and pick it up when it's over. You just enjoy.",
       cta_packs:"See packages", cta_builder:"Build my party",
       trust1:"Set-up and pick-up included", trust2:"Free delivery in Barcelona", trust3:"Fixed quote in writing before you pay",
       chip1:"Set-up included<br>in every package", chip2:"Barcelona<br>free delivery",
       s1t:"Pick date & package", s1p:"Book online in two minutes or message us on WhatsApp. We confirm availability right away.",
-      s2t:"Everything arrives set up", s2p:"We arrive before the party: table, decor, balloons and games, ready to celebrate.",
+      s2t:"Everything arrives set up", s2p:"We arrive at the park before the party: table, decor, balloons and games, ready to celebrate.",
       s3t:"We pick everything up", s3p:"When the party ends we take it all down and away. You don't lift a finger.",
       packs_h2:'Packages <em>ready</em> to celebrate',
       packs_sub:"Three options designed so you don't have to think about anything. Want a different mix? Build your own party.",

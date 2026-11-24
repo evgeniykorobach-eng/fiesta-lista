@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservar fecha — FiestaLista Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7EE; --ink:#2E2A26; --ink-soft:#6E655C;
+    --coral:#FF6B8A; --coral-deep:#F04E72; --pink-soft:#FFD9E2;
+    --yellow:#FFC94D; --green:#6BCB77; --blue:#5B8DEF; --lilac:#B983FF;
+    --wa:#25D366; --radius:24px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink)}
+  h1,h2,h3,.serif{font-family:'Fraunces',serif}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,247,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(46,42,38,.06)}
+  .header-in{max-width:960px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
+  .logo .balloon{width:28px;height:36px}
+  .back-link{margin-left:auto;font-weight:800;font-size:.9rem;color:var(--ink-soft);text-decoration:none}
+  .back-link:hover{color:var(--ink)}
+
+  .wrap{max-width:960px;margin:0 auto;padding:40px 24px 90px}
+  .page-head{margin-bottom:30px}
+  .page-head h1{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:900;letter-spacing:-.02em}
+  .page-head h1 em{color:var(--coral);font-weight:600}
+  .page-head p{margin-top:8px;color:var(--ink-soft);line-height:1.6}
+
+  .order-card{background:var(--ink);color:var(--cream);border-radius:var(--radius);padding:24px 28px;margin-bottom:26px}
+  .order-card .oc-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .order-card h3{font-size:1.2rem;font-weight:700}
+  .order-card .oc-total{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900}
+  .order-card .oc-dep{font-size:.85rem;color:var(--yellow);font-weight:800}
+  .order-card .oc-items{margin-top:10px;font-size:.85rem;color:rgba(255,247,238,.65);line-height:1.6}
+  .order-card .oc-edit{display:inline-block;margin-top:12px;font-size:.83rem;font-weight:800;color:var(--coral);text-decoration:none}
+
+  .step{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:28px;margin-bottom:22px}
+  .step.off{opacity:.45;pointer-events:none;filter:grayscale(.4)}
+  .step-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+  .step-num{width:38px;height:38px;flex:none;border-radius:14px;background:var(--pink-soft);color:var(--coral-deep);font-family:'Fraunces',serif;font-weight:900;font-size:1.15rem;display:grid;place-items:center}
+  .step-head h2{font-size:1.25rem;font-weight:700}
+  .step-head .hint{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--ink-soft);text-align:right}
+
+  /* calendar */
+  .cal-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  .cal-nav{width:38px;height:38px;border-radius:12px;border:2px solid rgba(46,42,38,.1);background:#fff;font-size:1.1rem;font-weight:800;color:var(--ink);cursor:pointer}
+  .cal-nav:disabled{opacity:.3;cursor:default}
+  .cal-title{font-family:'Fraunces',serif;font-weight:700;font-size:1.1rem;text-transform:capitalize;min-width:170px;text-align:center}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cal-dow{text-align:center;font-size:.72rem;font-weight:800;color:var(--ink-soft);text-transform:uppercase;padding:6px 0;letter-spacing:.06em}
+  .cal-day{aspect-ratio:1;border-radius:14px;border:2px solid transparent;background:var(--cream);font:800 .95rem 'Nunito';color:var(--ink);cursor:pointer;transition:.12s;position:relative}
+  .cal-day:hover:not(:disabled){border-color:var(--coral)}
+  .cal-day:disabled{opacity:.28;cursor:default}
+  .cal-day.busy::after{content:'';position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:var(--coral-deep)}
+  .cal-day.selected{background:var(--coral);color:#fff;box-shadow:0 6px 16px rgba(255,107,138,.4)}
+  .cal-day.today{border-color:rgba(46,42,38,.25)}
+
+  /* slots */
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .slot{border:2px solid rgba(46,42,38,.12);background:#fff;border-radius:16px;padding:14px 8px;text-align:center;cursor:pointer;transition:.12s}
+  .slot:hover:not(.busy){border-color:var(--coral)}
+  .slot.selected{border-color:var(--coral);background:#FFF5F7;box-shadow:0 6px 16px rgba(255,107,138,.18)}
+  .slot.busy{opacity:.4;cursor:default}
+  .slot .t{font-weight:900;font-size:1.05rem}
+  .slot .s{font-size:.72rem;font-weight:700;color:var(--ink-soft);margin-top:3px}
+  .slot.busy .s{color:var(--coral-deep)}
+  .slot.selected .s{color:var(--coral-deep)}
+
+  /* timeline */
+  .tl{margin-top:8px}
+  .tl-bar{display:flex;height:58px;border-radius:16px;overflow:hidden;gap:3px}
+  .tl-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:.78rem;font-weight:800;line-height:1.25}
+  .tl-seg small{font-weight:700;opacity:.8;font-size:.68rem}
+  .tl-times{display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;color:var(--ink-soft);margin-top:8px}
+  .tl-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:.78rem;font-weight:700;color:var(--ink-soft)}
+  .tl-legend span{display:inline-flex;align-items:center;gap:6px}
+  .tl-legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+
+  /* form */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-grid .full{grid-column:1/-1}
+  .field label{display:block;font-size:.82rem;font-weight:800;margin-bottom:6px;color:var(--ink-soft)}
+  .field input{width:100%;border:2px solid rgba(46,42,38,.12);border-radius:14px;padding:13px 16px;font:700 .95rem 'Nunito';color:var(--ink);background:#fff;outline:none;transition:border-color .15s}
+  .field input:focus{border-color:var(--coral)}
+  .field .err{border-color:var(--coral-deep)!important;background:#FFF5F7}
+  .field .msg{font-size:.75rem;color:var(--coral-deep);font-weight:700;margin-top:4px;display:none}
+
+  .btn-confirm{display:block;width:100%;text-align:center;background:var(--coral);color:#fff;font-weight:800;font-size:1.1rem;padding:18px;border-radius:999px;border:0;cursor:pointer;box-shadow:0 10px 24px rgba(255,107,138,.4);transition:transform .15s}
+  .btn-confirm:hover{transform:translateY(-2px)}
+  .btn-confirm:disabled{opacity:.4;cursor:default;transform:none}
+  .fine{margin-top:14px;font-size:.78rem;color:var(--ink-soft);text-align:center;line-height:1.6}
+
+  /* success */
+  .success{display:none;text-align:center;padding:20px 0 40px}
+  .success.show{display:block}
+  .success .big-check{width:96px;height:96px;border-radius:50%;background:#E7F6EA;display:grid;place-items:center;margin:14px auto 22px}
+  .success h2{font-size:2rem;font-weight:900;letter-spacing:-.02em}
+  .success .order-no{display:inline-block;background:#fff;border:2px dashed rgba(46,42,38,.2);border-radius:14px;padding:10px 22px;font-weight:900;font-size:1.15rem;margin:16px 0;letter-spacing:.04em}
+  .success p{color:var(--ink-soft);max-width:52ch;margin:0 auto;line-height:1.65}
+  .wa-cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#fff;font-weight:800;padding:15px 28px;border-radius:999px;text-decoration:none;margin-top:22px;box-shadow:0 8px 20px rgba(37,211,102,.35)}
+
+  /* status timeline */
+  .status-box{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:28px;margin-top:26px;text-align:left}
+  .status-box h3{font-size:1.15rem;font-weight:700;margin-bottom:18px}
+  .st-line{display:flex;flex-direction:column;gap:0}
+  .st-item{display:flex;gap:14px;position:relative;padding-bottom:20px}
+  .st-item:last-child{padding-bottom:0}
+  .st-dot{width:26px;height:26px;flex:none;border-radius:50%;border:2.5px solid rgba(46,42,38,.15);background:#fff;display:grid;place-items:center;z-index:1}
+  .st-item:not(:last-child) .st-dot::after{content:'';position:absolute;top:26px;left:12.5px;width:2.5px;height:calc(100% - 26px);background:rgba(46,42,38,.1)}
+  .st-item.done .st-dot{background:var(--green);border-color:var(--green)}
+  .st-item.done .st-dot::before{content:'';width:10px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+  .st-item.now .st-dot{border-color:var(--coral);box-shadow:0 0 0 5px rgba(255,107,138,.2);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(255,107,138,.2)}50%{box-shadow:0 0 0 8px rgba(255,107,138,.08)}}
+  .st-item.now .st-name{color:var(--coral-deep);font-weight:900}
+  .st-name{font-weight:800;font-size:.95rem;color:var(--ink-soft)}
+  .st-sub{font-size:.78rem;color:var(--ink-soft);margin-top:2px}
+  .st-item.now .st-sub{color:var(--coral-deep)}
+
+  @media (max-width:720px){
+    .form-grid{grid-template-columns:1fr}
+    .slots{grid-template-columns:1fr 1fr}
+    .step-head .hint{display:none}
+    .cal-title{min-width:130px;font-size:.95rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html">
+      <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
+      FiestaLista
+    </a>
+    <a class="back-link" href="constructor.html">← Modificar mi fiesta</a>
+  </div>
+</header>
+
+<div class="wrap" id="bookingView">
+
+  <div class="page-head">
+    <h1>Reserva tu <em>fecha</em></h1>
+    <p>Elige el día y la hora de inicio. Nosotros llegamos 1 hora antes para montar y volvemos 1 hora después para recoger.</p>
+  </div>
+
+  <div class="order-card" id="orderCard"></div>
+
+  <!-- 1. CALENDAR -->
+  <section class="step" id="stepDay">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <h2>Elige el día</h2>
+      <span class="hint">Los puntos rojos = día con pocas horas libres</span>
+    </div>
+    <div class="cal-head">
+      <button class="cal-nav" id="calPrev" onclick="shiftMonth(-1)">←</button>
+      <div class="cal-title" id="calTitle"></div>
+      <button class="cal-nav" id="calNext" onclick="shiftMonth(1)">→</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </section>
+
+  <!-- 2. TIME -->
+  <section class="step off" id="stepTime">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <h2>Hora de inicio</h2>
+      <span class="hint">Hora en que empieza la fiesta</span>
+    </div>
+    <div class="slots" id="slots"></div>
+  </section>
+
+  <!-- 3. WINDOW -->
+  <section class="step off" id="stepWindow">
+    <div class="step-head">
+      <span class="step-num">3</span>
+      <h2>Tu franja horaria</h2>
+      <span class="hint">Confirmación visual de los horarios</span>
+    </div>
+    <div class="tl">
+      <div class="tl-bar" id="tlBar"></div>
+      <div class="tl-times" id="tlTimes"></div>
+      <div class="tl-legend">
+        <span><i style="background:var(--blue)"></i>Montaje (1 h antes)</span>
+        <span><i style="background:var(--coral)"></i>La fiesta</span>
+        <span><i style="background:var(--lilac)"></i>Desmontaje y recogida</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CONTACT -->
+  <section class="step off" id="stepContact">
+    <div class="step-head">
+      <span class="step-num">4</span>
+      <h2>Tus datos</h2>
+      <span class="hint">Te confirmamos por WhatsApp</span>
+    </div>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Nombre y apellidos</label>
+        <input id="fName" placeholder="Ej. Laura García" oninput="validate()">
+        <div class="msg" id="mName">Escribe tu nombre</div>
+      </div>
+      <div class="field">
+        <label>Teléfono (WhatsApp)</label>
+        <input id="fPhone" placeholder="+34 600 000 000" oninput="validate()">
+        <div class="msg" id="mPhone">Necesitamos un teléfono válido</div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="fEmail" placeholder="hola@email.com" oninput="validate()">
+        <div class="msg" id="mEmail">Revisa el email</div>
+      </div>
+    </div>
+  </section>
+
+  <button class="btn-confirm" id="btnConfirm" disabled onclick="confirm()">Confirmar reserva</button>
+  <p class="fine">Seña del 50% para bloquear la fecha · el resto se paga el día de la entrega.<br>Sin sorpresas: el precio está cerrado y confirmado por escrito antes de pagar.</p>
+</div>
+
+<!-- SUCCESS -->
+<div class="wrap">
+  <div class="success" id="successView">
+    <div class="big-check">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 9.5 18 20 6.5" stroke="#3D9B5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>¡Reserva recibida!</h2>
+    <div class="order-no" id="orderNo">FL-0000</div>
+    <p id="successText">Te escribimos por WhatsApp en unos minutos para confirmarte la disponibilidad. Tu fecha queda apartada mientras tanto.</p>
+    <a class="wa-cta" href="#">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
+      Escribir por WhatsApp
+    </a>
+
+    <div class="status-box">
+      <h3>Estado de tu reserva — lo verás así en tu cuenta</h3>
+      <div class="st-line" id="statusLine"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== datos del pedido (viene del constructor) =====
+  let order = null;
+  try { order = JSON.parse(localStorage.getItem('fl_order')); } catch(e){}
+  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+
+  const oc = document.getElementById('orderCard');
+  if (order && order.total>0){
+    oc.innerHTML = `
+      <div class="oc-top">
+        <h3>Tu fiesta</h3>
+        <div>
+          <span class="oc-total">${eur(order.total)}</span>
+          <span class="oc-dep"> · seña hoy ${eur(order.deposit)}</span>
+        </div>
+      </div>
+      <div class="oc-items">${order.items.map(x=>x.qty?`${x.qty}× ${x.label}`:x.label).join(' · ')}</div>
+      <a class="oc-edit" href="constructor.html">← Cambiar algo</a>`;
+  } else {
+    oc.innerHTML = `
+      <div class="oc-top"><h3>Tu fiesta</h3></div>
+      <div class="oc-items">Aún no has configurado nada. <a href="constructor.html" style="color:var(--coral);font-weight:800">Crea tu fiesta primero →</a></div>`;
+  }
+  const partyHours = (order && order.duration) ? Number(order.duration) : 4;
+
+  // ===== calendario =====
+  const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const DOW=['L','M','X','J','V','S','D'];
+  const today = new Date(); today.setHours(0,0,0,0);
+  let viewY = today.getFullYear(), viewM = today.getMonth();
+  let pickedDate=null, pickedSlot=null;
+
+  // Demo: ocupación determinista para simular reservas existentes
+  function isBusyDay(y,m,d){ return ((d*7 + m*13 + y) % 9)===0; }
+  function isBusySlot(y,m,d,slotIdx){ return ((d*11 + m*7 + slotIdx*5 + y) % 4)===0; }
+
+  function renderCal(){
+    document.getElementById('calTitle').textContent = `${MESES[viewM]} ${viewY}`;
+    const first = new Date(viewY,viewM,1);
+    let lead = (first.getDay()+6)%7; // lunes=0
+    const dim = new Date(viewY,viewM+1,0).getDate();
+    const grid = document.getElementById('calGrid');
+    let html = DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+    for(let i=0;i<lead;i++) html+=`<div></div>`;
+    for(let d=1;d<=dim;d++){
+      const dt = new Date(viewY,viewM,d);
+      const past = dt < today;
+      const busy = isBusyDay(viewY,viewM,d);
+      const sel = pickedDate && dt.getTime()===pickedDate.getTime();
+      const isToday = dt.getTime()===today.getTime();
+      html += `<button type="button" class="cal-day ${busy?'busy':''} ${sel?'selected':''} ${isToday?'today':''}" ${past?'disabled':''} onclick="pickDay(${y4(viewY)},${viewM},${d})">${d}</button>`;
+    }
+    grid.innerHTML = html;
+    document.getElementById('calPrev').disabled = (viewY===today.getFullYear() && viewM===today.getMonth());
+    const maxD = new Date(today.getFullYear(), today.getMonth()+2, 1);
+    document.getElementById('calNext').disabled = (viewY===maxD.getFullYear() && viewM===maxD.getMonth());
+  }
+  const y4 = y=>y;
+  window.shiftMonth = d=>{
+    const nm = viewM + d;
+    viewY = viewY + Math.floor(nm/12); viewM = ((nm%12)+12)%12;
+    renderCal();
+  };
+  window.pickDay = (y,m,d)=>{
+    pickedDate = new Date(y,m,d); pickedSlot=null;
+    renderCal(); renderSlots();
+    document.getElementById('stepTime').classList.remove('off');
+    document.getElementById('stepWindow').classList.add('off');
+    document.getElementById('stepContact').classList.add('off');
+    document.getElementById('btnConfirm').disabled = true;
+  };
+
+  // ===== slots =====
+  const SLOTS=['10:00','12:00','15:00','17:00'];
+  function renderSlots(){
+    const c=document.getElementById('slots');
+    c.innerHTML = SLOTS.map((t,i)=>{
+      const busy = isBusySlot(pickedDate.getFullYear(),pickedDate.getMonth(),pickedDate.getDate(),i);
+      return `<div class="slot ${busy?'busy':''} ${pickedSlot===i?'selected':''}" ${busy?'':`onclick="pickSlot(${i})"`}>
+        <div class="t">${t}</div>
+        <div class="s">${busy?'ocupada':'libre'}</div>
+      </div>`;
+    }).join('');
+  }
+  window.pickSlot = i=>{
+    pickedSlot=i;
+    renderSlots(); renderWindow();
+    document.getElementById('stepWindow').classList.remove('off');
+    document.getElementById('stepContact').classList.remove('off');
+    validate();
+  };
+
+  // ===== franja horaria =====
+  function fmt(h){ const H=Math.floor(h), M=Math.round((h-H)*60); return `${String(H).padStart(2,'0')}:${String(M).padStart(2,'0')}`; }
+  function renderWindow(){
+    const start = parseFloat(SLOTS[pickedSlot].replace(':','.')) ;
+    const sH = parseInt(SLOTS[pickedSlot].split(':')[0]), sM = parseInt(SLOTS[pickedSlot].split(':')[1]);
+    const startDec = sH + sM/60;
+    const setupStart = startDec - 1;
+    const partyEnd = startDec + partyHours;
+    const pickupEnd = partyEnd + 1;
+    const total = pickupEnd - setupStart;
+    const w = p => (p/total*100)+'%';
+    document.getElementById('tlBar').innerHTML = `
+      <div class="tl-seg" style="width:${w(1)};background:var(--blue)"><small>montaje</small>${fmt(setupStart)}–${fmt(startDec)}</div>
+      <div class="tl-seg" style="width:${w(partyHours)};background:var(--coral)"><small>fiesta</small>${fmt(startDec)}–${fmt(partyEnd)}</div>
+      <div class="tl-seg" style="width:${w(1)};background:var(--lilac)"><small>recogida</small>${fmt(partyEnd)}–${fmt(pickupEnd)}</div>`;
+    document.getElementById('tlTimes').innerHTML = `
+      <span>Llegamos a las <b>${fmt(setupStart)}</b></span>
+      <span>La fiesta: <b>${partyHours} h</b></span>
+      <span>Recogida hasta las <b>${fmt(pickupEnd)}</b></span>`;
+  }
+
+  // ===== validación =====
+  window.validate = ()=>{
+    const name = document.getElementById('fName').value.trim();
+    const phone = document.getElementById('fPhone').value.replace(/[^0-9+]/g,'');
+    const email = document.getElementById('fEmail').value.trim();
+    const okN = name.length>=3;
+    const okP = phone.length>=9;
+    const okE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    toggleErr('fName','mName',okN); toggleErr('fPhone','mPhone',okP); toggleErr('fEmail','mEmail',okE);
+    const ready = okN && okP && okE && pickedDate!==null && pickedSlot!==null;
+    document.getElementById('btnConfirm').disabled = !ready;
+    return ready;
+  };
+  function toggleErr(inp,msg,ok){
+    document.getElementById(inp).classList.toggle('err',!ok && document.getElementById(inp).value!=='');
+    document.getElementById(msg).style.display = (!ok && document.getElementById(inp).value!=='')?'block':'none';
+  }
+
+  // ===== confirmar =====
+  const STATUS = [
+    {n:'Nueva solicitud', s:'Acabas de enviar la reserva'},
+    {n:'Esperando confirmación', s:'Comprobamos que el equipo esté libre (unos minutos)'},
+    {n:'Esperando seña', s:'Te enviamos el enlace de pago del 50%'},
+    {n:'Confirmado', s:'Tu fecha está bloqueada'},
+    {n:'Preparando el equipo', s:'Montamos tu pack el día del evento'},
+    {n:'En reparto', s:'Vamos camino al lugar de la fiesta'},
+    {n:'Fiesta en curso', s:'¡A disfrutar!'},
+    {n:'Esperando desmontaje', s:'Recogemos al terminar la franja'},
+    {n:'Completado', s:'Fiesta entregada. ¡Gracias!'},
+  ];
+  window.confirm = ()=>{
+    if(!validate()) return;
+    const num = 'FL-' + String(Math.floor(1000+Math.random()*9000));
+    document.getElementById('orderNo').textContent = num;
+    const dt = pickedDate.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+    document.getElementById('successText').innerHTML =
+      `Reserva para el <b>${dt}</b> a las <b>${SLOTS[pickedSlot]}</b>. Te escribimos por WhatsApp en unos minutos para confirmarte disponibilidad. Tu fecha queda apartada mientras tanto.`;
+    document.getElementById('statusLine').innerHTML = STATUS.map((st,i)=>`
+      <div class="st-item ${i===0?'now':''}">
+        <span class="st-dot"></span>
+        <span><span class="st-name">${st.n}</span><br><span class="st-sub">${st.s}</span></span>
+      </div>`).join('');
+    document.getElementById('bookingView').style.display='none';
+    document.getElementById('successView').classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  renderCal();
+</script>
+</body>
+</html>
