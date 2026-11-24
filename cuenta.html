@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi cuenta — FiestaLista Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7EE; --ink:#2E2A26; --ink-soft:#6E655C;
+    --coral:#FF6B8A; --coral-deep:#F04E72; --pink-soft:#FFD9E2;
+    --yellow:#FFC94D; --green:#6BCB77; --blue:#5B8DEF; --lilac:#B983FF;
+    --wa:#25D366; --radius:24px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink)}
+  h1,h2,h3,.serif{font-family:'Fraunces',serif}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,247,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(46,42,38,.06)}
+  .header-in{max-width:960px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
+  .logo .balloon{width:28px;height:36px}
+  .head-links{margin-left:auto;display:flex;gap:18px;align-items:center}
+  .back-link{font-weight:800;font-size:.9rem;color:var(--ink-soft);text-decoration:none}
+  .back-link:hover{color:var(--ink)}
+
+  .wrap{max-width:960px;margin:0 auto;padding:40px 24px 90px}
+  .page-head{margin-bottom:30px}
+  .page-head h1{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:900;letter-spacing:-.02em}
+  .page-head h1 em{color:var(--coral);font-weight:600}
+  .page-head p{margin-top:8px;color:var(--ink-soft);line-height:1.6}
+
+  /* profile */
+  .profile{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:22px 26px;margin-bottom:26px;flex-wrap:wrap}
+  .avatar{width:64px;height:64px;flex:none;border-radius:22px;background:linear-gradient(140deg,var(--coral),var(--lilac));display:grid;place-items:center;color:#fff;font-family:'Fraunces',serif;font-weight:900;font-size:1.6rem}
+  .profile .p-name{font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem}
+  .profile .p-meta{font-size:.88rem;color:var(--ink-soft);margin-top:3px;font-weight:700}
+  .profile .p-since{margin-left:auto;font-size:.8rem;color:var(--ink-soft);font-weight:700;text-align:right}
+  .demo-chip{display:inline-block;background:#FFF0D9;color:#8A6A1F;font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
+
+  /* booking card */
+  .booking{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+  .booking.cancelled{opacity:.65}
+  .bk-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .bk-id{font-weight:900;letter-spacing:.05em;font-size:.95rem;color:var(--ink-soft)}
+  .bk-when{font-family:'Fraunces',serif;font-weight:900;font-size:1.45rem;margin-top:4px}
+  .bk-window{font-size:.88rem;color:var(--ink-soft);font-weight:700;margin-top:4px}
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;font-weight:800;padding:7px 14px;border-radius:999px;white-space:nowrap}
+  .chip .cdot{width:8px;height:8px;border-radius:50%}
+  .chip.live{background:#E7F6EA;color:#2E7D43}.chip.live .cdot{background:var(--green);animation:blink 1.6s infinite}
+  .chip.wait{background:#FFF0D9;color:#8A6A1F}.chip.wait .cdot{background:var(--yellow)}
+  .chip.done{background:#EDF1FB;color:#3A5BB5}.chip.done .cdot{background:var(--blue)}
+  .chip.off{background:#F6E9E7;color:#B04A3A}.chip.off .cdot{background:#D98C7F}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+  .bk-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px}
+  .bk-items{font-size:.88rem;color:var(--ink-soft);line-height:1.7;font-weight:600}
+  .bk-items b{color:var(--ink)}
+  .money{background:var(--cream);border-radius:18px;padding:18px 20px}
+  .money .row{display:flex;justify-content:space-between;font-size:.86rem;font-weight:700;color:var(--ink-soft);padding:4px 0}
+  .money .row.big{font-size:1.05rem;color:var(--ink);font-weight:900;border-top:2px dashed rgba(46,42,38,.12);margin-top:8px;padding-top:10px}
+  .money .row .paid{color:#2E7D43}
+
+  /* actions */
+  .bk-actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.9rem;padding:13px 22px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-wa{background:var(--wa);color:#fff;box-shadow:0 8px 20px rgba(37,211,102,.35)}
+  .btn-ghost{background:#fff;color:var(--ink);border:2px solid rgba(46,42,38,.12)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .btn-danger{background:transparent;color:var(--coral-deep);font-weight:800;font-size:.85rem;padding:10px 6px;cursor:pointer;border:0;text-decoration:underline;text-underline-offset:3px}
+
+  /* status timeline */
+  .st-title{font-family:'Fraunces',serif;font-weight:700;font-size:1.1rem;margin:26px 0 16px}
+  .st-line{display:flex;flex-direction:column}
+  .st-item{display:flex;gap:14px;position:relative;padding-bottom:18px}
+  .st-item:last-child{padding-bottom:0}
+  .st-dot{width:26px;height:26px;flex:none;border-radius:50%;border:2.5px solid rgba(46,42,38,.15);background:#fff;display:grid;place-items:center;z-index:1}
+  .st-item:not(:last-child) .st-dot::after{content:'';position:absolute;top:26px;left:12.5px;width:2.5px;height:calc(100% - 26px);background:rgba(46,42,38,.1)}
+  .st-item.done .st-dot{background:var(--green);border-color:var(--green)}
+  .st-item.done .st-dot::before{content:'';width:10px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+  .st-item.now .st-dot{border-color:var(--coral);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(255,107,138,.2)}50%{box-shadow:0 0 0 8px rgba(255,107,138,.08)}}
+  .st-item.now .st-name{color:var(--coral-deep);font-weight:900}
+  .st-item.todo .st-name,.st-item.todo .st-sub{color:rgba(46,42,38,.35)}
+  .st-name{font-weight:800;font-size:.95rem;color:var(--ink-soft)}
+  .st-sub{font-size:.78rem;color:var(--ink-soft);margin-top:2px}
+
+  /* history */
+  .hist-title{font-family:'Fraunces',serif;font-weight:900;font-size:1.35rem;margin:38px 0 16px}
+  .hist{display:flex;flex-direction:column;gap:12px}
+  .hist-row{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:18px;padding:16px 22px;text-decoration:none;color:var(--ink);transition:transform .15s}
+  .hist-row:hover{transform:translateY(-2px)}
+  .hist-row .h-id{font-weight:900;font-size:.85rem;color:var(--ink-soft);letter-spacing:.04em;width:76px;flex:none}
+  .hist-row .h-when{font-weight:800;font-size:.95rem;flex:1}
+  .hist-row .h-total{font-family:'Fraunces',serif;font-weight:900;font-size:1.05rem}
+  .hist-row .h-arrow{color:var(--ink-soft);font-weight:900}
+
+  /* empty */
+  .empty{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:60px 30px;text-align:center}
+  .empty .art{width:120px;margin:0 auto 20px}
+  .empty h2{font-size:1.6rem;font-weight:900;margin-bottom:10px}
+  .empty p{color:var(--ink-soft);line-height:1.6;max-width:44ch;margin:0 auto 24px}
+  .btn-primary{display:inline-block;background:var(--coral);color:#fff;font-weight:800;font-size:1rem;padding:16px 32px;border-radius:999px;text-decoration:none;box-shadow:0 10px 24px rgba(255,107,138,.4)}
+  .demo-link{display:inline-block;margin-top:16px;font-size:.85rem;font-weight:800;color:var(--ink-soft)}
+  .btn-clear{display:inline-block;margin-top:26px;background:transparent;border:0;font:800 .82rem 'Nunito';color:var(--ink-soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+  @media (max-width:720px){
+    .bk-grid{grid-template-columns:1fr}
+    .profile .p-since{margin-left:0;text-align:left;width:100%}
+    .head-links{gap:12px}
+    .hist-row{flex-wrap:wrap}
+    .hist-row .h-id{width:auto}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html">
+      <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
+      FiestaLista
+    </a>
+    <div class="head-links">
+      <a class="back-link" href="constructor.html">Crear mi fiesta</a>
+      <a class="back-link" href="index.html">← Volver al inicio</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<script>
+  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+  const cap = s => s.charAt(0).toUpperCase()+s.slice(1);
+
+  const STATUS = [
+    {n:'Nueva solicitud', s:'Acabas de enviar la reserva'},
+    {n:'Esperando confirmación', s:'Comprobamos que el equipo esté libre (unos minutos)'},
+    {n:'Esperando seña', s:'Te enviamos el enlace de pago del 50%'},
+    {n:'Confirmado', s:'Tu fecha está bloqueada'},
+    {n:'Preparando el equipo', s:'Montamos tu pack el día del evento'},
+    {n:'En reparto', s:'Vamos camino al lugar de la fiesta'},
+    {n:'Fiesta en curso', s:'¡A disfrutar!'},
+    {n:'Esperando desmontaje', s:'Recogemos al terminar la franja'},
+    {n:'Completado', s:'Fiesta entregada. ¡Gracias!'},
+  ];
+
+  // ===== datos de demostración (abrir con ?demo=1) =====
+  function seedDemo(){
+    const d1 = new Date(); d1.setDate(d1.getDate()+9);
+    const d2 = new Date(); d2.setDate(d2.getDate()-21);
+    const d3 = new Date(); d3.setDate(d3.getDate()-32);
+    const fmtD = d => d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const demo = [
+      { id:'FL-3048', created:new Date().toISOString(), dateISO:iso(d1), dateTxt:fmtD(d1),
+        slot:'12:00', duration:6, window:'11:00 – 19:00', demo:true,
+        items:[{label:'Pack STANDARD'},{qty:1,label:'Soporte para tarta'}],
+        total:279, deposit:140,
+        client:{name:'Laura García', phone:'+34 612 345 678', email:'laura.garcia@email.com'},
+        statusIdx:3, cancelled:false },
+      { id:'FL-2981', created:new Date().toISOString(), dateISO:iso(d2), dateTxt:fmtD(d2),
+        slot:'10:00', duration:4, window:'09:00 – 15:00', demo:true,
+        items:[{label:'Pack BASIC'}],
+        total:149, deposit:75,
+        client:{name:'Laura García', phone:'+34 612 345 678', email:'laura.garcia@email.com'},
+        statusIdx:8, cancelled:false },
+      { id:'FL-2855', created:new Date().toISOString(), dateISO:iso(d3), dateTxt:fmtD(d3),
+        slot:'17:00', duration:4, window:'16:00 – 22:00', demo:true,
+        items:[{label:'Pack PREMIUM'}],
+        total:399, deposit:200,
+        client:{name:'Laura García', phone:'+34 612 345 678', email:'laura.garcia@email.com'},
+        statusIdx:0, cancelled:true },
+    ];
+    localStorage.setItem('fl_bookings', JSON.stringify(demo));
+  }
+
+  let bookings = [];
+  function load(){
+    if (location.search.includes('demo=1') && !localStorage.getItem('fl_bookings')) seedDemo();
+    if (location.search.includes('clear=1')) { localStorage.removeItem('fl_bookings'); location.href='cuenta.html'; }
+    try { bookings = JSON.parse(localStorage.getItem('fl_bookings')||'[]'); } catch(e){ bookings=[]; }
+  }
+
+  function chip(b){
+    if (b.cancelled) return `<span class="chip off"><span class="cdot"></span>Cancelada</span>`;
+    if (b.statusIdx>=8) return `<span class="chip done"><span class="cdot"></span>Completada</span>`;
+    if (b.statusIdx>=3) return `<span class="chip live"><span class="cdot"></span>${STATUS[b.statusIdx].n}</span>`;
+    return `<span class="chip wait"><span class="cdot"></span>${STATUS[b.statusIdx].n}</span>`;
+  }
+
+  function timeline(b){
+    if (b.cancelled) return '';
+    return `<h3 class="st-title">Estado de tu reserva</h3>
+      <div class="st-line">${STATUS.map((st,i)=>{
+        const cls = i<b.statusIdx?'done':(i===b.statusIdx?'now':'todo');
+        return `<div class="st-item ${cls}">
+          <span class="st-dot"></span>
+          <span><span class="st-name">${st.n}</span><br><span class="st-sub">${st.s}</span></span>
+        </div>`;
+      }).join('')}</div>`;
+  }
+
+  function bookingCard(b){
+    return `<article class="booking ${b.cancelled?'cancelled':''}" id="bk-${b.id}">
+      <div class="bk-top">
+        <div>
+          <div class="bk-id">Reserva ${b.id}</div>
+          <div class="bk-when">${cap(b.dateTxt)}</div>
+          <div class="bk-window">Comienzo a las ${b.slot} · ${b.duration} h de fiesta · franja ${b.window}</div>
+        </div>
+        ${chip(b)}
+      </div>
+      <div class="bk-grid">
+        <div class="bk-items">${b.items.map(x=>x.qty?`<b>${x.qty}×</b> ${x.label}`:`<b>${x.label}</b>`).join(' · ')}</div>
+        <div class="money">
+          <div class="row"><span>Total de la fiesta</span><span>${eur(b.total)}</span></div>
+          <div class="row"><span>Seña pagada</span><span class="paid">−${eur(b.deposit)}</span></div>
+          <div class="row big"><span>Resto al entregar</span><span>${eur(b.total-b.deposit)}</span></div>
+        </div>
+      </div>
+      ${timeline(b)}
+      ${b.cancelled?'':`<div class="bk-actions">
+        <a class="btn btn-wa" href="https://wa.me/" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="reserva.html">Cambiar fecha</a>
+        <button class="btn-danger" onclick="cancelBooking('${b.id}')">Cancelar reserva</button>
+      </div>`}
+    </article>`;
+  }
+
+  window.cancelBooking = id=>{
+    if(!confirm('¿Seguro que quieres cancelar esta reserva? Te devolvemos la seña según las condiciones.')) return;
+    bookings = bookings.map(b=>b.id===id?{...b,cancelled:true,statusIdx:0}:b);
+    localStorage.setItem('fl_bookings', JSON.stringify(bookings));
+    render();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  function render(){
+    const app = document.getElementById('app');
+    if(!bookings.length){
+      app.innerHTML = `
+        <div class="page-head"><h1>Mi <em>cuenta</em></h1><p>Aquí verás el estado de tus fiestas y tu historial de reservas.</p></div>
+        <div class="empty">
+          <svg class="art" viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="60" r="54" fill="#FFF0D9"/>
+            <ellipse cx="46" cy="46" rx="13" ry="15" fill="#FF6B8A"/><path d="M46 61 L44 65 L48 65 Z" fill="#F04E72"/><path d="M46 65 Q43 68 46 72" stroke="#F04E72" stroke-width="1.4"/>
+            <ellipse cx="76" cy="40" rx="11" ry="13" fill="#FFC94D"/><path d="M76 53 L74 57 L78 57 Z" fill="#E0A82E"/><path d="M76 57 Q79 60 76 64" stroke="#E0A82E" stroke-width="1.4"/>
+            <ellipse cx="66" cy="76" rx="10" ry="12" fill="#B983FF"/><path d="M66 88 L64 92 L68 92 Z" fill="#9A5FE8"/><path d="M66 92 Q63 95 66 99" stroke="#9A5FE8" stroke-width="1.4"/>
+          </svg>
+          <h2>Aún no tienes fiestas</h2>
+          <p>Cuando hagas tu primera reserva, aquí aparecerá su estado, la franja horaria y los pagos.</p>
+          <a class="btn-primary" href="constructor.html">Crear mi fiesta</a>
+          <br><a class="demo-link" href="cuenta.html?demo=1">Ver la cuenta con datos de ejemplo →</a>
+        </div>`;
+      return;
+    }
+
+    const c = bookings[0].client;
+    const first = bookings[bookings.length-1].created;
+    const since = new Date(first).toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+    const hasDemo = bookings.some(b=>b.demo);
+    const todayISO = new Date().toISOString().slice(0,10);
+    const active = bookings.filter(b=>!b.cancelled && b.dateISO>=todayISO);
+    const history = bookings.filter(b=>!active.includes(b));
+
+    app.innerHTML = `
+      <div class="page-head"><h1>Hola, <em>${c.name.split(' ')[0]}</em></h1><p>Aquí tienes el estado de tus fiestas y tu historial.</p></div>
+
+      <div class="profile">
+        <div class="avatar">${c.name.trim()[0].toUpperCase()}</div>
+        <div>
+          <div class="p-name">${c.name}</div>
+          <div class="p-meta">${c.phone} · ${c.email}</div>
+          ${hasDemo?'<span class="demo-chip">Datos de demostración</span>':''}
+        </div>
+        <div class="p-since">Cliente desde<br><b style="color:var(--ink)">${since}</b></div>
+      </div>
+
+      ${active.length?active.map(bookingCard).join(''):'<div class="booking" style="text-align:center;padding:40px"><b>No tienes fiestas próximas.</b><br><a href="constructor.html" style="color:var(--coral-deep);font-weight:800">Crear una nueva fiesta →</a></div>'}
+
+      ${history.length?`<h2 class="hist-title">Historial</h2><div class="hist">${history.map(b=>`
+        <a class="hist-row" href="#bk-${b.id}" onclick="event.preventDefault();document.getElementById('app').scrollIntoView({behavior:'smooth'})">
+          <span class="h-id">${b.id}</span>
+          <span class="h-when">${cap(b.dateTxt)}</span>
+          ${chip(b)}
+          <span class="h-total">${eur(b.total)}</span>
+          <span class="h-arrow">→</span>
+        </a>`).join('')}</div>`:''}
+
+      ${hasDemo?'<button class="btn-clear" onclick="if(confirm(\'¿Borrar los datos de ejemplo?\')){localStorage.removeItem(\'fl_bookings\');location.href=\'cuenta.html\'}">Borrar datos de demostración</button>':''}
+    `;
+  }
+
+  load();
+  render();
+</script>
+</body>
+</html>
