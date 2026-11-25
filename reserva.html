@@ -254,6 +254,7 @@
   </div>
 </div>
 
+<script src="track.js"></script>
 <script>
   // ===== i18n =====
   let LANG = localStorage.getItem('fl_lang')||'es';
@@ -522,6 +523,7 @@
         phone: document.getElementById('fPhone').value.trim(),
         email: document.getElementById('fEmail').value.trim()
       },
+      utm: (typeof flSource==='function') ? flSource() : {source:'direct',medium:'',campaign:''},
       statusIdx: 0, cancelled: false
     };
     try {

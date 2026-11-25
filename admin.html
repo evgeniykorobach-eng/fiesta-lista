@@ -136,7 +136,7 @@ let LANG = localStorage.getItem('fl_lang')||'es';
 const TXT = {
   es: {
     viewSite:'Ver web →',
-    nav:['Resumen','Pedidos','Calendario','Inventario','Clientes','Precios','Finanzas','Historial'],
+    nav:['Resumen','Pedidos','Calendario','Inventario','Clientes','Precios','Finanzas','Publicidad','Historial'],
     // resumen
     sumT:'Resumen', sumS:'Vista rápida del negocio. Todo se guarda en este navegador (prototipo).',
     kNew:'Nuevos pedidos', kNewS:'esperan tu revisión',
@@ -178,6 +178,14 @@ const TXT = {
     // historial
     hisT:'Historial de acciones', hisS:'Quién hizo qué y cuándo. Los dos administradores tenéis los mismos permisos.',
     hisEmpty:'Todavía no hay acciones registradas.',
+    // publicidad
+    adsT:'Publicidad y analítica', adsS:'De dónde viene la gente y cuánto cuesta cada solicitud. Las visitas se cuentan al entrar desde fuera (enlace con UTM o redes); las solicitudes son reservas no canceladas.',
+    kVisits:'Visitas', kLeads:'Solicitudes', kConv:'Conversión media', kSpend:'Gasto publicitario',
+    thSource:'Fuente', thVisits:'Visitas', thLeads2:'Solicitudes', thConv:'Conversión', thSpend:'Gasto (€)', thCPL:'€ por solicitud',
+    srcDirect:'Directo / sin datos',
+    logSpend:'actualizó el gasto publicitario',
+    adsHint:'Enlaces para tus anuncios — el sitio reconocerá la fuente automáticamente:',
+    adsCopy:'Copiar',
     // estados
     status:['Nueva solicitud','Esperando confirmación','Esperando seña','Confirmado','Preparando equipo','En reparto','Fiesta en curso','Esperando desmontaje','Completado','Cancelado'],
     statusShort:['Nueva','Por confirmar','Espera seña','Confirmado','Preparación','Reparto','En fiesta','Desmontaje','Completado','Cancelado'],
@@ -189,7 +197,7 @@ const TXT = {
   },
   ru: {
     viewSite:'Открыть сайт →',
-    nav:['Сводка','Заказы','Календарь','Склад','Клиенты','Цены','Финансы','Журнал'],
+    nav:['Сводка','Заказы','Календарь','Склад','Клиенты','Цены','Финансы','Реклама','Журнал'],
     sumT:'Сводка', sumS:'Быстрый взгляд на бизнес. Всё хранится в этом браузере (прототип).',
     kNew:'Новые заявки', kNewS:'ждут проверки',
     kWeek:'Праздники 7 дней', kWeekS:'ближайшие события',
@@ -223,6 +231,13 @@ const TXT = {
     roiT:'Окупаемость оборудования',
     hisT:'Журнал действий', hisS:'Кто, что и когда сделал. Оба администратора имеют одинаковые права.',
     hisEmpty:'Действий пока не записано.',
+    adsT:'Реклама и аналитика', adsS:'Откуда приходят люди и сколько стоит каждая заявка. Визиты считаются при входе извне (ссылка с UTM или соцсети); заявки — это неотменённые брони.',
+    kVisits:'Визиты', kLeads:'Заявки', kConv:'Средняя конверсия', kSpend:'Расход на рекламу',
+    thSource:'Источник', thVisits:'Визиты', thLeads2:'Заявки', thConv:'Конверсия', thSpend:'Расход (€)', thCPL:'€ за заявку',
+    srcDirect:'Прямые заходы',
+    logSpend:'обновил расход на рекламу',
+    adsHint:'Ссылки для рекламных кампаний — сайт сам поймёт источник:',
+    adsCopy:'Копировать',
     status:['Новая заявка','Ожидает подтверждения','Ожидает предоплаты','Подтверждён','Подготовка оборудования','Доставка','Мероприятие проходит','Ожидает демонтажа','Завершён','Отменён'],
     statusShort:['Новая','На проверке','Ждёт предоплату','Подтверждён','Подготовка','Доставка','Идёт праздник','Демонтаж','Завершён','Отменён'],
     saved:'Сохранено ✓', toastStatus:'Статус обновлён', logStatus:'изменил статус заказа', logPrice:'обновил цены', logExp:'добавил расход', logNote:'изменил заметку клиента', logInv:'обновил склад',
@@ -299,6 +314,25 @@ if(!localStorage.getItem('fl_admin_seed_v1')){
   localStorage.setItem('fl_admin_seed_v1','1');
 }
 
+// ---- seed v2: origen de los pedidos demo + visitas de demostración ----
+if(!localStorage.getItem('fl_admin_seed_v2')){
+  const UTM = {'FL-D001':'instagram','FL-D002':'instagram','FL-D003':'tiktok','FL-D004':'direct','FL-D005':'instagram','FL-D006':'tiktok'};
+  bookings.forEach(b=>{ if(UTM[b.id] && !b.utm) b.utm={source:UTM[b.id],medium:'cpc',campaign:''}; });
+  save('fl_bookings',bookings);
+  const now=Date.now(), vs=[];
+  [['instagram',20],['tiktok',12],['direct',8],['google',5]].forEach(([s,n])=>{
+    for(let i=0;i<n;i++) vs.push({
+      ts:new Date(now-Math.floor(Math.random()*30*864e5)).toISOString(),
+      page:'index.html', source:s,
+      medium:s==='direct'?'':'cpc',
+      campaign:s==='instagram'?'cumple_parque':(s==='tiktok'?'video_arco':'')
+    });
+  });
+  if(!localStorage.getItem('fl_visits')) save('fl_visits',vs);
+  if(!localStorage.getItem('fl_adspend')) save('fl_adspend',{instagram:120,tiktok:60});
+  localStorage.setItem('fl_admin_seed_v2','1');
+}
+
 // ===== historial =====
 function log(text){
   aLog.unshift({ts:new Date().toISOString(), admin:adminName(), text});
@@ -345,11 +379,11 @@ let calSel = null, ordFilter = -1, finPeriod = 'month';
 
 function render(){
   document.getElementById('sideNav').innerHTML = T('nav').map((n,i)=>{
-    const key = ['resumen','pedidos','calendario','inventario','clientes','precios','finanzas','historial'][i];
+    const key = ['resumen','pedidos','calendario','inventario','clientes','precios','finanzas','publicidad','historial'][i];
     const badge = key==='pedidos' ? bookings.filter(b=>effStatus(b)<=1).length : 0;
     return `<button class="${section===key?'active':''}" onclick="go('${key}')">${n}${badge?`<span class="dot">${badge}</span>`:''}</button>`;
   }).join('');
-  const fn = {resumen:rResumen,pedidos:rPedidos,calendario:rCalendario,inventario:rInventario,clientes:rClientes,precios:rPrecios,finanzas:rFinanzas,historial:rHistorial}[section];
+  const fn = {resumen:rResumen,pedidos:rPedidos,calendario:rCalendario,inventario:rInventario,clientes:rClientes,precios:rPrecios,finanzas:rFinanzas,publicidad:rAds,historial:rHistorial}[section];
   document.getElementById('main').innerHTML = fn();
   if(section==='precios') fillPrices();
 }
@@ -618,6 +652,70 @@ window.addExpense=()=>{
   save('fl_expenses',expenses);
   log(`${T('logExp')}: ${T('catNames')[cat]||cat} ${eur(amount)}`);
   toast(T('saved')); render();
+};
+
+// ---- publicidad ----
+const SRC_NAMES = {instagram:'Instagram',tiktok:'TikTok',facebook:'Facebook',google:'Google',whatsapp:'WhatsApp'};
+function rAds(){
+  const visits = load('fl_visits',[]);
+  const spend = load('fl_adspend',{});
+  const bySrc = {};
+  visits.forEach(v=>{ const o=bySrc[v.source]=bySrc[v.source]||{v:0,l:0}; o.v++; });
+  bookings.forEach(b=>{
+    const s=(b.utm&&b.utm.source)||'direct';
+    const o=bySrc[s]=bySrc[s]||{v:0,l:0};
+    if(effStatus(b)!==9) o.l++;
+  });
+  Object.keys(spend).forEach(s=>{ bySrc[s]=bySrc[s]||{v:0,l:0}; });
+  const srcName = s => SRC_NAMES[s]||(s==='direct'?T('srcDirect'):s);
+  const rows = Object.entries(bySrc).sort((a,b)=>b[1].v-a[1].v);
+  const totV = rows.reduce((s,r)=>s+r[1].v,0);
+  const totL = rows.reduce((s,r)=>s+r[1].l,0);
+  const totSpend = Object.values(spend).reduce((s,x)=>s+(+x||0),0);
+  const conv = totV? Math.round(totL/totV*100) : 0;
+  const base = location.href.replace(/admin\.html.*$/,'');
+  return `
+  <h1 class="sec-title">${T('adsT')}</h1><p class="sec-sub">${T('adsS')}</p>
+  <div class="kpis">
+    <div class="kpi"><div class="k-label">${T('kVisits')}</div><div class="k-val">${totV}</div></div>
+    <div class="kpi"><div class="k-label">${T('kLeads')}</div><div class="k-val">${totL}</div></div>
+    <div class="kpi"><div class="k-label">${T('kConv')}</div><div class="k-val">${conv}%</div></div>
+    <div class="kpi"><div class="k-label">${T('kSpend')}</div><div class="k-val">${eur(totSpend)}</div></div>
+  </div>
+  <div class="card"><div class="tbl-wrap"><table>
+    <tr><th>${T('thSource')}</th><th>${T('thVisits')}</th><th>${T('thLeads2')}</th><th>${T('thConv')}</th><th>${T('thSpend')}</th><th>${T('thCPL')}</th></tr>
+    ${rows.map(([s,o])=>{
+      const sp=+spend[s]||0;
+      const c=o.v? Math.round(o.l/o.v*100):0;
+      const cpl=o.l>0&&sp>0? eur(Math.round(sp/o.l)) : '—';
+      return `<tr>
+        <td><b>${esc(srcName(s))}</b></td>
+        <td>${o.v}</td>
+        <td>${o.l}</td>
+        <td>${c}%</td>
+        <td><input type="number" min="0" value="${sp}" style="width:90px" onchange="saveSpend('${esc(s)}',this.value)"></td>
+        <td class="money">${cpl}</td>
+      </tr>`;}).join('')||`<tr><td colspan="6" class="muted">—</td></tr>`}
+  </table></div></div>
+  <div class="card"><h3>UTM</h3>
+    <p class="muted" style="margin-bottom:12px">${T('adsHint')}</p>
+    ${['instagram','tiktok'].map(s=>{
+      const url=`${base}?utm_source=${s}&utm_medium=cpc`;
+      return `<div class="log-item"><span class="log-who">${SRC_NAMES[s]}</span>
+        <span style="flex:1;word-break:break-all">${url}</span>
+        <button class="btn small ghost" onclick="copyUtm('${url}')">${T('adsCopy')}</button></div>`;}).join('')}
+  </div>`;
+}
+window.saveSpend=(s,v)=>{
+  const spend=load('fl_adspend',{});
+  spend[s]=Math.max(0,+v||0);
+  save('fl_adspend',spend);
+  log(`${T('logSpend')}: ${SRC_NAMES[s]||s} ${eur(spend[s])}`);
+  toast(T('saved')); render();
+};
+window.copyUtm=async url=>{
+  try{ await navigator.clipboard.writeText(url); toast(T('saved')); }
+  catch(e){ prompt('URL:',url); }
 };
 
 // ---- historial ----
