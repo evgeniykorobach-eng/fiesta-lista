@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — FiestaLista Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7EE; --ink:#2E2A26; --ink-soft:#6E655C;
+    --coral:#FF6B8A; --coral-deep:#F04E72; --pink-soft:#FFD9E2;
+    --yellow:#FFC94D; --green:#6BCB77; --blue:#5B8DEF; --lilac:#B983FF;
+    --radius:20px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink)}
+  h1,h2,h3,.serif{font-family:'Fraunces',serif}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,247,238,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(46,42,38,.06)}
+  .header-in{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.25rem;text-decoration:none;color:var(--ink)}
+  .logo .balloon{width:26px;height:33px}
+  .admin-badge{background:var(--ink);color:var(--yellow);font:800 .7rem 'Nunito';letter-spacing:.08em;padding:4px 10px;border-radius:999px;text-transform:uppercase}
+  .head-right{margin-left:auto;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .lang-switch,.admin-switch{display:flex;background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:999px;padding:3px}
+  .lang-switch button,.admin-switch button{border:0;background:transparent;padding:5px 11px;border-radius:999px;font:800 .78rem 'Nunito';color:var(--ink-soft);cursor:pointer;transition:.15s;white-space:nowrap}
+  .lang-switch button.active,.admin-switch button.active{background:var(--ink);color:#fff}
+  .site-link{font-weight:800;font-size:.85rem;color:var(--ink-soft);text-decoration:none}
+  .site-link:hover{color:var(--ink)}
+
+  .layout{max-width:1280px;margin:0 auto;padding:26px 24px 90px;display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start}
+  .side{position:sticky;top:76px;display:flex;flex-direction:column;gap:4px}
+  .side button{display:flex;align-items:center;gap:10px;border:0;background:transparent;text-align:left;padding:11px 14px;border-radius:14px;font:800 .9rem 'Nunito';color:var(--ink-soft);cursor:pointer;transition:.12s}
+  .side button:hover{background:#fff}
+  .side button.active{background:var(--ink);color:#fff}
+  .side button .dot{margin-left:auto;background:var(--coral-deep);color:#fff;font-size:.68rem;min-width:20px;height:20px;border-radius:999px;display:grid;place-items:center;padding:0 5px}
+
+  main{min-width:0}
+  .sec-title{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+  .sec-sub{color:var(--ink-soft);font-size:.9rem;margin-bottom:22px;line-height:1.55}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px}
+  .kpi{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:18px 20px}
+  .kpi .k-label{font-size:.78rem;font-weight:800;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em}
+  .kpi .k-val{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:900;margin-top:6px}
+  .kpi .k-sub{font-size:.78rem;color:var(--ink-soft);margin-top:3px;font-weight:700}
+
+  .card{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+  .card h3{font-size:1.1rem;font-weight:700;margin-bottom:14px}
+
+  table{width:100%;border-collapse:collapse;font-size:.86rem}
+  th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);padding:8px 10px;border-bottom:2px solid rgba(46,42,38,.08)}
+  td{padding:11px 10px;border-bottom:1px solid rgba(46,42,38,.05);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .tbl-wrap{overflow-x:auto}
+
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .chip i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+  select,input[type=text],input[type=number],input[type=date],textarea{border:2px solid rgba(46,42,38,.12);border-radius:12px;padding:9px 12px;font:700 .85rem 'Nunito';color:var(--ink);background:#fff;outline:none;width:100%}
+  select:focus,input:focus,textarea:focus{border-color:var(--coral)}
+  select.st{font-size:.78rem;padding:6px 8px;width:auto;max-width:190px}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--coral);color:#fff;font-weight:800;font-size:.88rem;padding:11px 20px;border-radius:999px;border:0;cursor:pointer;box-shadow:0 6px 16px rgba(255,107,138,.3);transition:transform .12s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:#fff;color:var(--ink);border:2px solid rgba(46,42,38,.12);box-shadow:none}
+  .btn.small{padding:7px 14px;font-size:.78rem}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .field label{display:block;font-size:.78rem;font-weight:800;margin-bottom:5px;color:var(--ink-soft)}
+
+  /* calendar */
+  .cal-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .cal-nav{width:36px;height:36px;border-radius:12px;border:2px solid rgba(46,42,38,.1);background:#fff;font-weight:800;cursor:pointer}
+  .cal-title{font-family:'Fraunces',serif;font-weight:700;font-size:1.05rem;text-transform:capitalize;min-width:160px;text-align:center}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cal-dow{text-align:center;font-size:.7rem;font-weight:800;color:var(--ink-soft);text-transform:uppercase;padding:5px 0}
+  .cal-day{min-height:64px;border-radius:12px;background:var(--cream);padding:5px;font-size:.78rem;font-weight:800;cursor:pointer;border:2px solid transparent;transition:.12s;text-align:left}
+  .cal-day:hover{border-color:var(--coral)}
+  .cal-day.empty{background:transparent;cursor:default;border:0}
+  .cal-day.sel{border-color:var(--coral);background:#fff}
+  .cal-chip{display:block;font-size:.66rem;font-weight:800;color:#fff;border-radius:6px;padding:2px 5px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .bar{height:10px;border-radius:99px;background:rgba(46,42,38,.08);overflow:hidden;min-width:90px}
+  .bar i{display:block;height:100%;border-radius:99px;background:var(--green)}
+  .money{font-family:'Fraunces',serif;font-weight:900}
+  .muted{color:var(--ink-soft);font-size:.8rem}
+  .log-item{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(46,42,38,.05);font-size:.84rem}
+  .log-item:last-child{border:0}
+  .log-who{flex:none;background:var(--pink-soft);color:var(--coral-deep);font-weight:900;font-size:.7rem;border-radius:999px;padding:3px 10px;height:fit-content}
+  details summary{cursor:pointer;font-weight:800;font-size:.84rem;color:var(--coral-deep)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-weight:800;font-size:.85rem;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:99}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr}
+    .side{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px}
+    .side button{white-space:nowrap}
+    .grid2,.grid3{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html">
+      <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
+      FiestaLista
+    </a>
+    <span class="admin-badge">Admin</span>
+    <div class="head-right">
+      <div class="admin-switch" id="adminSwitch"></div>
+      <div class="lang-switch">
+        <button data-lang="es">ES</button>
+        <button data-lang="ru">RU</button>
+      </div>
+      <a class="site-link" href="index.html" data-i18n="viewSite">Ver web →</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="side" id="sideNav"></nav>
+  <main id="main"></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== i18n =====
+let LANG = localStorage.getItem('fl_lang')||'es';
+const TXT = {
+  es: {
+    viewSite:'Ver web →',
+    nav:['Resumen','Pedidos','Calendario','Inventario','Clientes','Precios','Finanzas','Historial'],
+    // resumen
+    sumT:'Resumen', sumS:'Vista rápida del negocio. Todo se guarda en este navegador (prototipo).',
+    kNew:'Nuevos pedidos', kNewS:'esperan tu revisión',
+    kWeek:'Fiestas 7 días', kWeekS:'eventos próximos',
+    kRev:'Ingresos del mes', kRevS:'pedidos no cancelados',
+    kProfit:'Beneficio del mes', kProfitS:'ingresos − gastos',
+    nextEv:'Próximos eventos',
+    alerts:'Avisos',
+    alRepair:'equipos en reparación', alPending:'pedidos por confirmar', alNone:'Todo en orden. Nada que revisar.',
+    // pedidos
+    ordT:'Pedidos', ordS:'Cambia estados, confirma o cancela. Cada acción queda en el historial con tu nombre.',
+    thId:'Nº', thClient:'Cliente', thWhen:'Fecha y hora', thItems:'Contenido', thTotal:'Total', thDep:'Seña', thStatus:'Estado',
+    noOrders:'Aún no hay pedidos.',
+    filterAll:'Todos',
+    // calendario
+    calT:'Calendario', calS:'Un vistazo a la ocupación. Pulsa un día para ver sus pedidos.',
+    dayOrders:'Pedidos del día',
+    // inventario
+    invT:'Inventario y almacén', invS:'Estado del equipo y su rentabilidad. Las reservas descuentan del stock disponible.',
+    thItem:'Equipo', thCat:'Categoría', thQty:'Cant.', thStatus2:'Estado', thBuy:'Compra', thEarn:'Generado', thRoi:'Recuperado',
+    invLibre:'libre', invRes:'reservado', invCli:'con cliente', invRep:'reparación', invLost:'perdido',
+    // clientes
+    cliT:'Clientes (CRM)', cliS:'Ficha automática por cada reserva. Tus notas se guardan aquí.',
+    thName:'Nombre', thContact:'Contacto', thOrders:'Pedidos', thSpent:'Total gastado', thLast:'Última fiesta', thNote:'Nota del admin',
+    saveNote:'Guardar nota',
+    // precios
+    priT:'Precios y tarifas', priS:'Estos valores alimentan el constructor y el cálculo de la seña.',
+    priPacks:'Packs cerrados', priBasic:'Pack BASIC (€)', priStd:'Pack STANDARD (€)', priPrem:'Pack PREMIUM (€)',
+    priCard2:'Seña y entrega',
+    priDep:'Seña (%)', priDel:'Entrega Barcelona (€)', priDelOut:'Entrega fuera de BCN (€)',
+    savePrices:'Guardar precios',
+    // finanzas
+    finT:'Finanzas', finS:'Ingresos, gastos y beneficio. Los gastos pueden ir ligados a un pedido o al negocio en general.',
+    fRev:'Ingresos', fDep:'Señas cobradas', fExp:'Gastos', fProf:'Beneficio',
+    perMonth:'Este mes', perAll:'Todo el tiempo',
+    addExp:'Añadir gasto', thDate:'Fecha', thCat2:'Categoría', thOrder:'Pedido (opcional)', thAmt:'Importe (€)', thNote2:'Descripción',
+    expGeneral:'— gasto general —', expNewCat:'+ nueva categoría…', addBtn:'Añadir',
+    roiT:'Recuperación de la inversión en equipos',
+    // historial
+    hisT:'Historial de acciones', hisS:'Quién hizo qué y cuándo. Los dos administradores tenéis los mismos permisos.',
+    hisEmpty:'Todavía no hay acciones registradas.',
+    // estados
+    status:['Nueva solicitud','Esperando confirmación','Esperando seña','Confirmado','Preparando equipo','En reparto','Fiesta en curso','Esperando desmontaje','Completado','Cancelado'],
+    statusShort:['Nueva','Por confirmar','Espera seña','Confirmado','Preparación','Reparto','En fiesta','Desmontaje','Completado','Cancelado'],
+    // otros
+    saved:'Guardado ✓', toastStatus:'Estado actualizado', logStatus:'cambió el estado de', logPrice:'actualizó los precios', logExp:'añadió un gasto', logNote:'editó una nota de cliente', logInv:'actualizó el inventario',
+    qaAdv:'Avanzar al siguiente estado', qaCancel:'Cancelar el pedido',
+    admins:['Evgeniy (dueño)','Hermano (admin)'],
+    catNames:{gasolina:'Gasolina',montaje:'Mano de obra (montaje)',desmontaje:'Mano de obra (desmontaje)',globos:'Globos',helio:'Helio',consumibles:'Consumibles',reparacion:'Reparación',reposicion:'Reposición de material',publicidad:'Publicidad',almacen:'Almacenaje',otros:'Otros'}
+  },
+  ru: {
+    viewSite:'Открыть сайт →',
+    nav:['Сводка','Заказы','Календарь','Склад','Клиенты','Цены','Финансы','Журнал'],
+    sumT:'Сводка', sumS:'Быстрый взгляд на бизнес. Всё хранится в этом браузере (прототип).',
+    kNew:'Новые заявки', kNewS:'ждут проверки',
+    kWeek:'Праздники 7 дней', kWeekS:'ближайшие события',
+    kRev:'Выручка месяца', kRevS:'заказы без отменённых',
+    kProfit:'Прибыль месяца', kProfitS:'выручка − расходы',
+    nextEv:'Ближайшие события',
+    alerts:'Уведомления',
+    alRepair:'ед. оборудования в ремонте', alPending:'заказов ждут подтверждения', alNone:'Всё в порядке, ничего не требует внимания.',
+    ordT:'Заказы', ordS:'Меняй статусы, подтверждай и отменяй. Каждое действие пишется в журнал с твоим именем.',
+    thId:'№', thClient:'Клиент', thWhen:'Дата и время', thItems:'Состав', thTotal:'Сумма', thDep:'Предоплата', thStatus:'Статус',
+    noOrders:'Заказов пока нет.',
+    filterAll:'Все',
+    calT:'Календарь', calS:'Загрузка по дням. Нажми на день, чтобы увидеть заказы.',
+    dayOrders:'Заказы этого дня',
+    invT:'Склад и оборудование', invS:'Состояние оборудования и его окупаемость. Резервы вычитаются из доступного количества.',
+    thItem:'Оборудование', thCat:'Категория', thQty:'Кол-во', thStatus2:'Статус', thBuy:'Закупка', thEarn:'Заработал', thRoi:'Окупилось',
+    invLibre:'свободно', invRes:'зарезервировано', invCli:'у клиента', invRep:'ремонт', invLost:'утеряно',
+    cliT:'Клиенты (CRM)', cliS:'Карточка создаётся автоматически из заказов. Твои заметки сохраняются здесь.',
+    thName:'Имя', thContact:'Контакты', thOrders:'Заказов', thSpent:'Всего потратил', thLast:'Последний праздник', thNote:'Заметка админа',
+    saveNote:'Сохранить',
+    priT:'Цены и тарифы', priS:'Эти значения идут в конструктор и расчёт предоплаты.',
+    priPacks:'Готовые пакеты', priBasic:'Пакет BASIC (€)', priStd:'Пакет STANDARD (€)', priPrem:'Пакет PREMIUM (€)',
+    priCard2:'Предоплата и доставка',
+    priDep:'Предоплата (%)', priDel:'Доставка по Барселоне (€)', priDelOut:'Доставка за пределами BCN (€)',
+    savePrices:'Сохранить цены',
+    finT:'Финансы', finS:'Доходы, расходы и прибыль. Расход можно привязать к заказу или отнести на бизнес в целом.',
+    fRev:'Выручка', fDep:'Предоплаты получено', fExp:'Расходы', fProf:'Прибыль',
+    perMonth:'Этот месяц', perAll:'За всё время',
+    addExp:'Добавить расход', thDate:'Дата', thCat2:'Категория', thOrder:'Заказ (необяз.)', thAmt:'Сумма (€)', thNote2:'Описание',
+    expGeneral:'— общий расход —', expNewCat:'+ новая категория…', addBtn:'Добавить',
+    roiT:'Окупаемость оборудования',
+    hisT:'Журнал действий', hisS:'Кто, что и когда сделал. Оба администратора имеют одинаковые права.',
+    hisEmpty:'Действий пока не записано.',
+    status:['Новая заявка','Ожидает подтверждения','Ожидает предоплаты','Подтверждён','Подготовка оборудования','Доставка','Мероприятие проходит','Ожидает демонтажа','Завершён','Отменён'],
+    statusShort:['Новая','На проверке','Ждёт предоплату','Подтверждён','Подготовка','Доставка','Идёт праздник','Демонтаж','Завершён','Отменён'],
+    saved:'Сохранено ✓', toastStatus:'Статус обновлён', logStatus:'изменил статус заказа', logPrice:'обновил цены', logExp:'добавил расход', logNote:'изменил заметку клиента', logInv:'обновил склад',
+    qaAdv:'Перевести на следующий статус', qaCancel:'Отменить заказ',
+    admins:['Евгений (владелец)','Брат (админ)'],
+    catNames:{gasolina:'Бензин',montaje:'Работа (доставка и монтаж)',desmontaje:'Работа (демонтаж и вывоз)',globos:'Шары',helio:'Гелий',consumibles:'Расходники',reparacion:'Ремонт оборудования',reposicion:'Замена повреждённого',publicidad:'Реклама',almacen:'Хранение',otros:'Прочее'}
+  }
+};
+const T = k => TXT[LANG][k];
+const eur = n => new Intl.NumberFormat(LANG==='ru'?'ru-RU':'es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+const dateLocale = () => LANG==='ru'?'ru-RU':'es-ES';
+
+// ===== admin actual =====
+const ADMINS = ['owner','brother'];
+let admin = localStorage.getItem('fl_admin_user')||'owner';
+const adminName = () => T('admins')[ADMINS.indexOf(admin)];
+
+// ===== estados =====
+const ST_COLORS = ['#5B8DEF','#FFC94D','#FFC94D','#6BCB77','#B983FF','#5B8DEF','#FF6B8A','#B983FF','#3D9B5A','#C0392B'];
+
+// ===== datos =====
+function load(k,def){ try{ const v=JSON.parse(localStorage.getItem(k)); return v===null||v===undefined?def:v; }catch(e){ return def; } }
+function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+
+let bookings = load('fl_bookings',[]);
+let inventory = load('fl_inventory',null);
+let expenses  = load('fl_expenses',null);
+let prices    = load('fl_prices',null);
+let crmNotes  = load('fl_crm_notes',{});
+let aLog      = load('fl_admin_log',[]);
+
+// ---- seed (solo la primera vez) ----
+if(!localStorage.getItem('fl_admin_seed_v1')){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dISO = off => { const d=new Date(today); d.setDate(d.getDate()+off); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+  const mk = (id,off,slot,statusIdx,name,phone,email,items,total)=>({
+    id, created:new Date().toISOString(), dateISO:dISO(off), slot, duration:4,
+    window:`${String(parseInt(slot)-1).padStart(2,'0')}:00 – ${String(parseInt(slot)+5).padStart(2,'0')}:00`,
+    items, total, deposit:Math.round(total/2), client:{name,phone,email}, statusIdx, cancelled:false
+  });
+  const demo = [
+    mk('FL-D001', 2,'12:00',3,'Laura García','+34 611 222 333','laura@email.com',[{label:'Pack STANDARD',qty:1}],249),
+    mk('FL-D002', 3,'10:00',2,'Marta Rovira','+34 622 333 444','marta@email.com',[{label:'Pack PREMIUM',qty:1},{label:'Mesa extra',qty:1}],439),
+    mk('FL-D003', 5,'15:00',1,'Jordi Puig','+34 633 444 555','jordi@email.com',[{label:'Pack BASIC',qty:1}],149),
+    mk('FL-D004',-1,'17:00',8,'Anna Koval','+34 644 555 666','anna@email.com',[{label:'Pack STANDARD',qty:1},{label:'Arco con nombre',qty:1}],284),
+    mk('FL-D005', 8,'12:00',0,'Núria Soler','+34 655 666 777','nuria@email.com',[{label:'Pack BASIC',qty:1},{label:'20 globos',qty:1}],189),
+    mk('FL-D006', 1,'10:00',4,'Marc Vidal','+34 666 777 888','marc@email.com',[{label:'Pack PREMIUM',qty:1}],399)
+  ];
+  bookings = demo.concat(bookings); save('fl_bookings',bookings);
+
+  inventory = [
+    {id:'mesa-blanca',   name:'Mesa infantil blanca',   cat:'Mesas',        qty:6,  status:'libre',      buyCost:180, earned:540, repair:0},
+    {id:'mesa-madera',   name:'Mesa madera natural',    cat:'Mesas',        qty:4,  status:'libre',      buyCost:220, earned:330, repair:0},
+    {id:'mantel-rosa',   name:'Mantel rosa',            cat:'Manteles',     qty:8,  status:'libre',      buyCost:25,  earned:160, repair:0},
+    {id:'mantel-azul',   name:'Mantel azul',            cat:'Manteles',     qty:8,  status:'libre',      buyCost:25,  earned:120, repair:0},
+    {id:'vajilla-set',   name:'Vajilla + cubiertos (set 10)', cat:'Vajilla',qty:12, status:'libre',      buyCost:60,  earned:480, repair:15},
+    {id:'globo-num',     name:'Globo número (gigante)', cat:'Globos',       qty:10, status:'libre',      buyCost:12,  earned:300, repair:0},
+    {id:'arco-hbd',      name:'Arco «Feliz cumpleaños»',cat:'Arcos',        qty:3,  status:'libre',      buyCost:150, earned:390, repair:20},
+    {id:'juego-anillas', name:'Juego de anillas',       cat:'Juegos',       qty:2,  status:'libre',      buyCost:45,  earned:90,  repair:0},
+    {id:'juego-golf',    name:'Mini golf infantil',     cat:'Juegos',       qty:1,  status:'reparacion', buyCost:90,  earned:60,  repair:25},
+    {id:'silla-kids',    name:'Sillas infantiles (pack 10)',  cat:'Mesas',  qty:10, status:'libre',      buyCost:140, earned:420, repair:0}
+  ]; save('fl_inventory',inventory);
+
+  expenses = [
+    {date:dISO(-1), cat:'gasolina',  amount:18, orderId:'FL-D004', note:'Ida y vuelta al parque'},
+    {date:dISO(-1), cat:'montaje',   amount:30, orderId:'FL-D004', note:'2 h montaje'},
+    {date:dISO(-1), cat:'helio',     amount:12, orderId:'FL-D004', note:'Botella de helio (parte)'},
+    {date:dISO(-3), cat:'publicidad',amount:60, orderId:null,      note:'Instagram Ads semana'}
+  ]; save('fl_expenses',expenses);
+
+  prices = { basic:149, std:249, prem:399, depositPct:50, delBCN:0, delOut:20 };
+  save('fl_prices',prices);
+
+  localStorage.setItem('fl_admin_seed_v1','1');
+}
+
+// ===== historial =====
+function log(text){
+  aLog.unshift({ts:new Date().toISOString(), admin:adminName(), text});
+  if(aLog.length>200) aLog.length=200;
+  save('fl_admin_log',aLog);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+// ===== helpers =====
+const effStatus = b => b.cancelled ? 9 : (b.statusIdx||0);
+const bDate = b => { const [y,m,d]=b.dateISO.split('-').map(Number); return new Date(y,m-1,d); };
+const fmtDate = b => bDate(b).toLocaleDateString(dateLocale(),{weekday:'short',day:'numeric',month:'short'});
+const esc = s => String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const itemsTxt = b => (b.items||[]).map(x=>x.qty?`${x.qty}× ${x.label}`:x.label).join(' · ');
+function statusChip(i){ return `<span class="chip" style="background:${ST_COLORS[i]}18;color:${ST_COLORS[i]}"><i style="background:${ST_COLORS[i]}"></i>${T('statusShort')[i]}</span>`; }
+function statusSelect(b){
+  const cur = effStatus(b);
+  return `<select class="st" onchange="setStatus('${b.id}',this.value)">` +
+    T('status').map((s,i)=>`<option value="${i}" ${i===cur?'selected':''}>${s}</option>`).join('') + `</select>`;
+}
+window.setStatus = (id,val)=>{
+  const b = bookings.find(x=>x.id===id); if(!b) return;
+  const v = Number(val);
+  if(v===9){ b.cancelled=true; } else { b.cancelled=false; b.statusIdx=v; }
+  save('fl_bookings',bookings);
+  log(`${T('logStatus')} ${id} → «${T('status')[v]}»`);
+  toast(T('toastStatus'));
+  render();
+};
+window.advStatus = id=>{
+  const b = bookings.find(x=>x.id===id); if(!b) return;
+  setStatus(id, Math.min(8, effStatus(b)+1));
+};
+window.cancelOrder = id=>{ setStatus(id, 9); };
+
+// ===== secciones =====
+let section = 'resumen';
+let calY = new Date().getFullYear(), calM = new Date().getMonth();
+let calSel = null, ordFilter = -1, finPeriod = 'month';
+
+function render(){
+  document.getElementById('sideNav').innerHTML = T('nav').map((n,i)=>{
+    const key = ['resumen','pedidos','calendario','inventario','clientes','precios','finanzas','historial'][i];
+    const badge = key==='pedidos' ? bookings.filter(b=>effStatus(b)<=1).length : 0;
+    return `<button class="${section===key?'active':''}" onclick="go('${key}')">${n}${badge?`<span class="dot">${badge}</span>`:''}</button>`;
+  }).join('');
+  const fn = {resumen:rResumen,pedidos:rPedidos,calendario:rCalendario,inventario:rInventario,clientes:rClientes,precios:rPrecios,finanzas:rFinanzas,historial:rHistorial}[section];
+  document.getElementById('main').innerHTML = fn();
+  if(section==='precios') fillPrices();
+}
+window.go = s => { section=s; render(); };
+
+// ---- resumen ----
+function rResumen(){
+  const now = new Date();
+  const newOnes = bookings.filter(b=>effStatus(b)<=1);
+  const in7 = bookings.filter(b=>{ const t=(bDate(b)-now)/864e5; return t>=-0.5 && t<7.5 && ![9,8].includes(effStatus(b)); });
+  const mRev = bookings.filter(b=>{ const d=bDate(b); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear() && effStatus(b)!==9; })
+                       .reduce((s,b)=>s+(b.total||0),0);
+  const mExp = expenses.filter(e=>{ const d=new Date(e.date); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); })
+                       .reduce((s,e)=>s+e.amount,0);
+  const rep = inventory.filter(i=>i.status==='reparacion').length;
+  const upcoming = in7.sort((a,b)=>a.dateISO.localeCompare(b.dateISO));
+  return `
+  <h1 class="sec-title">${T('sumT')}</h1><p class="sec-sub">${T('sumS')}</p>
+  <div class="kpis">
+    <div class="kpi"><div class="k-label">${T('kNew')}</div><div class="k-val">${newOnes.length}</div><div class="k-sub">${T('kNewS')}</div></div>
+    <div class="kpi"><div class="k-label">${T('kWeek')}</div><div class="k-val">${in7.length}</div><div class="k-sub">${T('kWeekS')}</div></div>
+    <div class="kpi"><div class="k-label">${T('kRev')}</div><div class="k-val">${eur(mRev)}</div><div class="k-sub">${T('kRevS')}</div></div>
+    <div class="kpi"><div class="k-label">${T('kProfit')}</div><div class="k-val">${eur(mRev-mExp)}</div><div class="k-sub">${T('kProfitS')}</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>${T('nextEv')}</h3>
+      ${upcoming.length? upcoming.map(b=>`
+        <div class="log-item">
+          <span class="log-who">${b.id}</span>
+          <span><b>${esc(b.client.name)}</b> · ${fmtDate(b)} ${b.slot} · ${eur(b.total)}<br>${statusChip(effStatus(b))}</span>
+        </div>`).join('') : `<p class="muted">${T('noOrders')}</p>`}
+    </div>
+    <div class="card"><h3>${T('alerts')}</h3>
+      ${rep?`<div class="log-item"><span class="log-who">⚠</span><span><b>${rep}</b> ${T('alRepair')}</span></div>`:''}
+      ${newOnes.length?`<div class="log-item"><span class="log-who">●</span><span><b>${newOnes.length}</b> ${T('alPending')}</span></div>`:''}
+      ${(!rep && !newOnes.length)?`<p class="muted">${T('alNone')}</p>`:''}
+    </div>
+  </div>`;
+}
+
+// ---- pedidos ----
+function rPedidos(){
+  let list = bookings.slice().sort((a,b)=>a.dateISO.localeCompare(b.dateISO));
+  if(ordFilter>=0) list = list.filter(b=>effStatus(b)===ordFilter);
+  return `
+  <h1 class="sec-title">${T('ordT')}</h1><p class="sec-sub">${T('ordS')}</p>
+  <div class="card">
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+      <span class="muted" style="font-weight:800">${T('thStatus')}:</span>
+      <select class="st" onchange="ordFilter=this.value==='-1'?-1:Number(this.value);render()">
+        <option value="-1">${T('filterAll')}</option>
+        ${T('status').map((s,i)=>`<option value="${i}" ${i===ordFilter?'selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="tbl-wrap"><table>
+      <tr><th>${T('thId')}</th><th>${T('thClient')}</th><th>${T('thWhen')}</th><th>${T('thItems')}</th><th>${T('thTotal')}</th><th>${T('thDep')}</th><th>${T('thStatus')}</th></tr>
+      ${list.length? list.map(b=>`
+      <tr>
+        <td><b>${b.id}</b></td>
+        <td><b>${esc(b.client.name)}</b><br><span class="muted">${esc(b.client.phone)}</span></td>
+        <td>${fmtDate(b)}<br><span class="muted">${b.slot} · ${b.duration||4} h</span></td>
+        <td class="muted">${esc(itemsTxt(b))||'—'}</td>
+        <td class="money">${eur(b.total||0)}</td>
+        <td>${eur(b.deposit||0)}</td>
+        <td>${statusSelect(b)}
+          <div style="margin-top:6px;display:flex;gap:6px">
+            <button class="btn small" title="${T('qaAdv')}" onclick="advStatus('${b.id}')">✓</button>
+            <button class="btn small ghost" title="${T('qaCancel')}" onclick="cancelOrder('${b.id}')">✕</button>
+          </div>
+        </td>
+      </tr>`).join('') : `<tr><td colspan="7" class="muted">${T('noOrders')}</td></tr>`}
+    </table></div>
+  </div>`;
+}
+
+// ---- calendario ----
+function rCalendario(){
+  const MESES = {es:['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+                 ru:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']};
+  const DOW = {es:['L','M','X','J','V','S','D'], ru:['Пн','Вт','Ср','Чт','Пт','Сб','Вс']};
+  const first = new Date(calY,calM,1);
+  const lead = (first.getDay()+6)%7;
+  const dim = new Date(calY,calM+1,0).getDate();
+  const byDay = {};
+  bookings.forEach(b=>{ if(effStatus(b)!==9){ (byDay[b.dateISO]=byDay[b.dateISO]||[]).push(b); } });
+  let cells='';
+  for(let i=0;i<lead;i++) cells+=`<div class="cal-day empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const iso=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayB = byDay[iso]||[];
+    cells+=`<div class="cal-day ${calSel===iso?'sel':''}" onclick="calSel='${iso}';render()">${d}
+      ${dayB.map(b=>`<span class="cal-chip" style="background:${ST_COLORS[effStatus(b)]}">${b.slot} ${b.id}</span>`).join('')}</div>`;
+  }
+  const selList = calSel ? (byDay[calSel]||[]) : [];
+  return `
+  <h1 class="sec-title">${T('calT')}</h1><p class="sec-sub">${T('calS')}</p>
+  <div class="card">
+    <div class="cal-head">
+      <button class="cal-nav" onclick="shiftCal(-1)">←</button>
+      <div class="cal-title">${MESES[LANG][calM]} ${calY}</div>
+      <button class="cal-nav" onclick="shiftCal(1)">→</button>
+    </div>
+    <div class="cal-grid">${DOW[LANG].map(d=>`<div class="cal-dow">${d}</div>`).join('')}${cells}</div>
+  </div>
+  ${calSel?`<div class="card"><h3>${T('dayOrders')} · ${calSel.split('-').reverse().join('.')}</h3>
+    ${selList.length? selList.map(b=>`
+      <div class="log-item">
+        <span class="log-who">${b.id}</span>
+        <span style="flex:1"><b>${esc(b.client.name)}</b> · ${b.slot} (${b.duration||4} h) · ${esc(itemsTxt(b))} · <span class="money">${eur(b.total||0)}</span></span>
+        ${statusSelect(b)}
+      </div>`).join('') : `<p class="muted">${T('noOrders')}</p>`}
+  </div>`:''}`;
+}
+window.shiftCal = d=>{ const nm=calM+d; calY=calY+Math.floor(nm/12); calM=((nm%12)+12)%12; render(); };
+
+// ---- inventario ----
+function rInventario(){
+  const invStatusNames = [T('invLibre'),T('invRes'),T('invCli'),T('invRep'),T('invLost')];
+  const invStatusKeys  = ['libre','reservado','cliente','reparacion','perdido'];
+  return `
+  <h1 class="sec-title">${T('invT')}</h1><p class="sec-sub">${T('invS')}</p>
+  <div class="card"><div class="tbl-wrap"><table>
+    <tr><th>${T('thItem')}</th><th>${T('thCat')}</th><th>${T('thQty')}</th><th>${T('thStatus2')}</th><th>${T('thBuy')}</th><th>${T('thEarn')}</th><th>${T('thRoi')}</th></tr>
+    ${inventory.map(it=>{
+      const roi = it.buyCost? Math.min(100, Math.round((it.earned-it.repair)/it.buyCost*100)) : 0;
+      return `<tr>
+        <td><b>${esc(it.name)}</b></td>
+        <td class="muted">${esc(it.cat)}</td>
+        <td><input type="number" min="0" value="${it.qty}" style="width:70px" onchange="setInvQty('${it.id}',this.value)"></td>
+        <td><select class="st" onchange="setInvStatus('${it.id}',this.value)">
+          ${invStatusKeys.map((k,i)=>`<option value="${k}" ${it.status===k?'selected':''}>${invStatusNames[i]}</option>`).join('')}
+        </select></td>
+        <td>${eur(it.buyCost)}</td>
+        <td>${eur(it.earned)}</td>
+        <td><div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.max(0,roi)}%"></i></div><span class="muted">${roi}%</span></div></td>
+      </tr>`;}).join('')}
+  </table></div></div>`;
+}
+window.setInvQty=(id,v)=>{ const it=inventory.find(x=>x.id===id); if(!it)return; it.qty=Math.max(0,Number(v)||0); save('fl_inventory',inventory); log(`${T('logInv')}: ${it.name} × ${it.qty}`); toast(T('saved')); render(); };
+window.setInvStatus=(id,v)=>{ const it=inventory.find(x=>x.id===id); if(!it)return; it.status=v; save('fl_inventory',inventory); log(`${T('logInv')}: ${it.name}`); toast(T('saved')); render(); };
+
+// ---- clientes ----
+function rClientes(){
+  const byClient = {};
+  bookings.forEach(b=>{
+    const k=(b.client.email||b.client.phone||b.client.name).toLowerCase();
+    (byClient[k]=byClient[k]||{client:b.client,orders:[],spent:0,last:''}).orders.push(b);
+    if(effStatus(b)!==9) byClient[k].spent+=b.total||0;
+    if(b.dateISO>byClient[k].last) byClient[k].last=b.dateISO;
+  });
+  const rows = Object.entries(byClient).sort((a,b)=>b[1].last.localeCompare(a[1].last));
+  return `
+  <h1 class="sec-title">${T('cliT')}</h1><p class="sec-sub">${T('cliS')}</p>
+  <div class="card"><div class="tbl-wrap"><table>
+    <tr><th>${T('thName')}</th><th>${T('thContact')}</th><th>${T('thOrders')}</th><th>${T('thSpent')}</th><th>${T('thLast')}</th><th>${T('thNote')}</th></tr>
+    ${rows.map(([k,c])=>`<tr>
+      <td><b>${esc(c.client.name)}</b></td>
+      <td class="muted">${esc(c.client.phone)}<br>${esc(c.client.email)}</td>
+      <td>${c.orders.length}</td>
+      <td class="money">${eur(c.spent)}</td>
+      <td class="muted">${c.last.split('-').reverse().join('.')}</td>
+      <td><input type="text" value="${esc(crmNotes[k]||'')}" placeholder="…" onchange="saveNote('${esc(k)}',this.value)"></td>
+    </tr>`).join('')||`<tr><td colspan="6" class="muted">${T('noOrders')}</td></tr>`}
+  </table></div></div>`;
+}
+window.saveNote=(k,v)=>{ crmNotes[k]=v; save('fl_crm_notes',crmNotes); log(T('logNote')); toast(T('saved')); };
+
+// ---- precios ----
+function rPrecios(){
+  return `
+  <h1 class="sec-title">${T('priT')}</h1><p class="sec-sub">${T('priS')}</p>
+  <div class="card"><h3>${T('priPacks')}</h3>
+    <div class="grid3">
+      <div class="field"><label>${T('priBasic')}</label><input type="number" id="pBasic" min="0"></div>
+      <div class="field"><label>${T('priStd')}</label><input type="number" id="pStd" min="0"></div>
+      <div class="field"><label>${T('priPrem')}</label><input type="number" id="pPrem" min="0"></div>
+    </div>
+  </div>
+  <div class="card"><h3>${T('priCard2')}</h3>
+    <div class="grid3">
+      <div class="field"><label>${T('priDep')}</label><input type="number" id="pDep" min="0" max="100"></div>
+      <div class="field"><label>${T('priDel')}</label><input type="number" id="pDelBCN" min="0"></div>
+      <div class="field"><label>${T('priDelOut')}</label><input type="number" id="pDelOut" min="0"></div>
+    </div>
+    <div style="margin-top:16px"><button class="btn" onclick="savePrices()">${T('savePrices')}</button></div>
+  </div>`;
+}
+function fillPrices(){
+  pBasic.value=prices.basic; pStd.value=prices.std; pPrem.value=prices.prem;
+  pDep.value=prices.depositPct; pDelBCN.value=prices.delBCN; pDelOut.value=prices.delOut;
+}
+window.savePrices=()=>{
+  prices={basic:+pBasic.value||0,std:+pStd.value||0,prem:+pPrem.value||0,depositPct:Math.min(100,Math.max(0,+pDep.value||0)),delBCN:+pDelBCN.value||0,delOut:+pDelOut.value||0};
+  save('fl_prices',prices); log(T('logPrice')); toast(T('saved'));
+};
+
+// ---- finanzas ----
+function rFinanzas(){
+  const now=new Date();
+  const inPeriod = dISO => { if(finPeriod==='all') return true; const d=new Date(dISO); return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear(); };
+  const revB = bookings.filter(b=>effStatus(b)!==9 && inPeriod(b.dateISO));
+  const rev = revB.reduce((s,b)=>s+(b.total||0),0);
+  const dep = revB.filter(b=>effStatus(b)>=2).reduce((s,b)=>s+(b.deposit||0),0);
+  const expL = expenses.filter(e=>inPeriod(e.date));
+  const exp = expL.reduce((s,e)=>s+e.amount,0);
+  const cats = [...new Set(expenses.map(e=>e.cat).concat(Object.keys(T('catNames'))))];
+  return `
+  <h1 class="sec-title">${T('finT')}</h1><p class="sec-sub">${T('finS')}</p>
+  <div style="margin-bottom:16px"><select class="st" onchange="finPeriod=this.value;render()">
+    <option value="month" ${finPeriod==='month'?'selected':''}>${T('perMonth')}</option>
+    <option value="all" ${finPeriod==='all'?'selected':''}>${T('perAll')}</option>
+  </select></div>
+  <div class="kpis">
+    <div class="kpi"><div class="k-label">${T('fRev')}</div><div class="k-val">${eur(rev)}</div></div>
+    <div class="kpi"><div class="k-label">${T('fDep')}</div><div class="k-val">${eur(dep)}</div></div>
+    <div class="kpi"><div class="k-label">${T('fExp')}</div><div class="k-val">${eur(exp)}</div></div>
+    <div class="kpi"><div class="k-label">${T('fProf')}</div><div class="k-val" style="color:${rev-exp>=0?'#3D9B5A':'#C0392B'}">${eur(rev-exp)}</div></div>
+  </div>
+  <div class="card"><h3>${T('addExp')}</h3>
+    <div class="grid3">
+      <div class="field"><label>${T('thDate')}</label><input type="date" id="eDate" value="${now.toISOString().slice(0,10)}"></div>
+      <div class="field"><label>${T('thCat2')}</label>
+        <select id="eCat" onchange="document.getElementById('eNewCat').style.display=this.value==='__new'?'block':'none'">
+          ${cats.map(c=>`<option value="${c}">${T('catNames')[c]||c}</option>`).join('')}
+          <option value="__new">${T('expNewCat')}</option>
+        </select>
+        <input type="text" id="eNewCat" placeholder="…" style="display:none;margin-top:6px">
+      </div>
+      <div class="field"><label>${T('thAmt')}</label><input type="number" id="eAmt" min="0" step="0.5"></div>
+      <div class="field"><label>${T('thOrder')}</label>
+        <select id="eOrder"><option value="">${T('expGeneral')}</option>
+          ${bookings.map(b=>`<option value="${b.id}">${b.id} · ${esc(b.client.name)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field" style="grid-column:span 2"><label>${T('thNote2')}</label><input type="text" id="eNote" placeholder="…"></div>
+    </div>
+    <div style="margin-top:14px"><button class="btn" onclick="addExpense()">${T('addBtn')}</button></div>
+  </div>
+  <div class="card"><h3>${T('fExp')} (${expL.length})</h3><div class="tbl-wrap"><table>
+    <tr><th>${T('thDate')}</th><th>${T('thCat2')}</th><th>${T('thOrder')}</th><th>${T('thNote2')}</th><th>${T('thAmt')}</th></tr>
+    ${expL.slice().reverse().map(e=>`<tr>
+      <td class="muted">${e.date.split('-').reverse().join('.')}</td>
+      <td><b>${esc(T('catNames')[e.cat]||e.cat)}</b></td>
+      <td class="muted">${e.orderId||'—'}</td>
+      <td class="muted">${esc(e.note)}</td>
+      <td class="money">−${eur(e.amount)}</td>
+    </tr>`).join('')||`<tr><td colspan="5" class="muted">—</td></tr>`}
+  </table></div></div>
+  <div class="card"><h3>${T('roiT')}</h3><div class="tbl-wrap"><table>
+    <tr><th>${T('thItem')}</th><th>${T('thBuy')}</th><th>${T('thEarn')}</th><th>${T('thRoi')}</th></tr>
+    ${inventory.map(it=>{
+      const roi=it.buyCost?Math.min(100,Math.round((it.earned-it.repair)/it.buyCost*100)):0;
+      return `<tr><td><b>${esc(it.name)}</b></td><td>${eur(it.buyCost)}</td><td>${eur(it.earned)}</td>
+        <td><div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.max(0,roi)}%"></i></div><span class="muted">${roi}%</span></div></td></tr>`;}).join('')}
+  </table></div></div>`;
+}
+window.addExpense=()=>{
+  const cat=document.getElementById('eCat').value==='__new'
+    ? (document.getElementById('eNewCat').value.trim()||'otros')
+    : document.getElementById('eCat').value;
+  const amount=+document.getElementById('eAmt').value||0;
+  if(amount<=0) return;
+  expenses.push({date:document.getElementById('eDate').value,cat,amount,
+    orderId:document.getElementById('eOrder').value||null,
+    note:document.getElementById('eNote').value.trim()});
+  save('fl_expenses',expenses);
+  log(`${T('logExp')}: ${T('catNames')[cat]||cat} ${eur(amount)}`);
+  toast(T('saved')); render();
+};
+
+// ---- historial ----
+function rHistorial(){
+  return `
+  <h1 class="sec-title">${T('hisT')}</h1><p class="sec-sub">${T('hisS')}</p>
+  <div class="card">
+    ${aLog.length? aLog.map(l=>{
+      const d=new Date(l.ts);
+      return `<div class="log-item">
+        <span class="log-who">${esc(l.admin)}</span>
+        <span>${esc(l.text)}<br><span class="muted">${d.toLocaleDateString(dateLocale())} ${d.toLocaleTimeString(dateLocale(),{hour:'2-digit',minute:'2-digit'})}</span></span>
+      </div>`;}).join('') : `<p class="muted">${T('hisEmpty')}</p>`}
+  </div>`;
+}
+
+// ===== header: admins + idioma =====
+function renderAdminSwitch(){
+  document.getElementById('adminSwitch').innerHTML = ADMINS.map((a,i)=>
+    `<button class="${admin===a?'active':''}" onclick="switchAdmin('${a}')">${T('admins')[i]}</button>`).join('');
+}
+window.switchAdmin=a=>{ admin=a; localStorage.setItem('fl_admin_user',a); renderAdminSwitch(); };
+function applyLang(l){
+  LANG=l; localStorage.setItem('fl_lang',l);
+  document.documentElement.lang=l;
+  document.querySelectorAll('.lang-switch button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(TXT[l][k]!==undefined) el.innerHTML=TXT[l][k]; });
+  renderAdminSwitch(); render();
+}
+document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
+applyLang(LANG);
+</script>
+</body>
+</html>
