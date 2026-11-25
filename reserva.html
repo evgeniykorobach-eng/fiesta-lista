@@ -338,6 +338,16 @@
   };
   const dateLocale = () => LANG==='ru'?'ru-RU':'es-ES';
 
+  // ===== porcentaje de seña desde el panel admin =====
+  let DEP_PCT = 50;
+  try{ const fp=JSON.parse(localStorage.getItem('fl_prices')); if(fp&&typeof fp.depositPct==='number') DEP_PCT=Math.min(100,Math.max(0,fp.depositPct)); }catch(e){}
+  if(DEP_PCT!==50){
+    ['es','ru'].forEach(l=>{
+      Object.keys(TXT[l]).forEach(k=>{ TXT[l][k]=TXT[l][k].replaceAll('50%',DEP_PCT+'%'); });
+      STATUS[l].forEach(s=>{ s.s=s.s.replaceAll('50%',DEP_PCT+'%'); });
+    });
+  }
+
   // ===== datos del pedido (viene del constructor) =====
   let order = null;
   try { order = JSON.parse(localStorage.getItem('fl_order')); } catch(e){}

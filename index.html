@@ -635,6 +635,16 @@
   const savedLang = localStorage.getItem('fl_lang');
   if (savedLang && I18N[savedLang]) setLang(savedLang);
 
+  // precios de los packs desde el panel admin (fl_prices)
+  try {
+    const fp = JSON.parse(localStorage.getItem('fl_prices'));
+    if (fp) {
+      const a = document.querySelectorAll('.pack-price .amount');
+      const set = (i, v) => { if (typeof v === 'number' && a[i]) a[i].innerHTML = v + '&nbsp;€'; };
+      set(0, fp.basic); set(1, fp.std); set(2, fp.prem);
+    }
+  } catch (e) {}
+
   // gentle confetti across the whole page
   const colors = ['#FF6B8A','#FFC94D','#6BCB77','#5B8DEF','#B983FF','#FF9F6B'];
   const layer = document.getElementById('confetti');

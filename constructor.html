@@ -368,7 +368,7 @@
       archn:'Añadir el nombre del cumpleañero', archns:'+15 € · la decoración con nombre se queda contigo',
       namePh:'Ej. Martina', addrPh:'Dirección del evento (calle, número, ciudad)',
       delnote:'Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.',
-      sumT:'Tu fiesta', subtotal:'Subtotal', deliv:'Entrega', dep:'Reserva hoy (50%)',
+      sumT:'Tu fiesta', subtotal:'Subtotal', deliv:'Entrega', dep:'Reserva hoy ({pct}%)',
       reserve:'Reservar esta fecha', reserveShort:'Reservar',
       sumNote:'El resto se paga el día de la entrega. Cancelación flexible hasta 72 h antes.',
       emptySum:'Aún no has elegido nada…', included:'Incluido', gratis:'Gratis', hour:'h',
@@ -398,7 +398,7 @@
       archn:'Добавить имя именинника', archns:'+15 € · декор с именем остаётся у вас',
       namePh:'Например, Маша', addrPh:'Адрес праздника (улица, номер, город)',
       delnote:'Приезжаем <b>за 1 час</b> до начала, чтобы всё смонтировать, и возвращаемся <b>через 1 час</b> после — демонтировать и забрать. Точное время подтвердим при бронировании.',
-      sumT:'Твой праздник', subtotal:'Подытог', deliv:'Доставка', dep:'Бронь сегодня (50%)',
+      sumT:'Твой праздник', subtotal:'Подытог', deliv:'Доставка', dep:'Бронь сегодня ({pct}%)',
       reserve:'Забронировать дату', reserveShort:'Забронировать',
       sumNote:'Остаток оплачивается в день доставки. Гибкая отмена за 72 часа.',
       emptySum:'Пока ничего не выбрано…', included:'Включено', gratis:'Бесплатно', hour:'ч',
@@ -415,6 +415,20 @@
     games:{castillo:'Надувной замок', teatro:'Кукольный театр', tiro:'Стрельба из бластера', minidisco:'Мини-дискотека', taller:'Мастер-класс «слайм»', circuito:'Трасса для машинок'},
     zones:{bcn:['В пределах Барселоны','Бесплатно'], near:['Окрестности','Hospitalet, Badalona, Cornellà…']}
   };
+
+  // ===== tarifas del panel admin (fl_prices) =====
+  try{
+    const fp = JSON.parse(localStorage.getItem('fl_prices'));
+    if(fp){
+      if(typeof fp.depositPct==='number') PRICES.depositPct = Math.min(100,Math.max(0,fp.depositPct))/100;
+      if(typeof fp.delBCN==='number'){
+        PRICES.zones.bcn.price = fp.delBCN;
+        PRICES.zones.bcn.desc = fp.delBCN===0?'Gratis':`+${fp.delBCN} €`;
+        NAMES_RU.zones.bcn[1] = fp.delBCN===0?'Бесплатно':`+${fp.delBCN} €`;
+      }
+      if(typeof fp.delOut==='number') PRICES.zones.near.price = fp.delOut;
+    }
+  }catch(e){}
   const T = k => TXT[LANG][k];
   function plural(n, one, few, many){
     if (LANG!=='ru') return n===1?one:many;
@@ -544,6 +558,7 @@
     document.getElementById('sumDelivery').textContent = delivery===0?T('gratis'):eur(delivery);
     document.getElementById('sumTotal').textContent = eur(total);
     document.getElementById('sumDeposit').textContent = eur(deposit);
+    document.querySelector('[data-i18n="dep"]').textContent = T('dep').replace('{pct}', Math.round(PRICES.depositPct*100));
     document.getElementById('mbTotal').textContent = eur(total);
     document.getElementById('mbDep').textContent = `${T('reserveToday')}: ${eur(deposit)}`;
   }
