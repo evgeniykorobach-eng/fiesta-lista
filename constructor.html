@@ -25,8 +25,14 @@
   .back-link{margin-left:auto;font-weight:800;font-size:.9rem;color:var(--ink-soft);text-decoration:none}
   .back-link:hover{color:var(--ink)}
   .btn-wa{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:#fff;font-weight:800;font-size:.9rem;padding:10px 16px;border-radius:999px;text-decoration:none;box-shadow:0 6px 16px rgba(37,211,102,.3)}
+  .head-right{margin-left:auto;display:flex;gap:14px;align-items:center}
+  .head-right .back-link{margin-left:0}
+  .lang-switch{display:flex;background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:999px;padding:3px}
+  .lang-switch button{border:0;background:transparent;padding:5px 11px;border-radius:999px;font:800 .78rem 'Nunito';color:var(--ink-soft);cursor:pointer;transition:.15s}
+  .lang-switch button.active{background:var(--ink);color:#fff}
 
   .wrap{max-width:1200px;margin:0 auto;padding:40px 24px 60px;display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start}
+  .wrap>main,.wrap>aside{min-width:0}
 
   .page-head{margin-bottom:32px}
   .page-head h1{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.02em}
@@ -40,7 +46,7 @@
   .step-head .hint{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--ink-soft);text-align:right}
 
   .opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .opt{position:relative;border:2px solid rgba(46,42,38,.1);border-radius:18px;padding:16px;cursor:pointer;transition:.15s;background:#fff}
+  .opt{position:relative;min-width:0;border:2px solid rgba(46,42,38,.1);border-radius:18px;padding:16px;cursor:pointer;transition:.15s;background:#fff}
   .opt:hover{border-color:rgba(46,42,38,.3)}
   .opt.selected{border-color:var(--coral);background:#FFF5F7;box-shadow:0 6px 18px rgba(255,107,138,.15)}
   .opt .opt-name{font-weight:800;font-size:.98rem}
@@ -121,11 +127,17 @@
       <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
       FiestaLista
     </a>
-    <a class="back-link" href="index.html">← Volver al inicio</a>
-    <a class="btn-wa" href="#">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
-      WhatsApp
-    </a>
+    <div class="head-right">
+      <div class="lang-switch">
+        <button data-lang="es" class="active">ES</button>
+        <button data-lang="ru">RU</button>
+      </div>
+      <a class="back-link" href="index.html" data-i18n="back">← Volver al inicio</a>
+      <a class="btn-wa" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
+        WhatsApp
+      </a>
+    </div>
   </div>
 </header>
 
@@ -133,26 +145,26 @@
 
   <main>
     <div class="page-head">
-      <h1>Crea <em>tu</em> fiesta</h1>
-      <p>Elige cada pieza y mira el precio al momento. Cuando lo tengas claro, reserva la fecha: nosotros nos encargamos del resto.</p>
+      <h1 data-i18n="h1">Crea <em>tu</em> fiesta</h1>
+      <p data-i18n="sub">Elige cada pieza y mira el precio al momento. Cuando lo tengas claro, reserva la fecha: nosotros nos encargamos del resto.</p>
     </div>
 
     <!-- 1. MESA -->
     <section class="step" id="s-mesa">
       <div class="step-head">
         <span class="step-num">1</span>
-        <h2>La mesa</h2>
-        <span class="hint">Elige modelo, cantidad y duración</span>
+        <h2 data-i18n="s1t">La mesa</h2>
+        <span class="hint" data-i18n="s1h">Elige modelo, cantidad y duración</span>
       </div>
       <div class="opt-grid" id="tableModels"></div>
       <div class="row">
-        <span class="row-label">Cantidad</span>
+        <span class="row-label" data-i18n="qty">Cantidad</span>
         <div class="stepper">
           <button type="button" onclick="bump('tables',-1)">−</button>
           <span class="val" id="v-tables">1<small>mesa</small></span>
           <button type="button" onclick="bump('tables',1)">+</button>
         </div>
-        <span class="row-label" style="margin-left:14px">Duración</span>
+        <span class="row-label" style="margin-left:14px" data-i18n="dur">Duración</span>
         <div class="pills" id="durPills"></div>
       </div>
     </section>
@@ -161,8 +173,8 @@
     <section class="step" id="s-mantel">
       <div class="step-head">
         <span class="step-num">2</span>
-        <h2>Mantelería</h2>
-        <span class="hint">Una mantelería por mesa</span>
+        <h2 data-i18n="s2t">Mantelería</h2>
+        <span class="hint" data-i18n="s2h">Una mantelería por mesa</span>
       </div>
       <div class="opt-grid" id="clothModels"></div>
     </section>
@@ -171,11 +183,11 @@
     <section class="step" id="s-vajilla">
       <div class="step-head">
         <span class="step-num">3</span>
-        <h2>Vajilla y cubertería</h2>
-        <span class="hint">Calculamos lo necesario por invitado</span>
+        <h2 data-i18n="s3t">Vajilla y cubertería</h2>
+        <span class="hint" data-i18n="s3h">Calculamos lo necesario por invitado</span>
       </div>
       <div class="row">
-        <span class="row-label">Invitados</span>
+        <span class="row-label" data-i18n="guests">Invitados</span>
         <div class="stepper">
           <button type="button" onclick="bump('guests',-1)">−</button>
           <span class="val" id="v-guests">10<small>niños</small></span>
@@ -187,17 +199,17 @@
         <label class="check-row">
           <input type="checkbox" id="cakeStand" onchange="toggle('cakeStand', this.checked)">
           <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="check-label">Soporte para la tarta <small>La tarta queda en alto y a la vista</small></span>
+          <span class="check-label" data-i18n="tarta">Soporte para la tarta <small data-i18n="tartas">La tarta queda en alto y a la vista</small></span>
         </label>
       </div>
       <div class="row">
-        <span class="row-label">Platos grandes</span>
+        <span class="row-label" data-i18n="bigp">Platos grandes</span>
         <div class="stepper">
           <button type="button" onclick="bump('bigPlates',-1)">−</button>
           <span class="val" id="v-bigPlates">0</span>
           <button type="button" onclick="bump('bigPlates',1)">+</button>
         </div>
-        <span class="row-label">Platos de aperitivo</span>
+        <span class="row-label" data-i18n="snackp">Platos de aperitivo</span>
         <div class="stepper">
           <button type="button" onclick="bump('snackPlates',-1)">−</button>
           <span class="val" id="v-snackPlates">0</span>
@@ -210,25 +222,25 @@
     <section class="step" id="s-globos">
       <div class="step-head">
         <span class="step-num">4</span>
-        <h2>Globos</h2>
-        <span class="hint">Todos con helio</span>
+        <h2 data-i18n="s4t">Globos</h2>
+        <span class="hint" data-i18n="s4h">Todos con helio</span>
       </div>
       <div class="row">
         <label class="check-row" style="margin-top:0">
           <input type="checkbox" id="numBalloon" onchange="toggle('numBalloon', this.checked)">
           <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="check-label">Globo de número <small>El número de la edad, gigante</small></span>
+          <span class="check-label" data-i18n="numball">Globo de número <small data-i18n="numballs">El número de la edad, gigante</small></span>
         </label>
         <div class="pills" id="digitPills" style="display:none"></div>
       </div>
       <div class="row">
-        <span class="row-label">Globos 30 cm</span>
+        <span class="row-label" data-i18n="b30">Globos 30 cm</span>
         <div class="stepper">
           <button type="button" onclick="bump('balloons30',-1)">−</button>
           <span class="val" id="v-balloons30">0</span>
           <button type="button" onclick="bump('balloons30',1)">+</button>
         </div>
-        <span style="font-size:.85rem;color:var(--ink-soft);font-weight:700">se quedan contigo después de la fiesta</span>
+        <span style="font-size:.85rem;color:var(--ink-soft);font-weight:700" data-i18n="b30note">se quedan contigo después de la fiesta</span>
       </div>
     </section>
 
@@ -236,22 +248,22 @@
     <section class="step" id="s-arco">
       <div class="step-head">
         <span class="step-num">5</span>
-        <h2>Arco decorativo</h2>
-        <span class="hint">Sobre la mesa del cumpleañero</span>
+        <h2 data-i18n="s5t">Arco decorativo</h2>
+        <span class="hint" data-i18n="s5h">Sobre la mesa del cumpleañero</span>
       </div>
       <label class="check-row" style="margin-top:0">
         <input type="checkbox" id="arch" onchange="toggle('arch', this.checked)">
         <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="check-label">Arco «¡Feliz cumpleaños!» <small>+45 € · montado sobre la mesa</small></span>
+        <span class="check-label" data-i18n="archc">Arco «¡Feliz cumpleaños!» <small data-i18n="archcs">+45 € · montado sobre la mesa</small></span>
       </label>
       <div id="archNameRow" style="display:none;margin-top:16px">
         <label class="check-row">
           <input type="checkbox" id="archName" onchange="toggle('archName', this.checked)">
           <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="check-label">Añadir el nombre del cumpleañero <small>+15 € · la decoración con nombre se queda contigo</small></span>
+          <span class="check-label" data-i18n="archn">Añadir el nombre del cumpleañero <small data-i18n="archns">+15 € · la decoración con nombre se queda contigo</small></span>
         </label>
         <div class="row" id="archNameInput" style="display:none">
-          <input class="text-input" style="max-width:320px" id="nameInput" placeholder="Ej. Martina" oninput="state.archNameText=this.value;render()">
+          <input class="text-input" style="max-width:320px" id="nameInput" placeholder="Ej. Martina" data-i18n-ph="namePh" oninput="state.archNameText=this.value;render()">
         </div>
       </div>
     </section>
@@ -260,8 +272,8 @@
     <section class="step" id="s-juegos">
       <div class="step-head">
         <span class="step-num">6</span>
-        <h2>Juegos</h2>
-        <span class="hint">10 € por juego · elige los que quieras</span>
+        <h2 data-i18n="s6t">Juegos</h2>
+        <span class="hint" data-i18n="s6h">10 € por juego · elige los que quieras</span>
       </div>
       <div class="games-grid" id="gamesGrid"></div>
     </section>
@@ -270,30 +282,30 @@
     <section class="step" id="s-entrega">
       <div class="step-head">
         <span class="step-num">7</span>
-        <h2>Entrega y recogida</h2>
-        <span class="hint">Incluye montaje y desmontaje</span>
+        <h2 data-i18n="s7t">Entrega y recogida</h2>
+        <span class="hint" data-i18n="s7h">Incluye montaje y desmontaje</span>
       </div>
       <div class="opt-grid" id="zones"></div>
       <div class="row">
-        <input class="text-input" id="addressInput" placeholder="Dirección del evento (calle, número, ciudad)" oninput="state.address=this.value;render()">
+        <input class="text-input" id="addressInput" placeholder="Dirección del evento (calle, número, ciudad)" data-i18n-ph="addrPh" oninput="state.address=this.value;render()">
       </div>
-      <div class="calc-note">Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.</div>
+      <div class="calc-note" data-i18n="delnote">Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.</div>
     </section>
   </main>
 
   <!-- SUMMARY -->
   <aside>
     <div class="summary">
-      <h3>Tu fiesta</h3>
+      <h3 data-i18n="sumT">Tu fiesta</h3>
       <div class="sum-lines" id="sumLines"></div>
       <div class="sum-total">
-        <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">0 €</span></div>
-        <div class="sum-row"><span>Entrega</span><span id="sumDelivery">0 €</span></div>
+        <div class="sum-row"><span data-i18n="subtotal">Subtotal</span><span id="sumSubtotal">0 €</span></div>
+        <div class="sum-row"><span data-i18n="deliv">Entrega</span><span id="sumDelivery">0 €</span></div>
         <div class="sum-row grand"><span>Total</span><span id="sumTotal">0 €</span></div>
-        <div class="sum-row deposit"><span>Reserva hoy (50%)</span><span id="sumDeposit">0 €</span></div>
+        <div class="sum-row deposit"><span data-i18n="dep">Reserva hoy (50%)</span><span id="sumDeposit">0 €</span></div>
       </div>
-      <button class="btn-reserve" onclick="reserve()">Reservar esta fecha</button>
-      <p class="sum-note">El resto se paga el día de la entrega. Cancelación flexible hasta 72 h antes.</p>
+      <button class="btn-reserve" onclick="reserve()" data-i18n="reserve">Reservar esta fecha</button>
+      <p class="sum-note" data-i18n="sumNote">El resto se paga el día de la entrega. Cancelación flexible hasta 72 h antes.</p>
     </div>
   </aside>
 </div>
@@ -304,7 +316,7 @@
     <div class="mb-total" id="mbTotal">0 €</div>
     <div class="mb-dep" id="mbDep">reserva hoy: 0 €</div>
   </div>
-  <button class="btn-reserve" onclick="reserve()">Reservar</button>
+  <button class="btn-reserve" onclick="reserve()" data-i18n="reserveShort">Reservar</button>
 </div>
 
 <script>
@@ -333,6 +345,92 @@
     depositPct: 0.5
   };
 
+  // ===== i18n (ES / RU) =====
+  let LANG = localStorage.getItem('fl_lang')||'es';
+  const TXT = {
+    es: {
+      back:'← Volver al inicio',
+      h1:'Crea <em>tu</em> fiesta',
+      sub:'Elige cada pieza y mira el precio al momento. Cuando lo tengas claro, reserva la fecha: nosotros nos encargamos del resto.',
+      s1t:'La mesa', s1h:'Elige modelo, cantidad y duración',
+      s2t:'Mantelería', s2h:'Una mantelería por mesa',
+      s3t:'Vajilla y cubertería', s3h:'Calculamos lo necesario por invitado',
+      s4t:'Globos', s4h:'Todos con helio',
+      s5t:'Arco decorativo', s5h:'Sobre la mesa del cumpleañero',
+      s6t:'Juegos', s6h:'10 € por juego · elige los que quieras',
+      s7t:'Entrega y recogida', s7h:'Incluye montaje y desmontaje',
+      qty:'Cantidad', dur:'Duración', guests:'Invitados',
+      bigp:'Platos grandes', snackp:'Platos de aperitivo', b30:'Globos 30 cm',
+      b30note:'se quedan contigo después de la fiesta',
+      tarta:'Soporte para la tarta', tartas:'La tarta queda en alto y a la vista',
+      numball:'Globo de número', numballs:'El número de la edad, gigante',
+      archc:'Arco «¡Feliz cumpleaños!»', archcs:'+45 € · montado sobre la mesa',
+      archn:'Añadir el nombre del cumpleañero', archns:'+15 € · la decoración con nombre se queda contigo',
+      namePh:'Ej. Martina', addrPh:'Dirección del evento (calle, número, ciudad)',
+      delnote:'Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.',
+      sumT:'Tu fiesta', subtotal:'Subtotal', deliv:'Entrega', dep:'Reserva hoy (50%)',
+      reserve:'Reservar esta fecha', reserveShort:'Reservar',
+      sumNote:'El resto se paga el día de la entrega. Cancelación flexible hasta 72 h antes.',
+      emptySum:'Aún no has elegido nada…', included:'Incluido', gratis:'Gratis', hour:'h',
+      perParty:'/ fiesta', reserveToday:'reserva hoy',
+      alertMsg:'Elige al menos la mesa para poder reservar 🙂',
+      dish:'Vajilla completa', tartaL:'Soporte para la tarta', bigL:'Platos grandes',
+      snackL:'Platos de aperitivo', numballL:'Globo número', b30L:'Globos 30 cm',
+      helium:'(helio)', archL:'Arco «¡Feliz cumpleaños!»', archNameL:'Nombre en el arco', keep:'se queda contigo'
+    },
+    ru: {
+      back:'← На главную',
+      h1:'Собери <em>свой</em> праздник',
+      sub:'Выбирай каждую деталь и сразу видь цену. Когда всё решишь — забронируй дату, об остальном позаботимся мы.',
+      s1t:'Стол', s1h:'Выбери модель, количество и длительность',
+      s2t:'Скатерть', s2h:'Одна скатерть на каждый стол',
+      s3t:'Посуда и приборы', s3h:'Считаем всё необходимое по гостям',
+      s4t:'Шары', s4h:'Все наполнены гелием',
+      s5t:'Декоративная арка', s5h:'Над столом именинника',
+      s6t:'Игры', s6h:'10 € за игру · выбирай сколько угодно',
+      s7t:'Доставка и вывоз', s7h:'Включает монтаж и демонтаж',
+      qty:'Количество', dur:'Длительность', guests:'Гости',
+      bigp:'Большие тарелки', snackp:'Тарелки для закусок', b30:'Шары 30 см',
+      b30note:'остаются у вас после праздника',
+      tarta:'Подставка для торта', tartas:'Торт будет на видном месте',
+      numball:'Шар-цифра', numballs:'Гигантская цифра возраста',
+      archc:'Арка «С днём рождения!»', archcs:'+45 € · устанавливается над столом',
+      archn:'Добавить имя именинника', archns:'+15 € · декор с именем остаётся у вас',
+      namePh:'Например, Маша', addrPh:'Адрес праздника (улица, номер, город)',
+      delnote:'Приезжаем <b>за 1 час</b> до начала, чтобы всё смонтировать, и возвращаемся <b>через 1 час</b> после — демонтировать и забрать. Точное время подтвердим при бронировании.',
+      sumT:'Твой праздник', subtotal:'Подытог', deliv:'Доставка', dep:'Бронь сегодня (50%)',
+      reserve:'Забронировать дату', reserveShort:'Забронировать',
+      sumNote:'Остаток оплачивается в день доставки. Гибкая отмена за 72 часа.',
+      emptySum:'Пока ничего не выбрано…', included:'Включено', gratis:'Бесплатно', hour:'ч',
+      perParty:'/ праздник', reserveToday:'бронь сегодня',
+      alertMsg:'Выбери хотя бы стол, чтобы забронировать 🙂',
+      dish:'Посуда для гостей', tartaL:'Подставка для торта', bigL:'Большие тарелки',
+      snackL:'Тарелки для закусок', numballL:'Шар-цифра', b30L:'Шары 30 см',
+      helium:'(гелий)', archL:'Арка «С днём рождения!»', archNameL:'Имя на арке', keep:'остаётся у вас'
+    }
+  };
+  const NAMES_RU = {
+    tables:{blanca:['Белый стол','Классика, сочетается со всем'], candy:['Стол Candy','Розовые ножки, сладкий стиль'], madera:['Деревянный стол','Тёплый, натуральный']},
+    cloth:{lisa:['Однотонная скатерть','Белая или кремовая'], rosa:['Розовая скатерть','Пудрово-розовая'], fiesta:['Праздничная скатерть','Принт «конфетти»']},
+    games:{castillo:'Надувной замок', teatro:'Кукольный театр', tiro:'Стрельба из бластера', minidisco:'Мини-дискотека', taller:'Мастер-класс «слайм»', circuito:'Трасса для машинок'},
+    zones:{bcn:['В пределах Барселоны','Бесплатно'], near:['Окрестности','Hospitalet, Badalona, Cornellà…']}
+  };
+  const T = k => TXT[LANG][k];
+  function plural(n, one, few, many){
+    if (LANG!=='ru') return n===1?one:many;
+    const m10=n%10, m100=n%100;
+    if(m10===1&&m100!==11) return one;
+    if(m10>=2&&m10<=4&&(m100<10||m100>=20)) return few;
+    return many;
+  }
+  function ix(sec,k,f){
+    if(LANG==='ru'&&NAMES_RU[sec]&&NAMES_RU[sec][k]){
+      const v=NAMES_RU[sec][k]; return f==='name'?v[0]:v[1];
+    }
+    return PRICES[sec][k][f];
+  }
+  function gname(id){ return LANG==='ru'&&NAMES_RU.games[id]?NAMES_RU.games[id]:(PRICES.games.find(g=>g.id===id)||{}).name; }
+
   const state = {
     tableModel:'blanca', tables:1, duration:'4',
     cloth:'lisa',
@@ -343,17 +441,17 @@
     zone:'bcn', address:''
   };
 
-  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+  const eur = n => new Intl.NumberFormat(LANG==='ru'?'ru-RU':'es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
 
   // ---------- init option grids ----------
-  function modelCards(containerId, obj, selectedKey, onSelect, withSwatch){
+  function modelCards(containerId, sec, selectedKey, onSelect, withSwatch){
     const c = document.getElementById(containerId);
-    c.innerHTML = Object.entries(obj).map(([k,v])=>`
+    c.innerHTML = Object.entries(PRICES[sec]).map(([k,v])=>`
       <div class="opt ${k===selectedKey?'selected':''}" onclick="${onSelect}('${k}')">
         ${withSwatch?`<div class="swatch" style="background:${v.color}"></div>`:''}
-        <div class="opt-name">${v.name}</div>
-        <div class="opt-desc">${v.desc}</div>
-        <div class="opt-price">${v.price===0?'Incluido':'+'+eur(v.price)}</div>
+        <div class="opt-name">${ix(sec,k,'name')}</div>
+        <div class="opt-desc">${ix(sec,k,'desc')}</div>
+        <div class="opt-price">${v.price===0?T('included'):'+'+eur(v.price)}</div>
       </div>`).join('');
   }
 
@@ -369,7 +467,7 @@
       const q = state.games[g.id]||0;
       return `<div class="game-chip">
         <span class="g-ico" style="background:${g.color}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2E2A26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${g.ico}"/></svg></span>
-        <span><span class="g-name">${g.name}</span><br><span class="g-price">${eur(PRICES.game)} / fiesta</span></span>
+        <span><span class="g-name">${gname(g.id)}</span><br><span class="g-price">${eur(PRICES.game)} ${T('perParty')}</span></span>
         <span class="stepper">
           <button type="button" onclick="bumpGame('${g.id}',-1)">−</button>
           <span class="val">${q}</span>
@@ -392,23 +490,23 @@
   // ---------- calculations ----------
   function calc(){
     const L=[];
-    const t=PRICES.tables[state.tableModel];
     const f=PRICES.durationFactor[state.duration];
-    const tableUnit=t.price*f;
-    L.push({label:`${t.name} × ${state.tables} · ${state.duration} h`, qty:'', price:tableUnit*state.tables});
+    const tableUnit=PRICES.tables[state.tableModel].price*f;
+    L.push({label:`${ix('tables',state.tableModel,'name')} × ${state.tables} · ${state.duration} ${T('hour')}`, qty:'', price:tableUnit*state.tables});
     const cl=PRICES.cloth[state.cloth];
-    if(cl.price>0) L.push({label:`${cl.name} × ${state.tables}`, qty:'', price:cl.price*state.tables});
-    if(state.guests>0) L.push({label:`Vajilla completa · ${state.guests} invitados`, qty:'', price:state.guests*PRICES.dishSetPerGuest});
-    if(state.cakeStand) L.push({label:'Soporte para la tarta', qty:'', price:PRICES.cakeStand});
-    if(state.bigPlates>0) L.push({label:'Platos grandes', qty:state.bigPlates, price:state.bigPlates*PRICES.bigPlate});
-    if(state.snackPlates>0) L.push({label:'Platos de aperitivo', qty:state.snackPlates, price:state.snackPlates*PRICES.snackPlate});
-    if(state.numBalloon) L.push({label:`Globo número ${state.digit??''} (helio)`, qty:'', price:PRICES.numBalloon});
-    if(state.balloons30>0) L.push({label:'Globos 30 cm con helio', qty:state.balloons30, price:state.balloons30*PRICES.balloon30});
+    if(cl.price>0) L.push({label:`${ix('cloth',state.cloth,'name')} × ${state.tables}`, qty:'', price:cl.price*state.tables});
+    const g=state.guests;
+    if(g>0) L.push({label:`${T('dish')} · ${g} ${LANG==='ru'?plural(g,'гость','гостя','гостей'):'invitados'}`, qty:'', price:g*PRICES.dishSetPerGuest});
+    if(state.cakeStand) L.push({label:T('tartaL'), qty:'', price:PRICES.cakeStand});
+    if(state.bigPlates>0) L.push({label:T('bigL'), qty:state.bigPlates, price:state.bigPlates*PRICES.bigPlate});
+    if(state.snackPlates>0) L.push({label:T('snackL'), qty:state.snackPlates, price:state.snackPlates*PRICES.snackPlate});
+    if(state.numBalloon) L.push({label:`${T('numballL')} ${state.digit??''} ${T('helium')}`, qty:'', price:PRICES.numBalloon});
+    if(state.balloons30>0) L.push({label:`${T('b30L')} ${T('helium')}`, qty:state.balloons30, price:state.balloons30*PRICES.balloon30});
     if(state.arch){
-      L.push({label:'Arco «¡Feliz cumpleaños!»', qty:'', price:PRICES.arch});
-      if(state.archName) L.push({label:`Nombre en el arco${state.archNameText?` «${state.archNameText}»`:''} · se queda contigo`, qty:'', price:PRICES.archName});
+      L.push({label:T('archL'), qty:'', price:PRICES.arch});
+      if(state.archName) L.push({label:`${T('archNameL')}${state.archNameText?` «${state.archNameText}»`:''} · ${T('keep')}`, qty:'', price:PRICES.archName});
     }
-    Object.entries(state.games).forEach(([id,q])=>{ if(q>0){ const g=PRICES.games.find(x=>x.id===id); L.push({label:g.name, qty:q, price:q*PRICES.game}); }});
+    Object.entries(state.games).forEach(([id,q])=>{ if(q>0) L.push({label:gname(id), qty:q, price:q*PRICES.game}); });
     const subtotal=L.reduce((s,x)=>s+x.price,0);
     const delivery=PRICES.zones[state.zone].price;
     const total=subtotal+delivery;
@@ -417,45 +515,58 @@
 
   // ---------- render ----------
   function render(){
-    modelCards('tableModels',PRICES.tables,state.tableModel,'selectTable',true);
-    modelCards('clothModels',PRICES.cloth,state.cloth,'selectCloth',true);
-    modelCards('zones',PRICES.zones,state.zone,'selectZone',false);
-    renderPills('durPills',[4,6,8],state.duration,'selectDuration',v=>`${v} h`);
+    modelCards('tableModels','tables',state.tableModel,'selectTable',true);
+    modelCards('clothModels','cloth',state.cloth,'selectCloth',true);
+    modelCards('zones','zones',state.zone,'selectZone',false);
+    renderPills('durPills',[4,6,8],state.duration,'selectDuration',v=>`${v} ${T('hour')}`);
     renderPills('digitPills',[0,1,2,3,4,5,6,7,8,9],state.digit,'selectDigit',v=>v);
     document.getElementById('digitPills').style.display = state.numBalloon?'flex':'none';
     document.getElementById('archNameRow').style.display = state.arch?'block':'none';
     document.getElementById('archNameInput').style.display = state.arch&&state.archName?'flex':'none';
     renderGames();
 
-    document.getElementById('v-tables').innerHTML = `${state.tables}<small>mesa${state.tables>1?'s':''}</small>`;
-    document.getElementById('v-guests').innerHTML = `${state.guests}<small>niños</small>`;
+    document.getElementById('v-tables').innerHTML = `${state.tables}<small>${plural(state.tables, LANG==='ru'?'стол':'mesa', 'стола', LANG==='ru'?'столов':'mesas')}</small>`;
+    document.getElementById('v-guests').innerHTML = `${state.guests}<small>${LANG==='ru'?plural(state.guests,'гость','гостя','гостей'):'niños'}</small>`;
     document.getElementById('v-bigPlates').textContent = state.bigPlates;
     document.getElementById('v-snackPlates').textContent = state.snackPlates;
     document.getElementById('v-balloons30').textContent = state.balloons30;
 
-    const auto = `Por <b>${state.guests} invitados</b> incluimos automáticamente: <b>${state.guests} vasos · ${state.guests} platos · ${state.guests} cubiertos</b>. Puedes añadir platos extra abajo.`;
-    document.getElementById('dishNote').innerHTML = auto;
+    const g=state.guests;
+    document.getElementById('dishNote').innerHTML = LANG==='ru'
+      ? `На <b>${g} ${plural(g,'гость','гостя','гостей')}</b> автоматически включаем: <b>${g} ${plural(g,'стакан','стакана','стаканов')} · ${g} ${plural(g,'тарелка','тарелки','тарелок')} · ${g} ${plural(g,'прибор','прибора','приборов')}</b>. Ниже можно добавить дополнительные тарелки.`
+      : `Por <b>${g} invitados</b> incluimos automáticamente: <b>${g} vasos · ${g} platos · ${g} cubiertos</b>. Puedes añadir platos extra abajo.`;
 
     const {L,subtotal,delivery,total,deposit} = calc();
     const lines = document.getElementById('sumLines');
     lines.innerHTML = L.length ? L.map(x=>`<div class="sum-line"><span>${x.qty?`<span class="l-qty">×${x.qty}</span>`:''}${x.label}</span><span>${eur(x.price)}</span></div>`).join('')
-                               : `<div class="sum-line empty">Aún no has elegido nada…</div>`;
+                               : `<div class="sum-line empty">${T('emptySum')}</div>`;
     document.getElementById('sumSubtotal').textContent = eur(subtotal);
-    document.getElementById('sumDelivery').textContent = delivery===0?'Gratis':eur(delivery);
+    document.getElementById('sumDelivery').textContent = delivery===0?T('gratis'):eur(delivery);
     document.getElementById('sumTotal').textContent = eur(total);
     document.getElementById('sumDeposit').textContent = eur(deposit);
     document.getElementById('mbTotal').textContent = eur(total);
-    document.getElementById('mbDep').textContent = `reserva hoy: ${eur(deposit)}`;
+    document.getElementById('mbDep').textContent = `${T('reserveToday')}: ${eur(deposit)}`;
   }
 
   window.reserve = ()=>{
     const {L,total,deposit} = calc();
-    if(total===0){ alert('Elige al menos la mesa para poder reservar 🙂'); return; }
+    if(total===0){ alert(T('alertMsg')); return; }
     localStorage.setItem('fl_order', JSON.stringify({items:L, total, deposit, duration:state.duration}));
     location.href = 'reserva.html';
   };
 
-  render();
+  // ---------- lang switch ----------
+  function applyLang(l){
+    LANG = l;
+    localStorage.setItem('fl_lang', l);
+    document.documentElement.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(b=>b.classList.toggle('active', b.dataset.lang===l));
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(TXT[l][k]!==undefined) el.innerHTML=TXT[l][k]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ const k=el.dataset.i18nPh; if(TXT[l][k]!==undefined) el.placeholder=TXT[l][k]; });
+    render();
+  }
+  document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
+  applyLang(LANG);
 </script>
 </body>
 </html>

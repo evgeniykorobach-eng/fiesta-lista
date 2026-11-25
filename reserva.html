@@ -22,8 +22,12 @@
   .header-in{max-width:960px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
   .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
   .logo .balloon{width:28px;height:36px}
-  .back-link{margin-left:auto;font-weight:800;font-size:.9rem;color:var(--ink-soft);text-decoration:none}
+  .back-link{font-weight:800;font-size:.9rem;color:var(--ink-soft);text-decoration:none}
   .back-link:hover{color:var(--ink)}
+  .head-right{margin-left:auto;display:flex;gap:18px;align-items:center}
+  .lang-switch{display:flex;background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:999px;padding:3px}
+  .lang-switch button{border:0;background:transparent;padding:5px 11px;border-radius:999px;font:800 .78rem 'Nunito';color:var(--ink-soft);cursor:pointer;transition:.15s}
+  .lang-switch button.active{background:var(--ink);color:#fff}
 
   .wrap{max-width:960px;margin:0 auto;padding:40px 24px 90px}
   .page-head{margin-bottom:30px}
@@ -103,6 +107,7 @@
   .success .order-no{display:inline-block;background:#fff;border:2px dashed rgba(46,42,38,.2);border-radius:14px;padding:10px 22px;font-weight:900;font-size:1.15rem;margin:16px 0;letter-spacing:.04em}
   .success p{color:var(--ink-soft);max-width:52ch;margin:0 auto;line-height:1.65}
   .wa-cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#fff;font-weight:800;padding:15px 28px;border-radius:999px;text-decoration:none;margin-top:22px;box-shadow:0 8px 20px rgba(37,211,102,.35)}
+  .cuenta-link{display:inline-block;margin:22px 0 0 14px;font-weight:800;color:var(--ink);text-decoration:none;border-bottom:2.5px solid var(--coral)}
 
   /* status timeline */
   .status-box{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:28px;margin-top:26px;text-align:left}
@@ -126,6 +131,7 @@
     .slots{grid-template-columns:1fr 1fr}
     .step-head .hint{display:none}
     .cal-title{min-width:130px;font-size:.95rem}
+    .head-right{gap:12px}
   }
 </style>
 </head>
@@ -137,9 +143,13 @@
       <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
       FiestaLista
     </a>
-    <div style="margin-left:auto;display:flex;gap:18px;align-items:center">
-      <a class="back-link" style="margin-left:0" href="cuenta.html">Mi cuenta</a>
-      <a class="back-link" href="constructor.html">← Modificar mi fiesta</a>
+    <div class="head-right">
+      <div class="lang-switch">
+        <button data-lang="es" class="active">ES</button>
+        <button data-lang="ru">RU</button>
+      </div>
+      <a class="back-link" href="cuenta.html" data-i18n="miCuenta">Mi cuenta</a>
+      <a class="back-link" href="constructor.html" data-i18n="modif">← Modificar mi fiesta</a>
     </div>
   </div>
 </header>
@@ -147,8 +157,8 @@
 <div class="wrap" id="bookingView">
 
   <div class="page-head">
-    <h1>Reserva tu <em>fecha</em></h1>
-    <p>Elige el día y la hora de inicio. Nosotros llegamos 1 hora antes para montar y volvemos 1 hora después para recoger.</p>
+    <h1 data-i18n="h1">Reserva tu <em>fecha</em></h1>
+    <p data-i18n="sub">Elige el día y la hora de inicio. Nosotros llegamos 1 hora antes para montar y volvemos 1 hora después para recoger.</p>
   </div>
 
   <div class="order-card" id="orderCard"></div>
@@ -157,8 +167,8 @@
   <section class="step" id="stepDay">
     <div class="step-head">
       <span class="step-num">1</span>
-      <h2>Elige el día</h2>
-      <span class="hint">Los puntos rojos = día con pocas horas libres</span>
+      <h2 data-i18n="st1">Elige el día</h2>
+      <span class="hint" data-i18n="st1h">Los puntos rojos = día con pocas horas libres</span>
     </div>
     <div class="cal-head">
       <button class="cal-nav" id="calPrev" onclick="shiftMonth(-1)">←</button>
@@ -172,8 +182,8 @@
   <section class="step off" id="stepTime">
     <div class="step-head">
       <span class="step-num">2</span>
-      <h2>Hora de inicio</h2>
-      <span class="hint">Hora en que empieza la fiesta</span>
+      <h2 data-i18n="st2">Hora de inicio</h2>
+      <span class="hint" data-i18n="st2h">Hora en que empieza la fiesta</span>
     </div>
     <div class="slots" id="slots"></div>
   </section>
@@ -182,17 +192,13 @@
   <section class="step off" id="stepWindow">
     <div class="step-head">
       <span class="step-num">3</span>
-      <h2>Tu franja horaria</h2>
-      <span class="hint">Confirmación visual de los horarios</span>
+      <h2 data-i18n="st3">Tu franja horaria</h2>
+      <span class="hint" data-i18n="st3h">Confirmación visual de los horarios</span>
     </div>
     <div class="tl">
       <div class="tl-bar" id="tlBar"></div>
       <div class="tl-times" id="tlTimes"></div>
-      <div class="tl-legend">
-        <span><i style="background:var(--blue)"></i>Montaje (1 h antes)</span>
-        <span><i style="background:var(--coral)"></i>La fiesta</span>
-        <span><i style="background:var(--lilac)"></i>Desmontaje y recogida</span>
-      </div>
+      <div class="tl-legend" id="tlLegend"></div>
     </div>
   </section>
 
@@ -200,30 +206,30 @@
   <section class="step off" id="stepContact">
     <div class="step-head">
       <span class="step-num">4</span>
-      <h2>Tus datos</h2>
-      <span class="hint">Te confirmamos por WhatsApp</span>
+      <h2 data-i18n="st4">Tus datos</h2>
+      <span class="hint" data-i18n="st4h">Te confirmamos por WhatsApp</span>
     </div>
     <div class="form-grid">
       <div class="field full">
-        <label>Nombre y apellidos</label>
-        <input id="fName" placeholder="Ej. Laura García" oninput="validate()">
-        <div class="msg" id="mName">Escribe tu nombre</div>
+        <label data-i18n="fName">Nombre y apellidos</label>
+        <input id="fName" placeholder="Ej. Laura García" data-i18n-ph="fNamePh" oninput="validate()">
+        <div class="msg" id="mName" data-i18n="fNameE">Escribe tu nombre</div>
       </div>
       <div class="field">
-        <label>Teléfono (WhatsApp)</label>
+        <label data-i18n="fPhone">Teléfono (WhatsApp)</label>
         <input id="fPhone" placeholder="+34 600 000 000" oninput="validate()">
-        <div class="msg" id="mPhone">Necesitamos un teléfono válido</div>
+        <div class="msg" id="mPhone" data-i18n="fPhoneE">Necesitamos un teléfono válido</div>
       </div>
       <div class="field">
-        <label>Email</label>
+        <label data-i18n="fEmail">Email</label>
         <input id="fEmail" placeholder="hola@email.com" oninput="validate()">
-        <div class="msg" id="mEmail">Revisa el email</div>
+        <div class="msg" id="mEmail" data-i18n="fEmailE">Revisa el email</div>
       </div>
     </div>
   </section>
 
-  <button class="btn-confirm" id="btnConfirm" disabled onclick="confirm()">Confirmar reserva</button>
-  <p class="fine">Seña del 50% para bloquear la fecha · el resto se paga el día de la entrega.<br>Sin sorpresas: el precio está cerrado y confirmado por escrito antes de pagar.</p>
+  <button class="btn-confirm" id="btnConfirm" disabled onclick="confirm()" data-i18n="confirmBtn">Confirmar reserva</button>
+  <p class="fine" data-i18n="fine">Seña del 50% para bloquear la fecha · el resto se paga el día de la entrega.<br>Sin sorpresas: el precio está cerrado y confirmado por escrito antes de pagar.</p>
 </div>
 
 <!-- SUCCESS -->
@@ -232,50 +238,134 @@
     <div class="big-check">
       <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 9.5 18 20 6.5" stroke="#3D9B5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <h2>¡Reserva recibida!</h2>
+    <h2 data-i18n="okT">¡Reserva recibida!</h2>
     <div class="order-no" id="orderNo">FL-0000</div>
-    <p id="successText">Te escribimos por WhatsApp en unos minutos para confirmarte la disponibilidad. Tu fecha queda apartada mientras tanto.</p>
+    <p id="successText"></p>
     <a class="wa-cta" href="#">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
-      Escribir por WhatsApp
+      <span data-i18n="waBtn">Escribir por WhatsApp</span>
     </a>
-    <a href="cuenta.html" style="display:inline-block;margin:22px 0 0 14px;font-weight:800;color:var(--ink);text-decoration:none;border-bottom:2.5px solid var(--coral)">Ir a mi cuenta →</a>
+    <a class="cuenta-link" href="cuenta.html" data-i18n="cuentaLink">Ir a mi cuenta →</a>
 
     <div class="status-box">
-      <h3>Estado de tu reserva — lo verás así en tu cuenta</h3>
+      <h3 data-i18n="statusT">Estado de tu reserva — lo verás así en tu cuenta</h3>
       <div class="st-line" id="statusLine"></div>
     </div>
   </div>
 </div>
 
 <script>
+  // ===== i18n =====
+  let LANG = localStorage.getItem('fl_lang')||'es';
+  const TXT = {
+    es: {
+      miCuenta:'Mi cuenta', modif:'← Modificar mi fiesta',
+      h1:'Reserva tu <em>fecha</em>',
+      sub:'Elige el día y la hora de inicio. Nosotros llegamos 1 hora antes para montar y volvemos 1 hora después para recoger.',
+      ocTitle:'Tu fiesta', ocDep:'seña hoy', ocEdit:'← Cambiar algo',
+      ocEmpty:'Aún no has configurado nada.', ocEmptyLink:'Crea tu fiesta primero →',
+      st1:'Elige el día', st1h:'Los puntos rojos = día con pocas horas libres',
+      st2:'Hora de inicio', st2h:'Hora en que empieza la fiesta',
+      st3:'Tu franja horaria', st3h:'Confirmación visual de los horarios',
+      st4:'Tus datos', st4h:'Te confirmamos por WhatsApp',
+      fName:'Nombre y apellidos', fNamePh:'Ej. Laura García', fNameE:'Escribe tu nombre',
+      fPhone:'Teléfono (WhatsApp)', fPhoneE:'Necesitamos un teléfono válido',
+      fEmail:'Email', fEmailE:'Revisa el email',
+      confirmBtn:'Confirmar reserva',
+      fine:'Seña del 50% para bloquear la fecha · el resto se paga el día de la entrega.<br>Sin sorpresas: el precio está cerrado y confirmado por escrito antes de pagar.',
+      okT:'¡Reserva recibida!',
+      waBtn:'Escribir por WhatsApp', cuentaLink:'Ir a mi cuenta →',
+      statusT:'Estado de tu reserva — lo verás así en tu cuenta',
+      free:'libre', busy:'ocupada',
+      segSetup:'montaje', segParty:'fiesta', segPickup:'recogida',
+      legSetup:'Montaje (1 h antes)', legParty:'La fiesta', legPickup:'Desmontaje y recogida',
+      hourWord:'h'
+    },
+    ru: {
+      miCuenta:'Мой аккаунт', modif:'← Изменить праздник',
+      h1:'Забронируй <em>дату</em>',
+      sub:'Выбери день и время начала. Мы приедем за 1 час, чтобы всё смонтировать, и вернёмся через 1 час после — забрать.',
+      ocTitle:'Твой праздник', ocDep:'предоплата сегодня', ocEdit:'← Изменить',
+      ocEmpty:'Пока ничего не выбрано.', ocEmptyLink:'Сначала собери праздник →',
+      st1:'Выбери день', st1h:'Красные точки = в этот день мало свободного времени',
+      st2:'Время начала', st2h:'Когда начинается праздник',
+      st3:'Твоё время', st3h:'Наглядная схема: монтаж, праздник, вывоз',
+      st4:'Твои данные', st4h:'Подтвердим в WhatsApp',
+      fName:'Имя и фамилия', fNamePh:'Например, Анна Иванова', fNameE:'Введи имя',
+      fPhone:'Телефон (WhatsApp)', fPhoneE:'Нужен корректный телефон',
+      fEmail:'Эл. почта', fEmailE:'Проверь адрес почты',
+      confirmBtn:'Подтвердить бронь',
+      fine:'Предоплата 50% бронирует дату · остаток — в день доставки.<br>Без сюрпризов: цена фиксируется письменно до оплаты.',
+      okT:'Бронь получена!',
+      waBtn:'Написать в WhatsApp', cuentaLink:'В мой аккаунт →',
+      statusT:'Статус твоей брони — так он будет выглядеть в аккаунте',
+      free:'свободно', busy:'занято',
+      segSetup:'монтаж', segParty:'праздник', segPickup:'вывоз',
+      legSetup:'Монтаж (за 1 ч до)', legParty:'Праздник', legPickup:'Демонтаж и вывоз',
+      hourWord:'ч'
+    }
+  };
+  const T = k => TXT[LANG][k];
+
+  const MESES = {
+    es:['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+    ru:['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь']
+  };
+  const DOW = { es:['L','M','X','J','V','S','D'], ru:['Пн','Вт','Ср','Чт','Пт','Сб','Вс'] };
+  const STATUS = {
+    es:[
+      {n:'Nueva solicitud', s:'Acabas de enviar la reserva'},
+      {n:'Esperando confirmación', s:'Comprobamos que el equipo esté libre (unos minutos)'},
+      {n:'Esperando seña', s:'Te enviamos el enlace de pago del 50%'},
+      {n:'Confirmado', s:'Tu fecha está bloqueada'},
+      {n:'Preparando el equipo', s:'Montamos tu pack el día del evento'},
+      {n:'En reparto', s:'Vamos camino al lugar de la fiesta'},
+      {n:'Fiesta en curso', s:'¡A disfrutar!'},
+      {n:'Esperando desmontaje', s:'Recogemos al terminar la franja'},
+      {n:'Completado', s:'Fiesta entregada. ¡Gracias!'},
+    ],
+    ru:[
+      {n:'Новая заявка', s:'Ты только что отправил бронь'},
+      {n:'Ожидает подтверждения', s:'Проверяем, что оборудование свободно (несколько минут)'},
+      {n:'Ожидает предоплату', s:'Пришлём ссылку на оплату 50%'},
+      {n:'Подтверждено', s:'Твоя дата заблокирована'},
+      {n:'Готовим оборудование', s:'Собираем твой комплект в день праздника'},
+      {n:'Доставка', s:'Мы уже едем к месту праздника'},
+      {n:'Праздник идёт', s:'Наслаждайтесь!'},
+      {n:'Ожидаем демонтаж', s:'Заберём всё по окончании времени'},
+      {n:'Завершено', s:'Праздник доставлен. Спасибо!'},
+    ]
+  };
+  const dateLocale = () => LANG==='ru'?'ru-RU':'es-ES';
+
   // ===== datos del pedido (viene del constructor) =====
   let order = null;
   try { order = JSON.parse(localStorage.getItem('fl_order')); } catch(e){}
-  const eur = n => new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+  const eur = n => new Intl.NumberFormat(dateLocale(),{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
 
-  const oc = document.getElementById('orderCard');
-  if (order && order.total>0){
-    oc.innerHTML = `
-      <div class="oc-top">
-        <h3>Tu fiesta</h3>
-        <div>
-          <span class="oc-total">${eur(order.total)}</span>
-          <span class="oc-dep"> · seña hoy ${eur(order.deposit)}</span>
+  function renderOrderCard(){
+    const oc = document.getElementById('orderCard');
+    if (order && order.total>0){
+      oc.innerHTML = `
+        <div class="oc-top">
+          <h3>${T('ocTitle')}</h3>
+          <div>
+            <span class="oc-total">${eur(order.total)}</span>
+            <span class="oc-dep"> · ${T('ocDep')} ${eur(order.deposit)}</span>
+          </div>
         </div>
-      </div>
-      <div class="oc-items">${order.items.map(x=>x.qty?`${x.qty}× ${x.label}`:x.label).join(' · ')}</div>
-      <a class="oc-edit" href="constructor.html">← Cambiar algo</a>`;
-  } else {
-    oc.innerHTML = `
-      <div class="oc-top"><h3>Tu fiesta</h3></div>
-      <div class="oc-items">Aún no has configurado nada. <a href="constructor.html" style="color:var(--coral);font-weight:800">Crea tu fiesta primero →</a></div>`;
+        <div class="oc-items">${order.items.map(x=>x.qty?`${x.qty}× ${x.label}`:x.label).join(' · ')}</div>
+        <a class="oc-edit" href="constructor.html">${T('ocEdit')}</a>`;
+    } else {
+      oc.innerHTML = `
+        <div class="oc-top"><h3>${T('ocTitle')}</h3></div>
+        <div class="oc-items">${T('ocEmpty')} <a href="constructor.html" style="color:var(--coral);font-weight:800">${T('ocEmptyLink')}</a></div>`;
+    }
   }
+  renderOrderCard();
   const partyHours = (order && order.duration) ? Number(order.duration) : 4;
 
   // ===== calendario =====
-  const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const DOW=['L','M','X','J','V','S','D'];
   const today = new Date(); today.setHours(0,0,0,0);
   let viewY = today.getFullYear(), viewM = today.getMonth();
   let pickedDate=null, pickedSlot=null;
@@ -285,12 +375,12 @@
   function isBusySlot(y,m,d,slotIdx){ return ((d*11 + m*7 + slotIdx*5 + y) % 4)===0; }
 
   function renderCal(){
-    document.getElementById('calTitle').textContent = `${MESES[viewM]} ${viewY}`;
+    document.getElementById('calTitle').textContent = `${MESES[LANG][viewM]} ${viewY}`;
     const first = new Date(viewY,viewM,1);
     let lead = (first.getDay()+6)%7; // lunes=0
     const dim = new Date(viewY,viewM+1,0).getDate();
     const grid = document.getElementById('calGrid');
-    let html = DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+    let html = DOW[LANG].map(d=>`<div class="cal-dow">${d}</div>`).join('');
     for(let i=0;i<lead;i++) html+=`<div></div>`;
     for(let d=1;d<=dim;d++){
       const dt = new Date(viewY,viewM,d);
@@ -298,14 +388,13 @@
       const busy = isBusyDay(viewY,viewM,d);
       const sel = pickedDate && dt.getTime()===pickedDate.getTime();
       const isToday = dt.getTime()===today.getTime();
-      html += `<button type="button" class="cal-day ${busy?'busy':''} ${sel?'selected':''} ${isToday?'today':''}" ${past?'disabled':''} onclick="pickDay(${y4(viewY)},${viewM},${d})">${d}</button>`;
+      html += `<button type="button" class="cal-day ${busy?'busy':''} ${sel?'selected':''} ${isToday?'today':''}" ${past?'disabled':''} onclick="pickDay(${viewY},${viewM},${d})">${d}</button>`;
     }
     grid.innerHTML = html;
     document.getElementById('calPrev').disabled = (viewY===today.getFullYear() && viewM===today.getMonth());
     const maxD = new Date(today.getFullYear(), today.getMonth()+2, 1);
     document.getElementById('calNext').disabled = (viewY===maxD.getFullYear() && viewM===maxD.getMonth());
   }
-  const y4 = y=>y;
   window.shiftMonth = d=>{
     const nm = viewM + d;
     viewY = viewY + Math.floor(nm/12); viewM = ((nm%12)+12)%12;
@@ -328,7 +417,7 @@
       const busy = isBusySlot(pickedDate.getFullYear(),pickedDate.getMonth(),pickedDate.getDate(),i);
       return `<div class="slot ${busy?'busy':''} ${pickedSlot===i?'selected':''}" ${busy?'':`onclick="pickSlot(${i})"`}>
         <div class="t">${t}</div>
-        <div class="s">${busy?'ocupada':'libre'}</div>
+        <div class="s">${busy?T('busy'):T('free')}</div>
       </div>`;
     }).join('');
   }
@@ -343,7 +432,6 @@
   // ===== franja horaria =====
   function fmt(h){ const H=Math.floor(h), M=Math.round((h-H)*60); return `${String(H).padStart(2,'0')}:${String(M).padStart(2,'0')}`; }
   function renderWindow(){
-    const start = parseFloat(SLOTS[pickedSlot].replace(':','.')) ;
     const sH = parseInt(SLOTS[pickedSlot].split(':')[0]), sM = parseInt(SLOTS[pickedSlot].split(':')[1]);
     const startDec = sH + sM/60;
     const setupStart = startDec - 1;
@@ -352,13 +440,20 @@
     const total = pickupEnd - setupStart;
     const w = p => (p/total*100)+'%';
     document.getElementById('tlBar').innerHTML = `
-      <div class="tl-seg" style="width:${w(1)};background:var(--blue)"><small>montaje</small>${fmt(setupStart)}–${fmt(startDec)}</div>
-      <div class="tl-seg" style="width:${w(partyHours)};background:var(--coral)"><small>fiesta</small>${fmt(startDec)}–${fmt(partyEnd)}</div>
-      <div class="tl-seg" style="width:${w(1)};background:var(--lilac)"><small>recogida</small>${fmt(partyEnd)}–${fmt(pickupEnd)}</div>`;
-    document.getElementById('tlTimes').innerHTML = `
-      <span>Llegamos a las <b>${fmt(setupStart)}</b></span>
-      <span>La fiesta: <b>${partyHours} h</b></span>
-      <span>Recogida hasta las <b>${fmt(pickupEnd)}</b></span>`;
+      <div class="tl-seg" style="width:${w(1)};background:var(--blue)"><small>${T('segSetup')}</small>${fmt(setupStart)}–${fmt(startDec)}</div>
+      <div class="tl-seg" style="width:${w(partyHours)};background:var(--coral)"><small>${T('segParty')}</small>${fmt(startDec)}–${fmt(partyEnd)}</div>
+      <div class="tl-seg" style="width:${w(1)};background:var(--lilac)"><small>${T('segPickup')}</small>${fmt(partyEnd)}–${fmt(pickupEnd)}</div>`;
+    document.getElementById('tlTimes').innerHTML = LANG==='ru'
+      ? `<span>Приедем в <b>${fmt(setupStart)}</b></span>
+         <span>Праздник: <b>${partyHours} ${T('hourWord')}</b></span>
+         <span>Вывоз до <b>${fmt(pickupEnd)}</b></span>`
+      : `<span>Llegamos a las <b>${fmt(setupStart)}</b></span>
+         <span>La fiesta: <b>${partyHours} ${T('hourWord')}</b></span>
+         <span>Recogida hasta las <b>${fmt(pickupEnd)}</b></span>`;
+    document.getElementById('tlLegend').innerHTML = `
+      <span><i style="background:var(--blue)"></i>${T('legSetup')}</span>
+      <span><i style="background:var(--coral)"></i>${T('legParty')}</span>
+      <span><i style="background:var(--lilac)"></i>${T('legPickup')}</span>`;
   }
 
   // ===== validación =====
@@ -380,25 +475,22 @@
   }
 
   // ===== confirmar =====
-  const STATUS = [
-    {n:'Nueva solicitud', s:'Acabas de enviar la reserva'},
-    {n:'Esperando confirmación', s:'Comprobamos que el equipo esté libre (unos minutos)'},
-    {n:'Esperando seña', s:'Te enviamos el enlace de pago del 50%'},
-    {n:'Confirmado', s:'Tu fecha está bloqueada'},
-    {n:'Preparando el equipo', s:'Montamos tu pack el día del evento'},
-    {n:'En reparto', s:'Vamos camino al lugar de la fiesta'},
-    {n:'Fiesta en curso', s:'¡A disfrutar!'},
-    {n:'Esperando desmontaje', s:'Recogemos al terminar la franja'},
-    {n:'Completado', s:'Fiesta entregada. ¡Gracias!'},
-  ];
   window.confirm = ()=>{
     if(!validate()) return;
     const num = 'FL-' + String(Math.floor(1000+Math.random()*9000));
     document.getElementById('orderNo').textContent = num;
-    const dt = pickedDate.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-    document.getElementById('successText').innerHTML =
-      `Reserva para el <b>${dt}</b> a las <b>${SLOTS[pickedSlot]}</b>. Te escribimos por WhatsApp en unos minutos para confirmarte disponibilidad. Tu fecha queda apartada mientras tanto.`;
-    document.getElementById('statusLine').innerHTML = STATUS.map((st,i)=>`
+    let dt;
+    if(LANG==='ru'){
+      const dNum = pickedDate.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
+      const wd = pickedDate.toLocaleDateString('ru-RU',{weekday:'long'});
+      dt = `${dNum} (${wd})`;
+    } else {
+      dt = pickedDate.toLocaleDateString(dateLocale(),{weekday:'long',day:'numeric',month:'long'});
+    }
+    document.getElementById('successText').innerHTML = LANG==='ru'
+      ? `Бронь на <b>${dt}</b> в <b>${SLOTS[pickedSlot]}</b>. Напишем в WhatsApp через несколько минут, чтобы подтвердить наличие. Дата пока зарезервирована за тобой.`
+      : `Reserva para el <b>${dt}</b> a las <b>${SLOTS[pickedSlot]}</b>. Te escribimos por WhatsApp en unos minutos para confirmarte disponibilidad. Tu fecha queda apartada mientras tanto.`;
+    document.getElementById('statusLine').innerHTML = STATUS[LANG].map((st,i)=>`
       <div class="st-item ${i===0?'now':''}">
         <span class="st-dot"></span>
         <span><span class="st-name">${st.n}</span><br><span class="st-sub">${st.s}</span></span>
@@ -409,7 +501,7 @@
     const booking = {
       id: num, created: new Date().toISOString(),
       dateISO: `${pickedDate.getFullYear()}-${String(pickedDate.getMonth()+1).padStart(2,'0')}-${String(pickedDate.getDate()).padStart(2,'0')}`,
-      dateTxt: pickedDate.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
+      dateTxt: pickedDate.toLocaleDateString(dateLocale(),{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
       slot: SLOTS[pickedSlot], duration: partyHours,
       window: `${fmt(startDec2-1)} – ${fmt(startDec2+partyHours+1)}`,
       items: order ? order.items : [],
@@ -432,7 +524,20 @@
     window.scrollTo({top:0,behavior:'smooth'});
   };
 
-  renderCal();
+  // ===== lang switch =====
+  function applyLang(l){
+    LANG = l;
+    localStorage.setItem('fl_lang', l);
+    document.documentElement.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(b=>b.classList.toggle('active', b.dataset.lang===l));
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(TXT[l][k]!==undefined) el.innerHTML=TXT[l][k]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ const k=el.dataset.i18nPh; if(TXT[l][k]!==undefined) el.placeholder=TXT[l][k]; });
+    renderOrderCard();
+    renderCal();
+    if(pickedDate){ renderSlots(); if(pickedSlot!==null) renderWindow(); }
+  }
+  document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
+  applyLang(LANG);
 </script>
 </body>
 </html>
