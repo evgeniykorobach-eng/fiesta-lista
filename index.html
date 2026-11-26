@@ -33,17 +33,6 @@
   }
   h1,h2,.serif{font-family:'Fraunces',serif}
 
-  /* ---------- confetti ---------- */
-  .confetti-piece{
-    position:absolute;top:-20px;width:10px;height:14px;
-    border-radius:3px;opacity:.85;z-index:1;
-    animation:fall linear infinite;
-  }
-  @keyframes fall{
-    0%{transform:translateY(-30px) rotate(0deg)}
-    100%{transform:translateY(110vh) rotate(540deg)}
-  }
-
   /* ---------- header ---------- */
   header{
     position:sticky;top:0;z-index:50;
@@ -57,16 +46,38 @@
   }
   .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.35rem;letter-spacing:-.02em}
   .logo .balloon{width:30px;height:38px;flex:none}
-  nav{display:flex;gap:26px;margin-left:24px;font-weight:700;font-size:.95rem}
-  nav a{color:var(--ink);text-decoration:none;opacity:.75;transition:opacity .15s}
+  nav{display:flex;gap:22px;margin-left:auto;font-weight:700;font-size:.95rem}
+  nav a{color:var(--ink);text-decoration:none;opacity:.75;transition:opacity .15s;white-space:nowrap}
   nav a:hover{opacity:1}
-  .header-actions{margin-left:auto;display:flex;align-items:center;gap:12px}
-  .lang-switch{display:flex;background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:999px;padding:3px}
-  .lang-switch button{
-    border:0;background:transparent;padding:5px 11px;border-radius:999px;
-    font:800 .78rem 'Nunito';color:var(--ink-soft);cursor:pointer;transition:.15s;
+  .header-actions{display:flex;align-items:center;gap:12px}
+  .burger{
+    display:none;width:42px;height:42px;border-radius:12px;border:1px solid rgba(46,42,38,.12);
+    background:#fff;cursor:pointer;place-items:center;
   }
-  .lang-switch button.active{background:var(--ink);color:#fff}
+  .burger svg{width:20px;height:20px}
+
+  /* language dropdown */
+  .lang-drop{position:relative}
+  .lang-current{
+    display:inline-flex;align-items:center;gap:7px;
+    background:#fff;border:1px solid rgba(46,42,38,.12);border-radius:999px;
+    padding:8px 14px;font:800 .82rem 'Nunito';color:var(--ink);cursor:pointer;transition:border-color .15s;
+  }
+  .lang-current:hover{border-color:var(--ink)}
+  .lang-current svg{width:10px;height:10px;transition:transform .15s}
+  .lang-drop.open .lang-current svg{transform:rotate(180deg)}
+  .lang-menu{
+    position:absolute;top:calc(100% + 8px);right:0;min-width:132px;
+    background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:16px;
+    box-shadow:0 16px 34px rgba(46,42,38,.14);padding:6px;display:none;z-index:60;
+  }
+  .lang-drop.open .lang-menu{display:block}
+  .lang-menu button{
+    display:block;width:100%;text-align:left;border:0;background:transparent;
+    padding:9px 12px;border-radius:10px;font:700 .86rem 'Nunito';color:var(--ink);cursor:pointer;
+  }
+  .lang-menu button:hover{background:var(--cream-2)}
+  .lang-menu button.active{background:var(--ink);color:#fff}
   .btn-wa{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--wa);color:#fff;font-weight:800;font-size:.92rem;
@@ -95,7 +106,7 @@
     font-weight:900;line-height:1.04;letter-spacing:-.02em;
     margin:22px 0 20px;
   }
-  h1 .accent{color:var(--coral);font-style:italic;font-weight:600}
+  h1 .accent{color:var(--coral);font-weight:900}
   .hero-sub{font-size:1.16rem;line-height:1.65;color:var(--ink-soft);max-width:46ch}
   .hero-ctas{display:flex;gap:14px;margin:30px 0 26px;flex-wrap:wrap}
   .btn-primary{
@@ -126,32 +137,23 @@
     box-shadow:0 30px 60px rgba(240,78,114,.16);
   }
   .art-card svg{position:absolute;inset:0;width:100%;height:100%}
-  .float-chip{
-    position:absolute;background:#fff;border-radius:18px;padding:12px 16px;
-    box-shadow:0 12px 28px rgba(46,42,38,.12);font-weight:800;font-size:.82rem;
-    display:flex;align-items:center;gap:10px;z-index:3;
-  }
-  .chip-1{top:8%;left:-26px;animation:bob 5s ease-in-out infinite}
-  .chip-2{bottom:12%;right:-20px;animation:bob 6s ease-in-out 1s infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-  .chip-icon{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;flex:none}
 
   /* ---------- steps strip ---------- */
-  .steps{background:var(--ink);color:var(--cream)}
+  .steps{background:linear-gradient(120deg,var(--pink-soft),#FFF0D9 58%,#E3F3FF)}
   .steps-in{max-width:1200px;margin:0 auto;padding:44px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
   .step{display:flex;gap:16px;align-items:flex-start}
   .step-num{
-    font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+    font-family:'Fraunces',serif;font-weight:900;
     color:var(--coral);font-size:1.5rem;line-height:1;flex:none;
   }
-  .step h3{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;margin-bottom:6px;color:#fff}
-  .step p{font-size:.92rem;color:rgba(255,247,238,.65);line-height:1.5}
+  .step h3{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;margin-bottom:6px;color:var(--ink)}
+  .step p{font-size:.92rem;color:var(--ink-soft);line-height:1.5}
 
   /* ---------- packages ---------- */
   .packages{max-width:1200px;margin:0 auto;padding:88px 24px 40px}
   .section-head{text-align:center;max-width:560px;margin:0 auto 54px}
   .section-head h2{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.02em}
-  .section-head h2 em{color:var(--coral);font-weight:600}
+  .section-head h2 em{color:var(--coral);font-weight:900;font-style:normal}
   .section-head p{margin-top:14px;color:var(--ink-soft);font-size:1.08rem;line-height:1.6}
   .pack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
   .pack{
@@ -212,24 +214,28 @@
 
   /* ---------- responsive ---------- */
   @media (max-width:960px){
-    nav{display:none}
+    .burger{display:grid}
+    nav{
+      display:none;position:absolute;top:100%;right:12px;left:12px;margin:0;
+      flex-direction:column;gap:2px;background:#fff;border:1px solid rgba(46,42,38,.1);
+      border-radius:18px;padding:10px;box-shadow:0 20px 44px rgba(46,42,38,.16);z-index:70;
+    }
+    nav.open{display:flex}
+    nav a{padding:11px 14px;border-radius:12px}
+    nav a:hover{background:var(--cream-2)}
     .hero{grid-template-columns:1fr;padding:44px 20px 60px;gap:44px}
     .hero-art{max-width:480px;margin:0 auto;width:100%}
-    .chip-1{left:6px}
-    .chip-2{right:6px}
     .steps-in{grid-template-columns:1fr;gap:26px}
     .pack-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto}
     .pack.featured{transform:none}
     .pack.featured:hover{transform:translateY(-6px)}
     .builder-card{grid-template-columns:1fr;padding:36px 26px}
     .header-in{flex-wrap:wrap;padding:12px 16px}
-    .lang-switch{margin-left:auto}
+    .header-actions{margin-left:auto}
   }
 </style>
 </head>
 <body>
-
-<div id="confetti" aria-hidden="true"></div>
 
 <header>
   <div class="header-in">
@@ -242,23 +248,34 @@
       </svg>
       FiestaLista
     </div>
-    <nav>
-      <a href="#packs" data-i18n="nav_packs">Packs</a>
+    <nav id="mainNav">
+      <a href="index.html" data-i18n="nav_home">Inicio</a>
+      <a href="index.html#packs" data-i18n="nav_packs">Packs</a>
       <a href="constructor.html" data-i18n="nav_builder">Crea tu fiesta</a>
-      <a href="#how" data-i18n="nav_how">Cómo funciona</a>
+      <a href="galeria.html" data-i18n="nav_gallery">Galería</a>
+      <a href="nosotros.html" data-i18n="nav_about">Nosotros</a>
       <a href="cuenta.html" data-i18n="nav_account">Mi cuenta</a>
     </nav>
     <div class="header-actions">
-      <div class="lang-switch">
-        <button class="active" data-lang="es">ES</button>
-        <button data-lang="ca">CA</button>
-        <button data-lang="en">EN</button>
-        <button data-lang="ru">RU</button>
+      <div class="lang-drop" id="langDrop">
+        <button class="lang-current" id="langCurrent" aria-haspopup="true">
+          <span id="langCurrentLabel">ES</span>
+          <svg viewBox="0 0 10 10" fill="none"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button data-lang="es" class="active">Español</button>
+          <button data-lang="ca">Català</button>
+          <button data-lang="en">English</button>
+          <button data-lang="ru">Русский</button>
+        </div>
       </div>
       <a class="btn-wa" href="#">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
         WhatsApp
       </a>
+      <button class="burger" id="burger" aria-label="Menú">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="#2E2A26" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -413,18 +430,6 @@
         </g>
       </svg>
     </div>
-    <div class="float-chip chip-1">
-      <span class="chip-icon" style="background:#FFE9F0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9h18M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M8 9V6a4 4 0 0 1 8 0v3" stroke="#F04E72" stroke-width="2" stroke-linecap="round"/></svg>
-      </span>
-      <span data-i18n="chip1">Montaje incluido<br>en todos los packs</span>
-    </div>
-    <div class="float-chip chip-2">
-      <span class="chip-icon" style="background:#E7F6EA">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.6-7-10a7 7 0 0 1 14 0c0 5.4-7 10-7 10Z" stroke="#3D9B5A" stroke-width="2"/><circle cx="12" cy="11" r="2.6" stroke="#3D9B5A" stroke-width="2"/></svg>
-      </span>
-      <span data-i18n="chip2">Barcelona<br>envío gratis</span>
-    </div>
   </div>
 </section>
 
@@ -533,16 +538,16 @@
 </footer>
 
 <script src="track.js"></script>
+<script src="confetti.js"></script>
 <script>
   const I18N = {
     es: {
-      nav_packs:"Packs", nav_builder:"Crea tu fiesta", nav_how:"Cómo funciona", nav_account:"Mi cuenta",
+      nav_home:"Inicio", nav_packs:"Packs", nav_builder:"Crea tu fiesta", nav_gallery:"Galería", nav_about:"Nosotros", nav_account:"Mi cuenta",
       eyebrow:"Cumpleaños al aire libre en Barcelona",
       h1:'Tu fiesta, <span class="accent">lista</span><br>para celebrar',
       sub:"Mesa, decoración, globos y juegos: lo montamos en el parque o jardín que elijas y lo recogemos al terminar. Tú solo tienes que disfrutar.",
       cta_packs:"Ver packs", cta_builder:"Crear mi fiesta",
       trust1:"Montaje y recogida incluidos", trust2:"Envío gratis en Barcelona", trust3:"Precio cerrado por escrito antes de pagar",
-      chip1:"Montaje incluido<br>en todos los packs", chip2:"Barcelona<br>envío gratis",
       s1t:"Elige fecha y pack", s1p:"Reserva online en dos minutos o escríbenos por WhatsApp. Confirmamos disponibilidad al momento.",
       s2t:"Recibes todo montado", s2p:"Llegamos al parque antes de la fiesta: mesa, decoración, globos y juegos, listos para celebrar.",
       s3t:"Nosotros recogemos", s3p:"Cuando termina la fiesta desmontamos y nos llevamos todo. Tú no mueves un dedo.",
@@ -557,13 +562,12 @@
       footer:"Cumpleaños infantiles con entrega, montaje y recogida · Barcelona y alrededores"
     },
     ca: {
-      nav_packs:"Packs", nav_builder:"Crea la teva festa", nav_how:"Com funciona", nav_account:"El meu compte",
+      nav_home:"Inici", nav_packs:"Packs", nav_builder:"Crea la teva festa", nav_gallery:"Galeria", nav_about:"Nosaltres", nav_account:"El meu compte",
       eyebrow:"Aniversaris a l'aire lliure a Barcelona",
       h1:'La teva festa, <span class="accent">llista</span><br>per celebrar',
       sub:"Taula, decoració, globus i jocs: ho muntem al parc o jardí que triïs i ho recollim quan acaba. Tu només has de gaudir.",
       cta_packs:"Veure packs", cta_builder:"Crear la meva festa",
       trust1:"Muntatge i recollida inclosos", trust2:"Enviament gratis a Barcelona", trust3:"Preu tancat per escrit abans de pagar",
-      chip1:"Muntatge inclòs<br>a tots els packs", chip2:"Barcelona<br>enviament gratis",
       s1t:"Tria data i pack", s1p:"Reserva online en dos minuts o escriu-nos per WhatsApp. Confirmem disponibilitat al moment.",
       s2t:"Rebs tot muntat", s2p:"Arribem al parc abans de la festa: taula, decoració, globus i jocs, a punt per celebrar.",
       s3t:"Nosaltres recollim", s3p:"Quan acaba la festa desmuntem i ens ho enduem. Tu no mous un dit.",
@@ -578,13 +582,12 @@
       footer:"Aniversaris infantils amb entrega, muntatge i recollida · Barcelona i rodalies"
     },
     en: {
-      nav_packs:"Packages", nav_builder:"Build your party", nav_how:"How it works", nav_account:"My account",
+      nav_home:"Home", nav_packs:"Packages", nav_builder:"Build your party", nav_gallery:"Gallery", nav_about:"About us", nav_account:"My account",
       eyebrow:"Outdoor kids' birthdays in Barcelona",
       h1:'Your party, <span class="accent">ready</span><br>to celebrate',
       sub:"Table, decor, balloons and games: we set everything up at the park or garden of your choice and pick it up when it's over. You just enjoy.",
       cta_packs:"See packages", cta_builder:"Build my party",
       trust1:"Set-up and pick-up included", trust2:"Free delivery in Barcelona", trust3:"Fixed quote in writing before you pay",
-      chip1:"Set-up included<br>in every package", chip2:"Barcelona<br>free delivery",
       s1t:"Pick date & package", s1p:"Book online in two minutes or message us on WhatsApp. We confirm availability right away.",
       s2t:"Everything arrives set up", s2p:"We arrive at the park before the party: table, decor, balloons and games, ready to celebrate.",
       s3t:"We pick everything up", s3p:"When the party ends we take it all down and away. You don't lift a finger.",
@@ -599,13 +602,12 @@
       footer:"Kids' birthdays with delivery, set-up and pick-up · Barcelona and surroundings"
     },
     ru: {
-      nav_packs:"Пакеты", nav_builder:"Собери свой праздник", nav_how:"Как это работает", nav_account:"Мой аккаунт",
+      nav_home:"Главная", nav_packs:"Пакеты", nav_builder:"Собери свой праздник", nav_gallery:"Галерея", nav_about:"О нас", nav_account:"Мой аккаунт",
       eyebrow:"Детские праздники на открытом воздухе в Барселоне",
       h1:'Ваш праздник <span class="accent">готов</span><br>к торжеству',
       sub:"Стол, декор, шары и игры: мы всё установим в выбранном вами парке или саду и заберём, когда праздник закончится. Вам останется только веселиться.",
       cta_packs:"Смотреть пакеты", cta_builder:"Собрать свой праздник",
       trust1:"Установка и сборка включены", trust2:"Бесплатная доставка по Барселоне", trust3:"Фиксированная цена письменно до оплаты",
-      chip1:"Установка включена<br>во все пакеты", chip2:"Барселона<br>бесплатная доставка",
       s1t:"Выберите дату и пакет", s1p:"Бронируйте онлайн за две минуты или напишите нам в WhatsApp. Наличие подтверждаем сразу.",
       s2t:"Всё привозим и собираем", s2p:"Приезжаем в парк до начала праздника: стол, декор, шары и игры — всё готово к торжеству.",
       s3t:"Мы всё забираем", s3p:"Когда праздник заканчивается, мы всё разбираем и увозим. Вам не нужно шевелить пальцем.",
@@ -621,9 +623,13 @@
     }
   };
 
-  const buttons = document.querySelectorAll('.lang-switch button');
+  // idioma: desplegable compacto
+  const langDrop = document.getElementById('langDrop');
+  const langLabel = document.getElementById('langCurrentLabel');
+  const langButtons = document.querySelectorAll('.lang-menu button');
   function setLang(lang){
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.lang===lang));
+    langButtons.forEach(b => b.classList.toggle('active', b.dataset.lang===lang));
+    langLabel.textContent = lang.toUpperCase();
     document.documentElement.lang = lang;
     localStorage.setItem('fl_lang', lang);
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -635,9 +641,29 @@
       if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
     });
   }
-  buttons.forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+  document.getElementById('langCurrent').addEventListener('click', e => {
+    e.stopPropagation();
+    langDrop.classList.toggle('open');
+  });
+  langButtons.forEach(btn => btn.addEventListener('click', () => {
+    setLang(btn.dataset.lang);
+    langDrop.classList.remove('open');
+  }));
+  document.addEventListener('click', e => {
+    if (!langDrop.contains(e.target)) langDrop.classList.remove('open');
+  });
   const savedLang = localStorage.getItem('fl_lang');
   if (savedLang && I18N[savedLang]) setLang(savedLang);
+
+  // menú móvil
+  const mainNav = document.getElementById('mainNav');
+  document.getElementById('burger').addEventListener('click', e => {
+    e.stopPropagation();
+    mainNav.classList.toggle('open');
+  });
+  document.addEventListener('click', e => {
+    if (!mainNav.contains(e.target)) mainNav.classList.remove('open');
+  });
 
   // precios de los packs desde el panel admin (fl_prices)
   try {
@@ -648,22 +674,6 @@
       set(0, fp.basic); set(1, fp.std); set(2, fp.prem);
     }
   } catch (e) {}
-
-  // gentle confetti across the whole page
-  const colors = ['#FF6B8A','#FFC94D','#6BCB77','#5B8DEF','#B983FF','#FF9F6B'];
-  const layer = document.getElementById('confetti');
-  for (let i = 0; i < 26; i++) {
-    const p = document.createElement('div');
-    p.className = 'confetti-piece';
-    p.style.left = Math.random() * 100 + 'vw';
-    p.style.background = colors[i % colors.length];
-    p.style.animationDuration = (9 + Math.random() * 9) + 's';
-    p.style.animationDelay = (-Math.random() * 14) + 's';
-    p.style.width = (6 + Math.random() * 7) + 'px';
-    p.style.height = (8 + Math.random() * 8) + 'px';
-    p.style.borderRadius = Math.random() > .5 ? '50%' : '3px';
-    layer.appendChild(p);
-  }
 </script>
 </body>
 </html>

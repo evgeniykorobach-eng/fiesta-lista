@@ -36,7 +36,7 @@
 
   .page-head{margin-bottom:32px}
   .page-head h1{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.02em}
-  .page-head h1 em{color:var(--coral);font-weight:600}
+  .page-head h1 em{color:var(--coral);font-style:normal;font-weight:900}
   .page-head p{margin-top:10px;color:var(--ink-soft);font-size:1.05rem;line-height:1.6;max-width:56ch}
 
   .step{background:#fff;border:1px solid rgba(46,42,38,.07);border-radius:var(--radius);padding:28px;margin-bottom:22px;scroll-margin-top:96px}
@@ -81,6 +81,7 @@
 
   .text-input,.select-input{width:100%;border:2px solid rgba(46,42,38,.12);border-radius:14px;padding:13px 16px;font:700 .95rem 'Nunito';color:var(--ink);background:#fff;outline:none;transition:border-color .15s}
   .text-input:focus,.select-input:focus{border-color:var(--coral)}
+  .sub-label{font-weight:800;font-size:.82rem;color:var(--ink-soft);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.06em}
   .games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .game-chip{border:2px solid rgba(46,42,38,.1);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;background:#fff}
   .game-chip .g-ico{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center}
@@ -96,6 +97,7 @@
   .sum-line{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;color:rgba(255,247,238,.8)}
   .sum-line .l-qty{color:rgba(255,247,238,.5);margin-right:6px}
   .sum-line.empty{color:rgba(255,247,238,.4);font-style:italic}
+  .sum-when{font-size:.85rem;font-weight:800;color:var(--yellow);margin-bottom:12px}
   .sum-total{border-top:1px solid rgba(255,247,238,.15);margin-top:16px;padding-top:16px}
   .sum-row{display:flex;justify-content:space-between;font-size:.92rem;color:rgba(255,247,238,.75);margin-bottom:8px}
   .sum-row.grand{font-size:1.35rem;font-weight:900;color:#fff;font-family:'Fraunces',serif;margin-top:10px}
@@ -146,15 +148,48 @@
   <main>
     <div class="page-head">
       <h1 data-i18n="h1">Crea <em>tu</em> fiesta</h1>
-      <p data-i18n="sub">Elige cada pieza y mira el precio al momento. Cuando lo tengas claro, reserva la fecha: nosotros nos encargamos del resto.</p>
+      <p data-i18n="sub">Primero elige el día y el lugar, después cada pieza. Ves el precio al momento y reservas cuando lo tengas claro.</p>
     </div>
 
-    <!-- 1. MESA -->
-    <section class="step" id="s-mesa">
+    <!-- 1. FECHA Y HORA -->
+    <section class="step" id="s-fecha">
       <div class="step-head">
         <span class="step-num">1</span>
-        <h2 data-i18n="s1t">La mesa</h2>
-        <span class="hint" data-i18n="s1h">Elige modelo, cantidad y duración</span>
+        <h2 data-i18n="s1t">Fecha y hora</h2>
+        <span class="hint" data-i18n="s1h">Elige el día y la hora de inicio</span>
+      </div>
+      <div class="row" style="margin-top:0">
+        <span class="row-label" data-i18n="dateL">Día de la fiesta</span>
+        <input type="date" class="text-input" style="max-width:220px" id="dateInput" oninput="state.date=this.value;render()" onchange="state.date=this.value;render()">
+      </div>
+      <div class="row">
+        <span class="row-label" data-i18n="timeL">Hora de inicio</span>
+        <div class="pills" id="timePills"></div>
+      </div>
+      <div class="calc-note" data-i18n="timenote">Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> del final para desmontar y recoger.</div>
+    </section>
+
+    <!-- 2. LUGAR -->
+    <section class="step" id="s-lugar">
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2 data-i18n="s2t">Lugar de la fiesta</h2>
+        <span class="hint" data-i18n="s2h">Un parque o tu dirección · siempre al aire libre</span>
+      </div>
+      <div class="sub-label" data-i18n="parkL">Parque de Barcelona</div>
+      <select class="select-input" id="parkSelect" onchange="state.park=this.value;render()"></select>
+      <div class="sub-label" data-i18n="addrL">o indica la dirección</div>
+      <input class="text-input" id="addressInput" data-i18n-ph="addrPh" placeholder="Calle, número, ciudad o distrito" oninput="state.address=this.value;render()">
+      <div class="sub-label" data-i18n="zoneL">Zona de entrega</div>
+      <div class="opt-grid" id="zones"></div>
+    </section>
+
+    <!-- 3. MESA -->
+    <section class="step" id="s-mesa">
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2 data-i18n="s3t">La mesa</h2>
+        <span class="hint" data-i18n="s3h">Modelo, mantelería, cantidad y duración</span>
       </div>
       <div class="opt-grid" id="tableModels"></div>
       <div class="row">
@@ -167,31 +202,29 @@
         <span class="row-label" style="margin-left:14px" data-i18n="dur">Duración</span>
         <div class="pills" id="durPills"></div>
       </div>
-    </section>
-
-    <!-- 2. MANTELERÍA -->
-    <section class="step" id="s-mantel">
-      <div class="step-head">
-        <span class="step-num">2</span>
-        <h2 data-i18n="s2t">Mantelería</h2>
-        <span class="hint" data-i18n="s2h">Una mantelería por mesa</span>
-      </div>
+      <div class="sub-label" data-i18n="clothL">Mantelería (una por mesa)</div>
       <div class="opt-grid" id="clothModels"></div>
     </section>
 
-    <!-- 3. VAJILLA -->
+    <!-- 4. INVITADOS Y VAJILLA -->
     <section class="step" id="s-vajilla">
       <div class="step-head">
-        <span class="step-num">3</span>
-        <h2 data-i18n="s3t">Vajilla y cubertería</h2>
-        <span class="hint" data-i18n="s3h">Calculamos lo necesario por invitado</span>
+        <span class="step-num">4</span>
+        <h2 data-i18n="s4t">Invitados y vajilla</h2>
+        <span class="hint" data-i18n="s4h">Calculamos lo necesario por invitado</span>
       </div>
-      <div class="row">
-        <span class="row-label" data-i18n="guests">Invitados</span>
+      <div class="row" style="margin-top:0">
+        <span class="row-label" data-i18n="kidsL">Niños</span>
         <div class="stepper">
-          <button type="button" onclick="bump('guests',-1)">−</button>
-          <span class="val" id="v-guests">10<small>niños</small></span>
-          <button type="button" onclick="bump('guests',1)">+</button>
+          <button type="button" onclick="bump('kids',-1)">−</button>
+          <span class="val" id="v-kids">8</span>
+          <button type="button" onclick="bump('kids',1)">+</button>
+        </div>
+        <span class="row-label" data-i18n="adultsL">Adultos</span>
+        <div class="stepper">
+          <button type="button" onclick="bump('adults',-1)">−</button>
+          <span class="val" id="v-adults">4</span>
+          <button type="button" onclick="bump('adults',1)">+</button>
         </div>
       </div>
       <div class="calc-note" id="dishNote"></div>
@@ -218,14 +251,14 @@
       </div>
     </section>
 
-    <!-- 4. GLOBOS -->
-    <section class="step" id="s-globos">
+    <!-- 5. DECORACIÓN -->
+    <section class="step" id="s-decor">
       <div class="step-head">
-        <span class="step-num">4</span>
-        <h2 data-i18n="s4t">Globos</h2>
-        <span class="hint" data-i18n="s4h">Todos con helio</span>
+        <span class="step-num">5</span>
+        <h2 data-i18n="s5t">Decoración</h2>
+        <span class="hint" data-i18n="s5h">Globos con helio, arco y el nombre del cumpleañero</span>
       </div>
-      <div class="row">
+      <div class="row" style="margin-top:0">
         <label class="check-row" style="margin-top:0">
           <input type="checkbox" id="numBalloon" onchange="toggle('numBalloon', this.checked)">
           <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -242,15 +275,7 @@
         </div>
         <span style="font-size:.85rem;color:var(--ink-soft);font-weight:700" data-i18n="b30note">se quedan contigo después de la fiesta</span>
       </div>
-    </section>
-
-    <!-- 5. ARCO -->
-    <section class="step" id="s-arco">
-      <div class="step-head">
-        <span class="step-num">5</span>
-        <h2 data-i18n="s5t">Arco decorativo</h2>
-        <span class="hint" data-i18n="s5h">Sobre la mesa del cumpleañero</span>
-      </div>
+      <div class="sub-label" data-i18n="archL0">Arco sobre la mesa</div>
       <label class="check-row" style="margin-top:0">
         <input type="checkbox" id="arch" onchange="toggle('arch', this.checked)">
         <span class="check-box"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5 5.5 11 12 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -277,26 +302,13 @@
       </div>
       <div class="games-grid" id="gamesGrid"></div>
     </section>
-
-    <!-- 7. ENTREGA -->
-    <section class="step" id="s-entrega">
-      <div class="step-head">
-        <span class="step-num">7</span>
-        <h2 data-i18n="s7t">Entrega y recogida</h2>
-        <span class="hint" data-i18n="s7h">Incluye montaje y desmontaje</span>
-      </div>
-      <div class="opt-grid" id="zones"></div>
-      <div class="row">
-        <input class="text-input" id="addressInput" placeholder="Dirección del evento (calle, número, ciudad)" data-i18n-ph="addrPh" oninput="state.address=this.value;render()">
-      </div>
-      <div class="calc-note" data-i18n="delnote">Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.</div>
-    </section>
   </main>
 
   <!-- SUMMARY -->
   <aside>
     <div class="summary">
       <h3 data-i18n="sumT">Tu fiesta</h3>
+      <div class="sum-when" id="sumWhen"></div>
       <div class="sum-lines" id="sumLines"></div>
       <div class="sum-total">
         <div class="sum-row"><span data-i18n="subtotal">Subtotal</span><span id="sumSubtotal">0 €</span></div>
@@ -320,6 +332,7 @@
 </div>
 
 <script src="track.js"></script>
+<script src="confetti.js"></script>
 <script>
   // ===== Precios (placeholders — en el sistema real los cambia el admin) =====
   const PRICES = {
@@ -343,6 +356,8 @@
              {id:'circuito',name:'Circuito de coches',color:'#FFE9D6',ico:'M3 17 c4-6 8 2 12-4 l3 2 M5 17 a2 2 0 1 0 4 0 a2 2 0 0 0 -4 0'} ],
     zones: { bcn:{name:'Dentro de Barcelona',desc:'Gratis',price:0},
              near:{name:'Alrededores',desc:'Hospitalet, Badalona, Cornellà…',price:20} },
+    parks: ['Parc de la Ciutadella','Parc Güell','Jardins de Joan Brossa','Parc del Guinardó','Parc de Cervantes','Parc de l’Oreneta','Parc del Clot','Parc de la Barceloneta'],
+    timeSlots: ['10:00','12:00','15:00','17:00'],
     depositPct: 0.5
   };
 
@@ -352,29 +367,33 @@
     es: {
       back:'← Volver al inicio',
       h1:'Crea <em>tu</em> fiesta',
-      sub:'Elige cada pieza y mira el precio al momento. Cuando lo tengas claro, reserva la fecha: nosotros nos encargamos del resto.',
-      s1t:'La mesa', s1h:'Elige modelo, cantidad y duración',
-      s2t:'Mantelería', s2h:'Una mantelería por mesa',
-      s3t:'Vajilla y cubertería', s3h:'Calculamos lo necesario por invitado',
-      s4t:'Globos', s4h:'Todos con helio',
-      s5t:'Arco decorativo', s5h:'Sobre la mesa del cumpleañero',
+      sub:'Primero elige el día y el lugar, después cada pieza. Ves el precio al momento y reservas cuando lo tengas claro.',
+      s1t:'Fecha y hora', s1h:'Elige el día y la hora de inicio',
+      s2t:'Lugar de la fiesta', s2h:'Un parque o tu dirección · siempre al aire libre',
+      s3t:'La mesa', s3h:'Modelo, mantelería, cantidad y duración',
+      s4t:'Invitados y vajilla', s4h:'Calculamos lo necesario por invitado',
+      s5t:'Decoración', s5h:'Globos con helio, arco y el nombre del cumpleañero',
       s6t:'Juegos', s6h:'10 € por juego · elige los que quieras',
-      s7t:'Entrega y recogida', s7h:'Incluye montaje y desmontaje',
-      qty:'Cantidad', dur:'Duración', guests:'Invitados',
+      dateL:'Día de la fiesta', timeL:'Hora de inicio',
+      timenote:'Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> del final para desmontar y recoger.',
+      parkL:'Parque de Barcelona', parkPh:'Elige un parque…', parkOther:'Otro parque o lugar',
+      addrL:'o indica la dirección', addrPh:'Calle, número, ciudad o distrito', zoneL:'Zona de entrega',
+      clothL:'Mantelería (una por mesa)',
+      qty:'Cantidad', dur:'Duración', kidsL:'Niños', adultsL:'Adultos',
       bigp:'Platos grandes', snackp:'Platos de aperitivo', b30:'Globos 30 cm',
       b30note:'se quedan contigo después de la fiesta',
       tarta:'Soporte para la tarta', tartas:'La tarta queda en alto y a la vista',
       numball:'Globo de número', numballs:'El número de la edad, gigante',
+      archL0:'Arco sobre la mesa',
       archc:'Arco «¡Feliz cumpleaños!»', archcs:'+45 € · montado sobre la mesa',
       archn:'Añadir el nombre del cumpleañero', archns:'+15 € · la decoración con nombre se queda contigo',
-      namePh:'Ej. Martina', addrPh:'Dirección del evento (calle, número, ciudad)',
-      delnote:'Llegamos <b>1 hora antes</b> para montar todo y volvemos <b>1 hora después</b> para desmontar y recoger. Los tiempos se confirman al reservar.',
+      namePh:'Ej. Martina',
       sumT:'Tu fiesta', subtotal:'Subtotal', deliv:'Entrega', dep:'Reserva hoy ({pct}%)',
       reserve:'Reservar esta fecha', reserveShort:'Reservar',
       sumNote:'El resto se paga el día de la entrega. Cancelación flexible hasta 72 h antes.',
       emptySum:'Aún no has elegido nada…', included:'Incluido', gratis:'Gratis', hour:'h',
       perParty:'/ fiesta', reserveToday:'reserva hoy',
-      alertMsg:'Elige al menos la mesa para poder reservar 🙂',
+      alertMsg:'Elige la fecha, la hora y al menos la mesa para poder reservar 🙂',
       dish:'Vajilla completa', tartaL:'Soporte para la tarta', bigL:'Platos grandes',
       snackL:'Platos de aperitivo', numballL:'Globo número', b30L:'Globos 30 cm',
       helium:'(helio)', archL:'Arco «¡Feliz cumpleaños!»', archNameL:'Nombre en el arco', keep:'se queda contigo'
@@ -382,29 +401,33 @@
     ru: {
       back:'← На главную',
       h1:'Собери <em>свой</em> праздник',
-      sub:'Выбирай каждую деталь и сразу видь цену. Когда всё решишь — забронируй дату, об остальном позаботимся мы.',
-      s1t:'Стол', s1h:'Выбери модель, количество и длительность',
-      s2t:'Скатерть', s2h:'Одна скатерть на каждый стол',
-      s3t:'Посуда и приборы', s3h:'Считаем всё необходимое по гостям',
-      s4t:'Шары', s4h:'Все наполнены гелием',
-      s5t:'Декоративная арка', s5h:'Над столом именинника',
+      sub:'Сначала выбери день и место, потом каждую деталь. Цена видна сразу, бронируй, когда будешь готов.',
+      s1t:'Дата и время', s1h:'Выбери день праздника и время начала',
+      s2t:'Место проведения', s2h:'Парк или свой адрес · всегда на улице',
+      s3t:'Стол', s3h:'Модель, скатерть, количество и длительность',
+      s4t:'Гости и посуда', s4h:'Считаем всё необходимое по гостям',
+      s5t:'Украшения', s5h:'Шары с гелием, арка и имя именинника',
       s6t:'Игры', s6h:'10 € за игру · выбирай сколько угодно',
-      s7t:'Доставка и вывоз', s7h:'Включает монтаж и демонтаж',
-      qty:'Количество', dur:'Длительность', guests:'Гости',
+      dateL:'День праздника', timeL:'Время начала',
+      timenote:'Приезжаем <b>за 1 час</b> до начала, чтобы всё смонтировать, и возвращаемся <b>через 1 час</b> после финала — демонтировать и забрать.',
+      parkL:'Парк Барселоны', parkPh:'Выбери парк…', parkOther:'Другой парк или место',
+      addrL:'или укажи адрес', addrPh:'Улица, номер, город или район', zoneL:'Зона доставки',
+      clothL:'Скатерть (одна на каждый стол)',
+      qty:'Количество', dur:'Длительность', kidsL:'Дети', adultsL:'Взрослые',
       bigp:'Большие тарелки', snackp:'Тарелки для закусок', b30:'Шары 30 см',
       b30note:'остаются у вас после праздника',
       tarta:'Подставка для торта', tartas:'Торт будет на видном месте',
       numball:'Шар-цифра', numballs:'Гигантская цифра возраста',
+      archL0:'Арка над столом',
       archc:'Арка «С днём рождения!»', archcs:'+45 € · устанавливается над столом',
       archn:'Добавить имя именинника', archns:'+15 € · декор с именем остаётся у вас',
-      namePh:'Например, Маша', addrPh:'Адрес праздника (улица, номер, город)',
-      delnote:'Приезжаем <b>за 1 час</b> до начала, чтобы всё смонтировать, и возвращаемся <b>через 1 час</b> после — демонтировать и забрать. Точное время подтвердим при бронировании.',
+      namePh:'Например, Маша',
       sumT:'Твой праздник', subtotal:'Подытог', deliv:'Доставка', dep:'Бронь сегодня ({pct}%)',
       reserve:'Забронировать дату', reserveShort:'Забронировать',
       sumNote:'Остаток оплачивается в день доставки. Гибкая отмена за 72 часа.',
       emptySum:'Пока ничего не выбрано…', included:'Включено', gratis:'Бесплатно', hour:'ч',
       perParty:'/ праздник', reserveToday:'бронь сегодня',
-      alertMsg:'Выбери хотя бы стол, чтобы забронировать 🙂',
+      alertMsg:'Выбери дату, время и хотя бы стол, чтобы забронировать 🙂',
       dish:'Посуда для гостей', tartaL:'Подставка для торта', bigL:'Большие тарелки',
       snackL:'Тарелки для закусок', numballL:'Шар-цифра', b30L:'Шары 30 см',
       helium:'(гелий)', archL:'Арка «С днём рождения!»', archNameL:'Имя на арке', keep:'остаётся у вас'
@@ -447,14 +470,15 @@
   function gname(id){ return LANG==='ru'&&NAMES_RU.games[id]?NAMES_RU.games[id]:(PRICES.games.find(g=>g.id===id)||{}).name; }
 
   const state = {
-    tableModel:'blanca', tables:1, duration:'4',
-    cloth:'lisa',
-    guests:10, cakeStand:false, bigPlates:0, snackPlates:0,
+    date:'', time:'',
+    zone:'bcn', park:'', address:'',
+    tableModel:'blanca', tables:1, duration:'4', cloth:'lisa',
+    kids:8, adults:4, cakeStand:false, bigPlates:0, snackPlates:0,
     numBalloon:false, digit:null, balloons30:0,
     arch:false, archName:false, archNameText:'',
-    games:{},
-    zone:'bcn', address:''
+    games:{}
   };
+  const totalGuests = () => state.kids + state.adults;
 
   const eur = n => new Intl.NumberFormat(LANG==='ru'?'ru-RU':'es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
 
@@ -474,6 +498,14 @@
     const c = document.getElementById(containerId);
     c.innerHTML = values.map(v=>`
       <button type="button" class="pill ${String(v)===String(selected)?'selected':''}" onclick="${onSelect}('${v}')">${fmt(v)}</button>`).join('');
+  }
+
+  function renderParks(){
+    const c = document.getElementById('parkSelect');
+    const opts = [`<option value="">${T('parkPh')}</option>`]
+      .concat(PRICES.parks.map(p=>`<option value="${p}" ${state.park===p?'selected':''}>${p}</option>`))
+      .concat([`<option value="__other" ${state.park==='__other'?'selected':''}>${T('parkOther')}</option>`]);
+    c.innerHTML = opts.join('');
   }
 
   function renderGames(){
@@ -501,6 +533,7 @@
   window.selectZone  = k=>{ state.zone=k; render(); };
   window.selectDuration = v=>{ state.duration=v; render(); };
   window.selectDigit = v=>{ state.digit=v; render(); };
+  window.selectTime = v=>{ state.time=v; render(); };
 
   // ---------- calculations ----------
   function calc(){
@@ -510,7 +543,7 @@
     L.push({label:`${ix('tables',state.tableModel,'name')} × ${state.tables} · ${state.duration} ${T('hour')}`, qty:'', price:tableUnit*state.tables});
     const cl=PRICES.cloth[state.cloth];
     if(cl.price>0) L.push({label:`${ix('cloth',state.cloth,'name')} × ${state.tables}`, qty:'', price:cl.price*state.tables});
-    const g=state.guests;
+    const g=totalGuests();
     if(g>0) L.push({label:`${T('dish')} · ${g} ${LANG==='ru'?plural(g,'гость','гостя','гостей'):'invitados'}`, qty:'', price:g*PRICES.dishSetPerGuest});
     if(state.cakeStand) L.push({label:T('tartaL'), qty:'', price:PRICES.cakeStand});
     if(state.bigPlates>0) L.push({label:T('bigL'), qty:state.bigPlates, price:state.bigPlates*PRICES.bigPlate});
@@ -534,24 +567,28 @@
     modelCards('clothModels','cloth',state.cloth,'selectCloth',true);
     modelCards('zones','zones',state.zone,'selectZone',false);
     renderPills('durPills',[4,6,8],state.duration,'selectDuration',v=>`${v} ${T('hour')}`);
+    renderPills('timePills',PRICES.timeSlots,state.time,'selectTime',v=>v);
     renderPills('digitPills',[0,1,2,3,4,5,6,7,8,9],state.digit,'selectDigit',v=>v);
     document.getElementById('digitPills').style.display = state.numBalloon?'flex':'none';
     document.getElementById('archNameRow').style.display = state.arch?'block':'none';
     document.getElementById('archNameInput').style.display = state.arch&&state.archName?'flex':'none';
+    renderParks();
     renderGames();
 
     document.getElementById('v-tables').innerHTML = `${state.tables}<small>${plural(state.tables, LANG==='ru'?'стол':'mesa', 'стола', LANG==='ru'?'столов':'mesas')}</small>`;
-    document.getElementById('v-guests').innerHTML = `${state.guests}<small>${LANG==='ru'?plural(state.guests,'гость','гостя','гостей'):'niños'}</small>`;
+    document.getElementById('v-kids').textContent = state.kids;
+    document.getElementById('v-adults').textContent = state.adults;
     document.getElementById('v-bigPlates').textContent = state.bigPlates;
     document.getElementById('v-snackPlates').textContent = state.snackPlates;
     document.getElementById('v-balloons30').textContent = state.balloons30;
 
-    const g=state.guests;
+    const k=state.kids, a=state.adults, g=totalGuests();
     document.getElementById('dishNote').innerHTML = LANG==='ru'
-      ? `На <b>${g} ${plural(g,'гость','гостя','гостей')}</b> автоматически включаем: <b>${g} ${plural(g,'стакан','стакана','стаканов')} · ${g} ${plural(g,'тарелка','тарелки','тарелок')} · ${g} ${plural(g,'прибор','прибора','приборов')}</b>. Ниже можно добавить дополнительные тарелки.`
-      : `Por <b>${g} invitados</b> incluimos automáticamente: <b>${g} vasos · ${g} platos · ${g} cubiertos</b>. Puedes añadir platos extra abajo.`;
+      ? `На <b>${k} ${plural(k,'ребёнка','детей','детей')}</b> и <b>${a} ${plural(a,'взрослого','взрослых','взрослых')}</b> (всего ${g}) автоматически включаем: <b>${g} ${plural(g,'стакан','стакана','стаканов')} · ${g} ${plural(g,'тарелка','тарелки','тарелок')} · ${g} ${plural(g,'прибор','прибора','приборов')}</b>. Ниже можно добавить дополнительные тарелки.`
+      : `Para <b>${k} niños</b> y <b>${a} adultos</b> (${g} en total) incluimos automáticamente: <b>${g} vasos · ${g} platos · ${g} cubiertos</b>. Puedes añadir platos extra abajo.`;
 
     const {L,subtotal,delivery,total,deposit} = calc();
+    document.getElementById('sumWhen').textContent = state.date && state.time ? `📅 ${state.date} · ${state.time}` : '';
     const lines = document.getElementById('sumLines');
     lines.innerHTML = L.length ? L.map(x=>`<div class="sum-line"><span>${x.qty?`<span class="l-qty">×${x.qty}</span>`:''}${x.label}</span><span>${eur(x.price)}</span></div>`).join('')
                                : `<div class="sum-line empty">${T('emptySum')}</div>`;
@@ -566,8 +603,13 @@
 
   window.reserve = ()=>{
     const {L,total,deposit} = calc();
-    if(total===0){ alert(T('alertMsg')); return; }
-    localStorage.setItem('fl_order', JSON.stringify({items:L, total, deposit, duration:state.duration}));
+    if(!state.date || !state.time || total===0){ alert(T('alertMsg')); return; }
+    localStorage.setItem('fl_order', JSON.stringify({
+      items:L, total, deposit,
+      date:state.date, time:state.time, duration:state.duration,
+      park:state.park, address:state.address, zone:state.zone,
+      kids:state.kids, adults:state.adults
+    }));
     location.href = 'reserva.html';
   };
 
@@ -582,6 +624,10 @@
     render();
   }
   document.querySelectorAll('.lang-switch button').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
+
+  // fecha mínima = hoy
+  document.getElementById('dateInput').min = new Date().toISOString().slice(0,10);
+
   applyLang(LANG);
 </script>
 </body>

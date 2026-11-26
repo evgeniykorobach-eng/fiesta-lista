@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FiestaLista — Galería de fiestas al aire libre | Barcelona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF7EE; --cream-2:#FFEFE0; --ink:#2E2A26; --ink-soft:#6E655C;
+    --coral:#FF6B8A; --coral-deep:#F04E72; --pink-soft:#FFD9E2;
+    --yellow:#FFC94D; --green:#6BCB77; --blue:#5B8DEF; --lilac:#B983FF; --wa:#25D366;
+    --radius:28px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+  h1,h2,.serif{font-family:'Fraunces',serif}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(255,247,238,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(46,42,38,.06)}
+  .header-in{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:900;font-size:1.35rem;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+  .logo .balloon{width:30px;height:38px;flex:none}
+  nav{display:flex;gap:22px;margin-left:auto;font-weight:700;font-size:.95rem}
+  nav a{color:var(--ink);text-decoration:none;opacity:.75;transition:opacity .15s;white-space:nowrap}
+  nav a:hover{opacity:1}
+  nav a.here{opacity:1;color:var(--coral-deep)}
+  .header-actions{display:flex;align-items:center;gap:12px}
+  .burger{display:none;width:42px;height:42px;border-radius:12px;border:1px solid rgba(46,42,38,.12);background:#fff;cursor:pointer;place-items:center}
+  .burger svg{width:20px;height:20px}
+  .lang-drop{position:relative}
+  .lang-current{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid rgba(46,42,38,.12);border-radius:999px;padding:8px 14px;font:800 .82rem 'Nunito';color:var(--ink);cursor:pointer;transition:border-color .15s}
+  .lang-current:hover{border-color:var(--ink)}
+  .lang-current svg{width:10px;height:10px;transition:transform .15s}
+  .lang-drop.open .lang-current svg{transform:rotate(180deg)}
+  .lang-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:132px;background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:16px;box-shadow:0 16px 34px rgba(46,42,38,.14);padding:6px;display:none;z-index:60}
+  .lang-drop.open .lang-menu{display:block}
+  .lang-menu button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:9px 12px;border-radius:10px;font:700 .86rem 'Nunito';color:var(--ink);cursor:pointer}
+  .lang-menu button:hover{background:var(--cream-2)}
+  .lang-menu button.active{background:var(--ink);color:#fff}
+  .btn-wa{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:#fff;font-weight:800;font-size:.92rem;padding:11px 18px;border-radius:999px;text-decoration:none;box-shadow:0 6px 16px rgba(37,211,102,.35);transition:transform .15s}
+  .btn-wa:hover{transform:translateY(-2px)}
+
+  .page-head{max-width:760px;margin:0 auto;padding:64px 24px 40px;text-align:center}
+  .page-head h1{font-size:clamp(2.2rem,4.6vw,3.4rem);font-weight:900;letter-spacing:-.02em;margin-bottom:14px}
+  .page-head h1 em{color:var(--coral);font-style:normal}
+  .page-head p{color:var(--ink-soft);font-size:1.08rem;line-height:1.6}
+
+  .gallery{max-width:1200px;margin:0 auto;padding:0 24px 30px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .g-card{border-radius:26px;overflow:hidden;position:relative;aspect-ratio:4/3.4;box-shadow:0 14px 32px rgba(46,42,38,.1);transition:transform .2s}
+  .g-card:hover{transform:translateY(-5px)}
+  .g-card svg{position:absolute;inset:0;width:100%;height:100%}
+  .g-cap{
+    position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);
+    border-radius:999px;padding:8px 16px;font-weight:800;font-size:.84rem;color:var(--ink);
+  }
+  .soon{
+    max-width:640px;margin:26px auto 80px;text-align:center;color:var(--ink-soft);
+    font-size:.95rem;line-height:1.6;padding:0 24px;
+  }
+  .cta-row{text-align:center;padding:0 24px 90px}
+  .btn-primary{background:var(--coral);color:#fff;font-weight:800;font-size:1.02rem;padding:16px 30px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;box-shadow:0 10px 24px rgba(255,107,138,.4);transition:transform .15s;display:inline-block}
+  .btn-primary:hover{transform:translateY(-2px)}
+
+  footer{border-top:1px solid rgba(46,42,38,.08);padding:34px 24px;text-align:center;color:var(--ink-soft);font-size:.88rem}
+  footer .logo{justify-content:center;margin-bottom:8px;font-size:1.1rem}
+  .admin-link{display:inline-block;margin-top:14px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(46,42,38,.28);text-decoration:none}
+  .admin-link:hover{color:var(--ink-soft)}
+
+  @media (max-width:960px){
+    .burger{display:grid}
+    nav{display:none;position:absolute;top:100%;right:12px;left:12px;margin:0;flex-direction:column;gap:2px;background:#fff;border:1px solid rgba(46,42,38,.1);border-radius:18px;padding:10px;box-shadow:0 20px 44px rgba(46,42,38,.16);z-index:70}
+    nav.open{display:flex}
+    nav a{padding:11px 14px;border-radius:12px}
+    nav a:hover{background:var(--cream-2)}
+    .gallery{grid-template-columns:1fr 1fr}
+    .header-in{flex-wrap:wrap;padding:12px 16px}
+    .header-actions{margin-left:auto}
+  }
+  @media (max-width:600px){.gallery{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-in">
+    <a class="logo" href="index.html">
+      <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/><ellipse cx="10" cy="9" rx="3.5" ry="5" fill="#fff" opacity=".45"/></svg>
+      FiestaLista
+    </a>
+    <nav id="mainNav">
+      <a href="index.html" data-i18n="nav_home">Inicio</a>
+      <a href="index.html#packs" data-i18n="nav_packs">Packs</a>
+      <a href="constructor.html" data-i18n="nav_builder">Crea tu fiesta</a>
+      <a href="galeria.html" class="here" data-i18n="nav_gallery">Galería</a>
+      <a href="nosotros.html" data-i18n="nav_about">Nosotros</a>
+      <a href="cuenta.html" data-i18n="nav_account">Mi cuenta</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-drop" id="langDrop">
+        <button class="lang-current" id="langCurrent" aria-haspopup="true">
+          <span id="langCurrentLabel">ES</span>
+          <svg viewBox="0 0 10 10" fill="none"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button data-lang="es" class="active">Español</button>
+          <button data-lang="ca">Català</button>
+          <button data-lang="en">English</button>
+          <button data-lang="ru">Русский</button>
+        </div>
+      </div>
+      <a class="btn-wa" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.2-.2 3.9a11.6 11.6 0 0 0 4.5 4.2c1.7.8 2.4.9 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.1Z"/></svg>
+        WhatsApp
+      </a>
+      <button class="burger" id="burger" aria-label="Menú">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="#2E2A26" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-head">
+  <h1 data-i18n-html="h1">Nuestras <em>fiestas</em></h1>
+  <p data-i18n="sub">Parques y jardines de Barcelona convertidos en pequeños mundos de cumpleaños. Esto es lo que montamos, pieza a pieza.</p>
+</section>
+
+<section class="gallery">
+  <div class="g-card">
+    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#DFF2FF"/><path d="M0 220 Q100 200 200 216 T400 208 V340 H0 Z" fill="#A5D9A8"/><rect x="120" y="180" width="160" height="12" rx="6" fill="#fff"/><path d="M126 192h148l-10 70q-1 6-7 6H143q-6 0-7-6Z" fill="#FF8FA8"/><rect x="170" y="146" width="60" height="34" rx="8" fill="#FFF3E4"/><rect x="170" y="146" width="60" height="9" rx="4.5" fill="#FF6B8A"/><rect x="186" y="126" width="5" height="18" rx="2.5" fill="#5B8DEF"/><rect x="198" y="122" width="5" height="22" rx="2.5" fill="#B983FF"/><rect x="210" y="126" width="5" height="18" rx="2.5" fill="#FFC94D"/></svg>
+    <span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span>
+  </div>
+  <div class="g-card">
+    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#FFF0D9"/><g><circle cx="80" cy="280" r="26" fill="#FF9FB8"/><circle cx="90" cy="222" r="24" fill="#FFC94D"/><circle cx="82" cy="168" r="26" fill="#6BCB77"/><circle cx="98" cy="118" r="23" fill="#5B8DEF"/><circle cx="128" cy="76" r="25" fill="#B983FF"/><circle cx="176" cy="56" r="22" fill="#FF6B8A"/><circle cx="226" cy="56" r="23" fill="#7FD8BE"/><circle cx="272" cy="76" r="22" fill="#FFD9A0"/><circle cx="304" cy="116" r="25" fill="#FF9FB8"/><circle cx="318" cy="168" r="23" fill="#FFC94D"/><circle cx="310" cy="222" r="25" fill="#6BCB77"/><circle cx="320" cy="280" r="24" fill="#5B8DEF"/></g></svg>
+    <span class="g-cap" data-i18n="g2">Arco de globos</span>
+  </div>
+  <div class="g-card">
+    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#EFE7FF"/><ellipse cx="200" cy="150" rx="70" ry="88" fill="#FF6B8A"/><ellipse cx="176" cy="120" rx="18" ry="26" fill="#fff" opacity=".3"/><text x="200" y="180" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="92" fill="#fff">5</text><path d="M200 238 q-8 16 0 30" stroke="#F04E72" stroke-width="4" fill="none"/></svg>
+    <span class="g-cap" data-i18n="g3">Globo de número con helio</span>
+  </div>
+  <div class="g-card">
+    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#DFF2FF"/><circle cx="330" cy="70" r="34" fill="#FFD98A"/><path d="M0 240 Q120 218 240 236 T400 228 V340 H0 Z" fill="#A5D9A8"/><circle cx="110" cy="120" r="26" fill="#FF6B8A"/><path d="M110 146 q-5 10 0 18" stroke="#F04E72" stroke-width="3" fill="none"/><circle cx="180" cy="92" r="22" fill="#6BCB77"/><path d="M180 114 q-5 10 0 18" stroke="#4CAF6E" stroke-width="3" fill="none"/><circle cx="250" cy="130" r="24" fill="#5B8DEF"/><path d="M250 154 q-5 10 0 18" stroke="#3D6FC4" stroke-width="3" fill="none"/></svg>
+    <span class="g-cap" data-i18n="g4">Globos de helio en el parque</span>
+  </div>
+  <div class="g-card">
+    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#E7F6EA"/><rect x="70" y="200" width="80" height="90" rx="10" fill="#5B8DEF"/><rect x="102" y="200" width="16" height="90" fill="#fff" opacity=".7"/><rect x="180" y="170" width="90" height="120" rx="10" fill="#FFC94D"/><rect x="216" y="170" width="16" height="120" fill="#fff" opacity=".7"/><rect x="290" y="215" width="60" height="75" rx="10" fill="#B983FF"/><rect x="314" y="215" width="12" height="75" fill="#fff" opacity=".7"/></svg>
+    <span class="g-cap" data-i18n="g5">Juegos para todos</span>
+  </div>
+  <div class="g-card">
+    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#FFE7F0"/><path d="M40 90 Q200 140 360 90" stroke="#E8B4A0" stroke-width="5" fill="none"/><path d="M82 102 l18 34 18-27Z" fill="#FF6B8A"/><path d="M140 112l18 34 18-25Z" fill="#FFC94D"/><path d="M198 116l18 34 18-24Z" fill="#6BCB77"/><path d="M256 112l18 34 18-25Z" fill="#5B8DEF"/><path d="M310 100l18 34 18-27Z" fill="#B983FF"/><ellipse cx="200" cy="270" rx="150" ry="30" fill="#FFF6E8"/><ellipse cx="200" cy="270" rx="112" ry="21" fill="none" stroke="#FFDFC0" stroke-width="8" stroke-dasharray="20 15"/></svg>
+    <span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span>
+  </div>
+</section>
+
+<p class="soon" data-i18n="soon">Muy pronto: fotos reales de nuestras fiestas. Cada semana montamos cumpleaños nuevos y los iremos añadiendo aquí.</p>
+
+<div class="cta-row">
+  <a href="constructor.html" class="btn-primary" data-i18n="cta">Crear mi fiesta</a>
+</div>
+
+<footer>
+  <div class="logo">
+    <svg class="balloon" viewBox="0 0 30 38" fill="none"><ellipse cx="15" cy="14" rx="13" ry="14" fill="#FF6B8A"/><path d="M15 28 L13 32 L17 32 Z" fill="#F04E72"/><path d="M15 32 Q12 35 15 38" stroke="#F04E72" stroke-width="1.4" fill="none"/></svg>
+    FiestaLista
+  </div>
+  <p data-i18n="footer">Cumpleaños infantiles con entrega, montaje y recogida · Barcelona y alrededores</p>
+  <a class="admin-link" href="admin.html">Admin</a>
+</footer>
+
+<script src="track.js"></script>
+<script src="confetti.js"></script>
+<script>
+  const I18N = {
+    es: {
+      nav_home:"Inicio", nav_packs:"Packs", nav_builder:"Crea tu fiesta", nav_gallery:"Galería", nav_about:"Nosotros", nav_account:"Mi cuenta",
+      h1:'Nuestras <em>fiestas</em>',
+      sub:"Parques y jardines de Barcelona convertidos en pequeños mundos de cumpleaños. Esto es lo que montamos, pieza a pieza.",
+      g1:"Mesa de fiesta con tarta", g2:"Arco de globos", g3:"Globo de número con helio", g4:"Globos de helio en el parque", g5:"Juegos para todos", g6:"Decoración con guirnaldas",
+      soon:"Muy pronto: fotos reales de nuestras fiestas. Cada semana montamos cumpleaños nuevos y los iremos añadiendo aquí.",
+      cta:"Crear mi fiesta",
+      footer:"Cumpleaños infantiles con entrega, montaje y recogida · Barcelona y alrededores"
+    },
+    ca: {
+      nav_home:"Inici", nav_packs:"Packs", nav_builder:"Crea la teva festa", nav_gallery:"Galeria", nav_about:"Nosaltres", nav_account:"El meu compte",
+      h1:'Les nostres <em>festes</em>',
+      sub:"Parcs i jardins de Barcelona convertits en petits mons d'aniversari. Això és el que muntem, peça a peça.",
+      g1:"Taula de festa amb pastís", g2:"Arc de globus", g3:"Globus de número amb heli", g4:"Globus d'heli al parc", g5:"Jocs per a tothom", g6:"Decoració amb garlandes",
+      soon:"Molt aviat: fotos reals de les nostres festes. Cada setmana muntem aniversaris nous i els anirem afegint aquí.",
+      cta:"Crear la meva festa",
+      footer:"Aniversaris infantils amb entrega, muntatge i recollida · Barcelona i rodalies"
+    },
+    en: {
+      nav_home:"Home", nav_packs:"Packages", nav_builder:"Build your party", nav_gallery:"Gallery", nav_about:"About us", nav_account:"My account",
+      h1:'Our <em>parties</em>',
+      sub:"Parks and gardens of Barcelona turned into little birthday worlds. This is what we set up, piece by piece.",
+      g1:"Party table with cake", g2:"Balloon arch", g3:"Helium number balloon", g4:"Helium balloons in the park", g5:"Games for everyone", g6:"Garland decor",
+      soon:"Coming soon: real photos of our parties. We set up new birthdays every week and will add them here.",
+      cta:"Build my party",
+      footer:"Kids' birthdays with delivery, set-up and pick-up · Barcelona and surroundings"
+    },
+    ru: {
+      nav_home:"Главная", nav_packs:"Пакеты", nav_builder:"Собери свой праздник", nav_gallery:"Галерея", nav_about:"О нас", nav_account:"Мой аккаунт",
+      h1:'Наши <em>праздники</em>',
+      sub:"Парки и сады Барселоны, превращённые в маленькие миры дня рождения. Вот что мы устанавливаем, по частям.",
+      g1:"Праздничный стол с тортом", g2:"Арка из шаров", g3:"Шар-цифра с гелием", g4:"Гелиевые шары в парке", g5:"Игры для всех", g6:"Декор с гирляндами",
+      soon:"Совсем скоро: настоящие фото наших праздников. Каждую неделю мы устанавливаем новые и будем добавлять их сюда.",
+      cta:"Собрать свой праздник",
+      footer:"Детские праздники с доставкой, установкой и вывозом · Барселона и окрестности"
+    }
+  };
+
+  const langDrop = document.getElementById('langDrop');
+  const langLabel = document.getElementById('langCurrentLabel');
+  const langButtons = document.querySelectorAll('.lang-menu button');
+  function setLang(lang){
+    langButtons.forEach(b => b.classList.toggle('active', b.dataset.lang===lang));
+    langLabel.textContent = lang.toUpperCase();
+    document.documentElement.lang = lang;
+    localStorage.setItem('fl_lang', lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+    });
+  }
+  document.getElementById('langCurrent').addEventListener('click', e => { e.stopPropagation(); langDrop.classList.toggle('open'); });
+  langButtons.forEach(btn => btn.addEventListener('click', () => { setLang(btn.dataset.lang); langDrop.classList.remove('open'); }));
+  document.addEventListener('click', e => { if (!langDrop.contains(e.target)) langDrop.classList.remove('open'); });
+  const savedLang = localStorage.getItem('fl_lang');
+  if (savedLang && I18N[savedLang]) setLang(savedLang);
+
+  const mainNav = document.getElementById('mainNav');
+  document.getElementById('burger').addEventListener('click', e => { e.stopPropagation(); mainNav.classList.toggle('open'); });
+  document.addEventListener('click', e => { if (!mainNav.contains(e.target)) mainNav.classList.remove('open'); });
+</script>
+</body>
+</html>
