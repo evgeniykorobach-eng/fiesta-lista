@@ -53,6 +53,7 @@
   .g-card{border-radius:26px;overflow:hidden;position:relative;aspect-ratio:4/3.4;box-shadow:0 14px 32px rgba(46,42,38,.1);transition:transform .2s}
   .g-card:hover{transform:translateY(-5px)}
   .g-card svg{position:absolute;inset:0;width:100%;height:100%}
+  .g-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .g-cap{
     position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);
     border-radius:999px;padding:8px 16px;font-weight:800;font-size:.84rem;color:var(--ink);
@@ -129,33 +130,37 @@
 </section>
 
 <section class="gallery">
-  <div class="g-card">
-    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#DFF2FF"/><path d="M0 220 Q100 200 200 216 T400 208 V340 H0 Z" fill="#A5D9A8"/><rect x="120" y="180" width="160" height="12" rx="6" fill="#fff"/><path d="M126 192h148l-10 70q-1 6-7 6H143q-6 0-7-6Z" fill="#FF8FA8"/><rect x="170" y="146" width="60" height="34" rx="8" fill="#FFF3E4"/><rect x="170" y="146" width="60" height="9" rx="4.5" fill="#FF6B8A"/><rect x="186" y="126" width="5" height="18" rx="2.5" fill="#5B8DEF"/><rect x="198" y="122" width="5" height="22" rx="2.5" fill="#B983FF"/><rect x="210" y="126" width="5" height="18" rx="2.5" fill="#FFC94D"/></svg>
-    <span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span>
-  </div>
-  <div class="g-card">
-    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#FFF0D9"/><g><circle cx="80" cy="280" r="26" fill="#FF9FB8"/><circle cx="90" cy="222" r="24" fill="#FFC94D"/><circle cx="82" cy="168" r="26" fill="#6BCB77"/><circle cx="98" cy="118" r="23" fill="#5B8DEF"/><circle cx="128" cy="76" r="25" fill="#B983FF"/><circle cx="176" cy="56" r="22" fill="#FF6B8A"/><circle cx="226" cy="56" r="23" fill="#7FD8BE"/><circle cx="272" cy="76" r="22" fill="#FFD9A0"/><circle cx="304" cy="116" r="25" fill="#FF9FB8"/><circle cx="318" cy="168" r="23" fill="#FFC94D"/><circle cx="310" cy="222" r="25" fill="#6BCB77"/><circle cx="320" cy="280" r="24" fill="#5B8DEF"/></g></svg>
-    <span class="g-cap" data-i18n="g2">Arco de globos</span>
-  </div>
-  <div class="g-card">
-    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#EFE7FF"/><ellipse cx="200" cy="150" rx="70" ry="88" fill="#FF6B8A"/><ellipse cx="176" cy="120" rx="18" ry="26" fill="#fff" opacity=".3"/><text x="200" y="180" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="92" fill="#fff">5</text><path d="M200 238 q-8 16 0 30" stroke="#F04E72" stroke-width="4" fill="none"/></svg>
-    <span class="g-cap" data-i18n="g3">Globo de número con helio</span>
-  </div>
-  <div class="g-card">
-    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#DFF2FF"/><circle cx="330" cy="70" r="34" fill="#FFD98A"/><path d="M0 240 Q120 218 240 236 T400 228 V340 H0 Z" fill="#A5D9A8"/><circle cx="110" cy="120" r="26" fill="#FF6B8A"/><path d="M110 146 q-5 10 0 18" stroke="#F04E72" stroke-width="3" fill="none"/><circle cx="180" cy="92" r="22" fill="#6BCB77"/><path d="M180 114 q-5 10 0 18" stroke="#4CAF6E" stroke-width="3" fill="none"/><circle cx="250" cy="130" r="24" fill="#5B8DEF"/><path d="M250 154 q-5 10 0 18" stroke="#3D6FC4" stroke-width="3" fill="none"/></svg>
-    <span class="g-cap" data-i18n="g4">Globos de helio en el parque</span>
-  </div>
-  <div class="g-card">
-    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#E7F6EA"/><rect x="70" y="200" width="80" height="90" rx="10" fill="#5B8DEF"/><rect x="102" y="200" width="16" height="90" fill="#fff" opacity=".7"/><rect x="180" y="170" width="90" height="120" rx="10" fill="#FFC94D"/><rect x="216" y="170" width="16" height="120" fill="#fff" opacity=".7"/><rect x="290" y="215" width="60" height="75" rx="10" fill="#B983FF"/><rect x="314" y="215" width="12" height="75" fill="#fff" opacity=".7"/></svg>
-    <span class="g-cap" data-i18n="g5">Juegos para todos</span>
-  </div>
-  <div class="g-card">
-    <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice"><rect width="400" height="340" fill="#FFE7F0"/><path d="M40 90 Q200 140 360 90" stroke="#E8B4A0" stroke-width="5" fill="none"/><path d="M82 102 l18 34 18-27Z" fill="#FF6B8A"/><path d="M140 112l18 34 18-25Z" fill="#FFC94D"/><path d="M198 116l18 34 18-24Z" fill="#6BCB77"/><path d="M256 112l18 34 18-25Z" fill="#5B8DEF"/><path d="M310 100l18 34 18-27Z" fill="#B983FF"/><ellipse cx="200" cy="270" rx="150" ry="30" fill="#FFF6E8"/><ellipse cx="200" cy="270" rx="112" ry="21" fill="none" stroke="#FFDFC0" stroke-width="8" stroke-dasharray="20 15"/></svg>
-    <span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span>
-  </div>
+  <div class="g-card"><img src="img/stol-1.jpg" alt="Mesa de fiesta con tarta" loading="lazy"><span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span></div>
+  <div class="g-card"><img src="img/stol-2.png" alt="Mesa de fiesta con tarta" loading="lazy"><span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span></div>
+  <div class="g-card"><img src="img/stol-3.png" alt="Mesa de fiesta con tarta" loading="lazy"><span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span></div>
+  <div class="g-card"><img src="img/stol-4.png" alt="Mesa de fiesta con tarta" loading="lazy"><span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span></div>
+  <div class="g-card"><img src="img/stol-5.png" alt="Mesa de fiesta con tarta" loading="lazy"><span class="g-cap" data-i18n="g1">Mesa de fiesta con tarta</span></div>
+  <div class="g-card"><img src="img/arka-1.jpg" alt="Arco de globos" loading="lazy"><span class="g-cap" data-i18n="g2">Arco de globos</span></div>
+  <div class="g-card"><img src="img/arka-2.png" alt="Arco de globos" loading="lazy"><span class="g-cap" data-i18n="g2">Arco de globos</span></div>
+  <div class="g-card"><img src="img/arka-3.png" alt="Arco de globos" loading="lazy"><span class="g-cap" data-i18n="g2">Arco de globos</span></div>
+  <div class="g-card"><img src="img/arka-4.png" alt="Arco de globos" loading="lazy"><span class="g-cap" data-i18n="g2">Arco de globos</span></div>
+  <div class="g-card"><img src="img/arka-5.png" alt="Arco de globos" loading="lazy"><span class="g-cap" data-i18n="g2">Arco de globos</span></div>
+  <div class="g-card"><img src="img/num-1.png" alt="Globo de número con helio" loading="lazy"><span class="g-cap" data-i18n="g3">Globo de número con helio</span></div>
+  <div class="g-card"><img src="img/num-2.png" alt="Globo de número con helio" loading="lazy"><span class="g-cap" data-i18n="g3">Globo de número con helio</span></div>
+  <div class="g-card"><img src="img/num-3.png" alt="Globo de número con helio" loading="lazy"><span class="g-cap" data-i18n="g3">Globo de número con helio</span></div>
+  <div class="g-card"><img src="img/num-4.png" alt="Globo de número con helio" loading="lazy"><span class="g-cap" data-i18n="g3">Globo de número con helio</span></div>
+  <div class="g-card"><img src="img/num-5.png" alt="Globo de número con helio" loading="lazy"><span class="g-cap" data-i18n="g3">Globo de número con helio</span></div>
+  <div class="g-card"><img src="img/park-1.png" alt="Globos de helio en el parque" loading="lazy"><span class="g-cap" data-i18n="g4">Globos de helio en el parque</span></div>
+  <div class="g-card"><img src="img/park-2.png" alt="Globos de helio en el parque" loading="lazy"><span class="g-cap" data-i18n="g4">Globos de helio en el parque</span></div>
+  <div class="g-card"><img src="img/park-3.png" alt="Globos de helio en el parque" loading="lazy"><span class="g-cap" data-i18n="g4">Globos de helio en el parque</span></div>
+  <div class="g-card"><img src="img/park-4.png" alt="Globos de helio en el parque" loading="lazy"><span class="g-cap" data-i18n="g4">Globos de helio en el parque</span></div>
+  <div class="g-card"><img src="img/park-5.png" alt="Globos de helio en el parque" loading="lazy"><span class="g-cap" data-i18n="g4">Globos de helio en el parque</span></div>
+  <div class="g-card"><img src="img/igry-1.png" alt="Juegos para todos" loading="lazy"><span class="g-cap" data-i18n="g5">Juegos para todos</span></div>
+  <div class="g-card"><img src="img/igry-2.png" alt="Juegos para todos" loading="lazy"><span class="g-cap" data-i18n="g5">Juegos para todos</span></div>
+  <div class="g-card"><img src="img/igry-3.png" alt="Juegos para todos" loading="lazy"><span class="g-cap" data-i18n="g5">Juegos para todos</span></div>
+  <div class="g-card"><img src="img/igry-4.png" alt="Juegos para todos" loading="lazy"><span class="g-cap" data-i18n="g5">Juegos para todos</span></div>
+  <div class="g-card"><img src="img/igry-5.png" alt="Juegos para todos" loading="lazy"><span class="g-cap" data-i18n="g5">Juegos para todos</span></div>
+  <div class="g-card"><img src="img/dekor-1.jpg" alt="Decoración con guirnaldas" loading="lazy"><span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span></div>
+  <div class="g-card"><img src="img/dekor-2.png" alt="Decoración con guirnaldas" loading="lazy"><span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span></div>
+  <div class="g-card"><img src="img/dekor-3.png" alt="Decoración con guirnaldas" loading="lazy"><span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span></div>
+  <div class="g-card"><img src="img/dekor-4.png" alt="Decoración con guirnaldas" loading="lazy"><span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span></div>
+  <div class="g-card"><img src="img/dekor-5.png" alt="Decoración con guirnaldas" loading="lazy"><span class="g-cap" data-i18n="g6">Decoración con guirnaldas</span></div>
 </section>
-
-<p class="soon" data-i18n="soon">Muy pronto: fotos reales de nuestras fiestas. Cada semana montamos cumpleaños nuevos y los iremos añadiendo aquí.</p>
 
 <div class="cta-row">
   <a href="constructor.html" class="btn-primary" data-i18n="cta">Crear mi fiesta</a>
@@ -167,6 +172,7 @@
     FiestaLista
   </div>
   <p data-i18n="footer">Cumpleaños infantiles con entrega, montaje y recogida · Barcelona y alrededores</p>
+  <p class="credit" data-i18n-html="credit">Fotos: <a href="https://www.freepik.com" target="_blank" rel="noopener">Freepik</a></p>
   <a class="admin-link" href="admin.html">Admin</a>
 </footer>
 
@@ -179,36 +185,36 @@
       h1:'Nuestras <em>fiestas</em>',
       sub:"Parques y jardines de Barcelona convertidos en pequeños mundos de cumpleaños. Esto es lo que montamos, pieza a pieza.",
       g1:"Mesa de fiesta con tarta", g2:"Arco de globos", g3:"Globo de número con helio", g4:"Globos de helio en el parque", g5:"Juegos para todos", g6:"Decoración con guirnaldas",
-      soon:"Muy pronto: fotos reales de nuestras fiestas. Cada semana montamos cumpleaños nuevos y los iremos añadiendo aquí.",
       cta:"Crear mi fiesta",
-      footer:"Cumpleaños infantiles con entrega, montaje y recogida · Barcelona y alrededores"
+      footer:"Cumpleaños infantiles con entrega, montaje y recogida · Barcelona y alrededores",
+      credit:'Fotos: <a href=\"https://www.freepik.com\" target=\"_blank\" rel=\"noopener\">Freepik</a>'
     },
     ca: {
       nav_home:"Inici", nav_packs:"Packs", nav_builder:"Crea la teva festa", nav_gallery:"Galeria", nav_about:"Nosaltres", nav_account:"El meu compte",
       h1:'Les nostres <em>festes</em>',
       sub:"Parcs i jardins de Barcelona convertits en petits mons d'aniversari. Això és el que muntem, peça a peça.",
       g1:"Taula de festa amb pastís", g2:"Arc de globus", g3:"Globus de número amb heli", g4:"Globus d'heli al parc", g5:"Jocs per a tothom", g6:"Decoració amb garlandes",
-      soon:"Molt aviat: fotos reals de les nostres festes. Cada setmana muntem aniversaris nous i els anirem afegint aquí.",
       cta:"Crear la meva festa",
-      footer:"Aniversaris infantils amb entrega, muntatge i recollida · Barcelona i rodalies"
+      footer:"Aniversaris infantils amb entrega, muntatge i recollida · Barcelona i rodalies",
+      credit:'Fotos: <a href=\"https://www.freepik.com\" target=\"_blank\" rel=\"noopener\">Freepik</a>'
     },
     en: {
       nav_home:"Home", nav_packs:"Packages", nav_builder:"Build your party", nav_gallery:"Gallery", nav_about:"About us", nav_account:"My account",
       h1:'Our <em>parties</em>',
       sub:"Parks and gardens of Barcelona turned into little birthday worlds. This is what we set up, piece by piece.",
       g1:"Party table with cake", g2:"Balloon arch", g3:"Helium number balloon", g4:"Helium balloons in the park", g5:"Games for everyone", g6:"Garland decor",
-      soon:"Coming soon: real photos of our parties. We set up new birthdays every week and will add them here.",
       cta:"Build my party",
-      footer:"Kids' birthdays with delivery, set-up and pick-up · Barcelona and surroundings"
+      footer:"Kids' birthdays with delivery, set-up and pick-up · Barcelona and surroundings",
+      credit:'Photos: <a href=\"https://www.freepik.com\" target=\"_blank\" rel=\"noopener\">Freepik</a>'
     },
     ru: {
       nav_home:"Главная", nav_packs:"Пакеты", nav_builder:"Собери свой праздник", nav_gallery:"Галерея", nav_about:"О нас", nav_account:"Мой аккаунт",
       h1:'Наши <em>праздники</em>',
       sub:"Парки и сады Барселоны, превращённые в маленькие миры дня рождения. Вот что мы устанавливаем, по частям.",
       g1:"Праздничный стол с тортом", g2:"Арка из шаров", g3:"Шар-цифра с гелием", g4:"Гелиевые шары в парке", g5:"Игры для всех", g6:"Декор с гирляндами",
-      soon:"Совсем скоро: настоящие фото наших праздников. Каждую неделю мы устанавливаем новые и будем добавлять их сюда.",
       cta:"Собрать свой праздник",
-      footer:"Детские праздники с доставкой, установкой и вывозом · Барселона и окрестности"
+      footer:"Детские праздники с доставкой, установкой и вывозом · Барселона и окрестности",
+      credit:'Фотографии: <a href=\"https://www.freepik.com\" target=\"_blank\" rel=\"noopener\">Freepik</a>'
     }
   };
 
