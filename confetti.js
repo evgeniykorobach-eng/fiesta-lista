@@ -5,8 +5,7 @@
   css.textContent = [
     '.fl-confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}',
     '.fl-confetti-piece{position:absolute;top:-24px;border-radius:3px;opacity:.8;animation:fl-confetti-fall linear infinite}',
-    '@keyframes fl-confetti-fall{0%{transform:translateY(-30px) rotate(0deg)}100%{transform:translateY(110vh) rotate(540deg)}}',
-    '@media (prefers-reduced-motion:reduce){.fl-confetti-piece{display:none}}'
+    '@keyframes fl-confetti-fall{0%{transform:translateY(-30px) rotate(0deg)}100%{transform:translateY(110vh) rotate(540deg)}}'
   ].join('\n');
   document.head.appendChild(css);
 
