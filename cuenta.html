@@ -114,7 +114,9 @@
   @media (max-width:720px){
     .bk-grid{grid-template-columns:1fr}
     .profile .p-since{margin-left:0;text-align:left;width:100%}
-    .head-links{gap:12px}
+    .header-in{flex-wrap:wrap;gap:8px 14px;padding:12px 16px}
+    .head-links{flex-wrap:wrap;justify-content:flex-end;gap:8px 12px}
+    .head-links .back-link{font-size:.85rem}
     .hist-row{flex-wrap:wrap}
     .hist-row .h-id{width:auto}
   }
@@ -270,6 +272,12 @@
     if (location.search.includes('demo=1') && !localStorage.getItem('fl_bookings')) seedDemo();
     if (location.search.includes('clear=1')) { localStorage.removeItem('fl_bookings'); location.href='cuenta.html'; }
     try { bookings = JSON.parse(localStorage.getItem('fl_bookings')||'[]'); } catch(e){ bookings=[]; }
+    bookings.forEach(b=>{
+      if(!b.dateTxt && b.dateISO){
+        const d = new Date(b.dateISO+'T12:00:00');
+        b.dateTxt = d.toLocaleDateString(LANG==='ru'?'ru-RU':'es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      }
+    });
   }
 
   function chip(b){
